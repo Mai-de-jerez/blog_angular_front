@@ -1,0 +1,20 @@
+<div>
+  <h1>Blog</h1>
+@if (cargando) {
+  <p>Cargando entradas...</p>
+} @else if (error) {
+  <p>{{ error }}</p>
+} @else {
+  @for (entrada of entradas; track entrada.id) {
+    <div>
+      <h2>{{ entrada.titulo }}</h2>
+      <p>{{ entrada.nombreAutor }} — {{ entrada.fechaCreacion | date:'dd/MM/yyyy' }}</p>
+      <p>{{ entrada.nombreCategoria }}</p>
+      <a [routerLink]="['/entradas', entrada.id]">Leer más</a>
+      <hr>
+    </div>
+  }
+}
+</div>
+
+
