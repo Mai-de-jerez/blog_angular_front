@@ -1,20 +1,38 @@
 <div>
   <h1>Blog</h1>
-@if (cargando) {
-  <p>Cargando entradas...</p>
-} @else if (error) {
-  <p>{{ error }}</p>
-} @else {
-  @for (entrada of entradas; track entrada.id) {
-    <div>
-      <h2>{{ entrada.titulo }}</h2>
-      <p>{{ entrada.nombreAutor }} — {{ entrada.fechaCreacion | date:'dd/MM/yyyy' }}</p>
-      <p>{{ entrada.nombreCategoria }}</p>
-      <a [routerLink]="['/entradas', entrada.id]">Leer más</a>
-      <hr>
+
+  @if (cargando) {
+    <p>Cargando entradas...</p>
+  } @else if (error) {
+    <p>{{ error }}</p>
+  } @else {
+    <div class="lista-grid">
+      @for (entrada of entradas; track entrada.id) {
+        <div class="entrada-card">
+          <!-- 1. Imagen del Post -->
+          @if (entrada.imagenUrl) {
+            <div class="thumb">
+              <img [src]="entrada.imagenUrl" [alt]="entrada.titulo" style="width: 200px; border-radius: 4px;">
+            </div>
+          }
+
+          <!-- 2. Info del Post -->
+          <div class="info">
+            <h2>{{ entrada.titulo }}</h2>
+            <p><strong>{{ entrada.nombreCategoria }}</strong> | {{ entrada.nombreAutor }} — {{ entrada.fechaCreacion | date:'dd/MM/yyyy' }}</p>
+            
+            <!-- 3. Extracto del texto (limitado a 150 caracteres) -->
+            <p class="resumen">
+              {{ entrada.contenido.substring(0, 150) }}...
+            </p>
+
+            <a [routerLink]="['/entradas', entrada.id]">Leer más</a>
+          </div>
+          <hr>
+        </div>
+      }
     </div>
   }
-}
 </div>
 
 

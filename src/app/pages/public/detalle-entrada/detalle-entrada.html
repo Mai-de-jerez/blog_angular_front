@@ -1,4 +1,4 @@
-@if (cargando) {
+<!-- @if (cargando) {
   <p>Cargando...</p>
 } @else if (error) {
   <p>{{ error }}</p>
@@ -9,4 +9,60 @@
     <p>{{ entrada.nombreCategoria }}</p>
     <div>{{ entrada.contenido }}</div>
   </article>
-}
+} -->
+
+
+<div class="detalle-container">
+  @if (cargando) {
+    <div class="spinner">Cargando la entrada...</div>
+  } @else if (error) {
+    <div class="error-msg">{{ error }}</div>
+  } @else if (entrada) {
+    <article class="post-card">
+      <!-- Cabecera con Categoría y Título -->
+      <header>
+        <span class="badge">{{ entrada.nombreCategoria }}</span>
+        <h1>{{ entrada.titulo }}</h1>
+        
+        <div class="meta-data">
+          <span class="author">Por: <strong>{{ entrada.nombreAutor }}</strong></span>
+          <span class="date">Publicado el {{ entrada.fechaCreacion | date:'fullDate' }}</span>
+        </div>
+      </header>
+
+      <!-- Imagen de portada con comprobación -->
+      @if (entrada.imagenUrl) {
+        <div class="main-image">
+          <img [src]="entrada.imagenUrl" [alt]="entrada.titulo">
+        </div>
+      }
+
+      <!-- El cuerpo del Post -->
+      <section class="content">
+        <!-- Usamos [innerHTML] si el contenido viene con etiquetas <p>, <strong>, etc. -->
+        <div [innerHTML]="entrada.contenido"></div>
+      </section>
+
+      <!-- Pie con info técnica (IDs y Slugs) -->
+      <footer class="tech-info">
+        <hr>
+        <p>
+          <small>
+            ID: {{ entrada.id }} | 
+            Slug: <code>{{ entrada.slug }}</code> | 
+            Categoría ID: {{ entrada.categoriaId }} |
+            Autor ID: {{ entrada.usuarioId }}
+          </small>
+        </p>
+        
+        @if (entrada.fechaActualizacion && entrada.fechaActualizacion !== entrada.fechaCreacion) {
+          <p class="updated">
+            <small>Última actualización: {{ entrada.fechaActualizacion | date:'short' }}</small>
+          </p>
+        }
+        
+        <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
+      </footer>
+    </article>
+  }
+</div>

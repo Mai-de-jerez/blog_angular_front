@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, Location } from '@angular/common';
 import { EntradaService } from '../../../core/services/entrada';
 import { Entrada } from '../../../core/models/entrada';
 
@@ -21,24 +21,39 @@ export class DetalleEntrada implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private entradaService: EntradaService,
-    private cdr: ChangeDetectorRef  
+    private cdr: ChangeDetectorRef,
+    private location: Location
   ) {}
 
-  ngOnInit(): void {
-  const id = Number(this.route.snapshot.paramMap.get('id'));
-  console.log('ID que estoy pidiendo:', id);  
-
-  this.entradaService.getEntrada(id).subscribe({
-    next: (data) => {
-      console.log('Datos recibidos:', data);  
-      this.entrada = data;
-      this.cargando = false;
-    },
-    error: (err) => {
-      console.log('Error:', err); 
-      this.error = 'Entrada no encontrada';
-      this.cargando = false;
-    }
-  });
+  irAtras(): void {
+  this.location.back();
 }
+
+  ngOnInit(): void {
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+      console.log('🔍 [DETALLE] 1. Pidiendo ID:', id);  
+
+      this.entradaService.getEntrada(id).subscribe({
+        next: (data) => {
+          console.log('📦 [DETALLE] 2. Datos recibidos del server:', data);
+          
+          this.entrada = data;
+          this.cargando = false;
+          
+          console.log('✅ [DETALLE] 3. Variable "this.entrada" actualizada:', this.entrada);
+      
+          this.cdr.detectChanges();
+          console.log('🔔 [DETALLE] 4. detectChanges() ejecutado');
+          setTimeout(() => {
+            console.log('👀 [DETALLE] 5. Verificación post-carga. ¿Sigue el dato?:', this.entrada);
+          }, 1000);
+        },
+        error: (err) => {
+          console.error('🔥 [DETALLE] Error en la petición:', err); 
+          this.error = 'Entrada no encontrada';
+          this.cargando = false;
+          this.cdr.detectChanges();
+        }
+      });
+    }
 }
