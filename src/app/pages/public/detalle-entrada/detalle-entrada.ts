@@ -30,30 +30,19 @@ export class DetalleEntrada implements OnInit {
 }
 
   ngOnInit(): void {
-      const id = Number(this.route.snapshot.paramMap.get('id'));
-      console.log('🔍 [DETALLE] 1. Pidiendo ID:', id);  
+    const id = Number(this.route.snapshot.paramMap.get('id'));
 
-      this.entradaService.getEntrada(id).subscribe({
-        next: (data) => {
-          console.log('📦 [DETALLE] 2. Datos recibidos del server:', data);
-          
-          this.entrada = data;
-          this.cargando = false;
-          
-          console.log('✅ [DETALLE] 3. Variable "this.entrada" actualizada:', this.entrada);
-      
-          this.cdr.detectChanges();
-          console.log('🔔 [DETALLE] 4. detectChanges() ejecutado');
-          setTimeout(() => {
-            console.log('👀 [DETALLE] 5. Verificación post-carga. ¿Sigue el dato?:', this.entrada);
-          }, 1000);
-        },
-        error: (err) => {
-          console.error('🔥 [DETALLE] Error en la petición:', err); 
-          this.error = 'Entrada no encontrada';
-          this.cargando = false;
-          this.cdr.detectChanges();
-        }
-      });
-    }
+    this.entradaService.getEntrada(id).subscribe({
+      next: (data) => {
+        this.entrada = data;
+        this.cargando = false;
+        this.cdr.detectChanges(); 
+      },
+      error: (err) => {
+        this.error = 'Entrada no encontrada';
+        this.cargando = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 }

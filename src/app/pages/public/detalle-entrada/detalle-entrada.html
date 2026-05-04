@@ -1,17 +1,3 @@
-<!-- @if (cargando) {
-  <p>Cargando...</p>
-} @else if (error) {
-  <p>{{ error }}</p>
-} @else if (entrada) {
-  <article>
-    <h1>{{ entrada.titulo }}</h1>
-    <p>{{ entrada.nombreAutor }} — {{ entrada.fechaCreacion | date:'dd/MM/yyyy' }}</p>
-    <p>{{ entrada.nombreCategoria }}</p>
-    <div>{{ entrada.contenido }}</div>
-  </article>
-} -->
-
-
 <div class="detalle-container">
   @if (cargando) {
     <div class="spinner">Cargando la entrada...</div>
@@ -21,12 +7,13 @@
     <article class="post-card">
       <!-- Cabecera con Categoría y Título -->
       <header>
-        <span class="badge">{{ entrada.nombreCategoria }}</span>
+        <span class="badge">{{ entrada.categoria.nombre }}</span> 
         <h1>{{ entrada.titulo }}</h1>
         
         <div class="meta-data">
-          <span class="author">Por: <strong>{{ entrada.nombreAutor }}</strong></span>
-          <span class="date">Publicado el {{ entrada.fechaCreacion | date:'fullDate' }}</span>
+          <span class="author">Por: <strong>{{ entrada.autor.username }}</strong></span>
+          <span class="date">Publicado el {{ entrada.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
+            
         </div>
       </header>
 
@@ -50,8 +37,8 @@
           <small>
             ID: {{ entrada.id }} | 
             Slug: <code>{{ entrada.slug }}</code> | 
-            Categoría ID: {{ entrada.categoriaId }} |
-            Autor ID: {{ entrada.usuarioId }}
+            Categoría ID: {{ entrada.categoria.id }} |
+            Autor ID: {{ entrada.autor.id }}
           </small>
         </p>
         
