@@ -1,0 +1,74 @@
+.login-title {
+  color: #800080;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-family: monospace;
+}
+
+h2{
+    margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra la etiqueta y el input internamente */
+}
+
+label {
+  display: block;
+  color: #ccc;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 4px;
+}
+
+input:focus {
+  border-color: #bc13fe;
+  outline: none;
+}
+
+.btn-login {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  background-color: #800080;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+  margin: 45px auto 0; 
+}
+
+.btn-login:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+.back-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-back {
+  color: #888; /* Color discreto */
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: monospace;
+  transition: color 0.3s;
+}
+
+.btn-back:hover {
+  color: #bc13fe; /* Se ilumina con tu púrpura al pasar el ratón */
+  text-decoration: underline;
+}

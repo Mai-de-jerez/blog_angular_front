@@ -1,0 +1,9 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ocupa el 100% de la ventana del navegador */
+}
+
+main {
+  flex: 1; /* Esta es la magia: estira el contenido para empujar el footer abajo */
+}

@@ -1,0 +1,37 @@
+.footer {
+  background-color: #0a450d; 
+  color: #ffffff;
+  padding: 2rem 0;
+  margin-top: auto; 
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-info {
+  text-align: center;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: #b3b3b3;
+  font-style: italic;
+}
+
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #bc13fe; /* Un púrpura más brillante al pasar el ratón */
+}

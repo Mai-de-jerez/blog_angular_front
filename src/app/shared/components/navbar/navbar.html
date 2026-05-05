@@ -1,1 +1,24 @@
-<p>navbar works!</p>
+<!-- navbar.html -->
+<nav class="navbar">
+  <a routerLink="/" class="navbar-brand">Mi Blog</a>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a routerLink="/entradas" routerLinkActive="active-link" class="nav-link">Entradas</a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/sobre-mi" routerLinkActive="active-link" class="nav-link">Sobre mí</a>
+    </li> 
+    <!-- si no están logueados, mostramos Login -->
+    @if (!authService.isLogged()) {
+      <li class="nav-item login-item">
+        <a routerLink="/login" routerLinkActive="active-link" class="nav-link">Login</a>
+      </li> 
+    } 
+    <!-- si están logueados, mostramos Logout -->
+    @else {
+      <li class="nav-item login-item">
+        <a (click)="onLogout()" class="nav-link" style="cursor: pointer;">Logout</a>
+      </li>
+    }
+  </ul>
+</nav>

@@ -1,3 +1,4 @@
+// home.ts
 import { Component } from '@angular/core';
 
 @Component({
