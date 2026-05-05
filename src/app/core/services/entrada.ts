@@ -21,4 +21,8 @@ export class EntradaService {
   getEntrada(id: number): Observable<Entrada> {
     return this.http.get<Entrada>(`${this.apiUrl}/${id}`);
   }
+
+  getEntradaBySlug(slug: string): Observable<Entrada> {
+    return this.http.get<Entrada>(`${this.apiUrl}/slug/${slug}`);
+  }
 }

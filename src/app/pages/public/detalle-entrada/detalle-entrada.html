@@ -5,40 +5,30 @@
     <div class="error-msg">{{ error }}</div>
   } @else if (entrada) {
     <article class="post-card">
-      <!-- Cabecera con Categoría y Título -->
       <header>
-        <span class="badge">{{ entrada.categoria.nombre }}</span> 
+         
         <h1>{{ entrada.titulo }}</h1>
         
         <div class="meta-data">
-          <span class="author">Por: <strong>{{ entrada.autor.username }}</strong></span>
+          <span class="author">Por: <strong>{{ entrada.nombreAutor }}</strong></span>
           <span class="date">Publicado el {{ entrada.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
             
         </div>
       </header>
-
-      <!-- Imagen de portada con comprobación -->
       @if (entrada.imagenUrl) {
         <div class="main-image">
           <img [src]="entrada.imagenUrl" [alt]="entrada.titulo">
         </div>
       }
-
-      <!-- El cuerpo del Post -->
       <section class="content">
-        <!-- Usamos [innerHTML] si el contenido viene con etiquetas <p>, <strong>, etc. -->
         <div [innerHTML]="entrada.contenido"></div>
       </section>
-
-      <!-- Pie con info técnica (IDs y Slugs) -->
       <footer class="tech-info">
         <hr>
         <p>
           <small>
-            ID: {{ entrada.id }} | 
-            Slug: <code>{{ entrada.slug }}</code> | 
-            Categoría ID: {{ entrada.categoria.id }} |
-            Autor ID: {{ entrada.autor.id }}
+            Categoría: {{ entrada.nombreCategoria }} |
+            Autor: {{ entrada.nombreAutor }}
           </small>
         </p>
         
@@ -47,9 +37,12 @@
             <small>Última actualización: {{ entrada.fechaActualizacion | date:'short' }}</small>
           </p>
         }
-        
         <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
       </footer>
     </article>
   }
 </div>
+
+
+
+

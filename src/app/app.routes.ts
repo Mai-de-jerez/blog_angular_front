@@ -6,6 +6,7 @@ import { ListaEntradas } from './pages/public/lista-entradas/lista-entradas';
 import { DetalleEntrada } from './pages/public/detalle-entrada/detalle-entrada';
 import { Login } from './pages/public/login/login';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
+import { SobreMi } from './pages/public/sobre-mi/sobre-mi';
 
 
 export const routes: Routes = [
@@ -14,8 +15,9 @@ export const routes: Routes = [
     component: PublicLayout,
     children: [
       { path: '', component: Home },
+      { path: 'sobre-mi', component: SobreMi },
       { path: 'entradas', component: ListaEntradas },
-      { path: 'entradas/:id', component: DetalleEntrada } 
+      { path: 'entradas/:slug', component: DetalleEntrada } 
     ]
   },
 

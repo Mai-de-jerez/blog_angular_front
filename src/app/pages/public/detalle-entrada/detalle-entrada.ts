@@ -26,23 +26,27 @@ export class DetalleEntrada implements OnInit {
   ) {}
 
   irAtras(): void {
-  this.location.back();
-}
+    this.location.back();
+  }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    this.entradaService.getEntrada(id).subscribe({
-      next: (data) => {
-        this.entrada = data;
+    const slug = this.route.snapshot.paramMap.get('slug');
+      if (slug) {
+        this.entradaService.getEntradaBySlug(slug).subscribe({
+          next: (data) => {
+            this.entrada = data;
+            this.cargando = false;
+            this.cdr.detectChanges(); 
+          },
+          error: (err) => {
+            this.error = 'Entrada no encontrada';
+            this.cargando = false;
+            this.cdr.detectChanges();
+          }
+        });
+      } else {
+        this.error = 'URL no válida';
         this.cargando = false;
-        this.cdr.detectChanges(); 
-      },
-      error: (err) => {
-        this.error = 'Entrada no encontrada';
-        this.cargando = false;
-        this.cdr.detectChanges();
       }
-    });
   }
 }

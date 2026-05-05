@@ -1,37 +1,102 @@
 .footer {
-  background-color: #0a450d; 
-  color: #ffffff;
-  padding: 2rem 0;
-  margin-top: auto; 
+  /* Fondo oscuro como tu navbar */
+  background-color: #1a1a1a; 
+  padding: 60px 20px 20px;
+  /* El borde púrpura arriba para cerrar el diseño igual que la nav */
+  border-top: 2px solid #800080; 
+  color: white;
+  font-family: 'Playfair Display', serif;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  max-width: 1200px;
+.footer-container {
+  max-width: 1100px;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 40px;
 }
 
-.footer-info {
-  text-align: center;
+.footer-column {
+  flex: 1;
+  min-width: 250px;
 }
 
-.tagline {
-  font-size: 0.85rem;
-  color: #b3b3b3;
-  font-style: italic;
+.footer-column h3 {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 25px;
+  /* El título en púrpura para que destaque sobre el negro */
+  color: #800080; 
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
-.footer-links a {
-  color: #ffffff;
+/* Listas y Enlaces */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 12px;
+}
+
+.footer-column a {
   text-decoration: none;
-  margin: 0 10px;
+  cursor: pointer;
+  color: white; 
+  font-family: 'Lora', serif;
+  transition: all 0.3s ease;
+}
+
+/* El hover ahora usa tu púrpura neón de la nav */
+.footer-column a:hover {
+  color: #bc13fe;
+  padding-left: 5px; /* Pequeño efecto de movimiento */
+}
+
+/* Sección Contacto e Iconos */
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #ccc; /* Un gris claro para que sea legible pero no brille tanto como el blanco */
+  font-family: 'Lora', serif;
+}
+
+.contact-list i {
+  color: #800080; /* Iconos en púrpura */
+  font-size: 1.1rem;
+}
+
+.social-icons {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.social-icons i {
+  font-size: 1.5rem;
+  color: white;
   transition: color 0.3s;
 }
 
-.footer-links a:hover {
-  color: #bc13fe; /* Un púrpura más brillante al pasar el ratón */
+/* Los iconos sociales brillan en neón al pasar el ratón */
+.social-icons i:hover {
+  color: #bc13fe;
+}
+
+/* Barra inferior de Copyright */
+.footer-bottom {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #333; /* Un gris muy oscuro para separar suavemente */
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.footer-bottom strong {
+  color: #800080;
 }

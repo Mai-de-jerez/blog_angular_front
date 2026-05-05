@@ -9,7 +9,14 @@
     <label>Contraseña</label>
     <input type="password" name="password" [(ngModel)]="credentials.password" required>
   </div>
-
+  <div class="error-wrapper">
+    @if (mensajeError) {
+      <div class="error-feedback">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        {{ mensajeError }}
+      </div>
+    }
+  </div>
   <button type="submit" class="btn-login" [disabled]="!loginForm.valid">
     Entrar
   </button>
