@@ -7,6 +7,7 @@ import { DetalleEntrada } from './pages/public/detalle-entrada/detalle-entrada';
 import { Login } from './pages/public/login/login';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { SobreMi } from './pages/public/sobre-mi/sobre-mi';
+import { authGuard } from './core/guards/auth-guard';
 
 
 export const routes: Routes = [

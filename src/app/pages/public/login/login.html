@@ -1,21 +1,18 @@
+@if (toastService.mensaje()) {
+    <div class="toast-error">
+      <i class="bi bi-exclamation-circle-fill"></i>
+      {{ toastService.mensaje() }}
+    </div>
+  }
 <h2 class="login-title">Acceso Sistema</h2>
 <form (ngSubmit)="onLogin()" #loginForm="ngForm">
   <div class="form-group">
     <label>Usuario</label>
     <input type="text" name="username" [(ngModel)]="credentials.username" required>
   </div>
-  
   <div class="form-group">
     <label>Contraseña</label>
     <input type="password" name="password" [(ngModel)]="credentials.password" required>
-  </div>
-  <div class="error-wrapper">
-    @if (mensajeError) {
-      <div class="error-feedback">
-        <i class="bi bi-exclamation-circle-fill"></i>
-        {{ mensajeError }}
-      </div>
-    }
   </div>
   <button type="submit" class="btn-login" [disabled]="!loginForm.valid">
     Entrar
