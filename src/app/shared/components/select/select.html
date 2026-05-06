@@ -1,0 +1,13 @@
+<label>
+  {{ label }}
+  <select
+    [disabled]="disabled"
+    (change)="onSelect($event)"
+    (blur)="onTouched()"
+  >
+    <option value="">-- Selecciona --</option>
+    <option *ngFor="let op of opciones" [value]="op" [selected]="op === value">
+      {{ op }}
+    </option>
+  </select>
+</label>

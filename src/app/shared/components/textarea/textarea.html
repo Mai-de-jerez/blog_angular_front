@@ -1,0 +1,10 @@
+<label>
+  {{ label }}
+  <textarea
+    [rows]="rows"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
+  >{{ value }}</textarea>
+</label>

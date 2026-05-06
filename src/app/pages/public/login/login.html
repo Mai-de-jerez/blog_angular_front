@@ -1,9 +1,4 @@
-@if (toastService.mensaje()) {
-    <div class="toast-error">
-      <i class="bi bi-exclamation-circle-fill"></i>
-      {{ toastService.mensaje() }}
-    </div>
-  }
+<app-toast-local></app-toast-local>
 <h2 class="login-title">Acceso Sistema</h2>
 <form (ngSubmit)="onLogin()" #loginForm="ngForm">
   <div class="form-group">

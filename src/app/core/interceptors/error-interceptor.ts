@@ -8,7 +8,7 @@ const ERRORES: Record<string, string> = {
   CREDENCIALES_INCORRECTAS: 'Usuario o contraseña incorrectos',
   PASSWORD_DEBIL: 'La contraseña es demasiado débil',
   USERNAME_REQUERIDO: 'El nombre de usuario es obligatorio',
-  PASSWORD_REQUERIDA: 'La contraseña es obligatoria',
+  PASSWORD_REQUERIDA: 'La contraseña es obligatoria'
 };
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {

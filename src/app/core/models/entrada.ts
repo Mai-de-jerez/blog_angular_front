@@ -1,12 +1,12 @@
 export interface Entrada {
-  id: number;
+  id?: number;
   titulo: string;
   slug: string;
   contenido: string;
   imagenUrl: string;
-  nombreAutor: string;
-  fotoAutor: string;
+  nombreAutor?: string;
+  fotoAutor?: string;
   nombreCategoria: string;
-  fechaCreacion: string; 
-  fechaActualizacion: string;
+  fechaCreacion?: string; 
+  fechaActualizacion?: string;
 }

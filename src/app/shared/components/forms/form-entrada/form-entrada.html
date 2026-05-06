@@ -1,0 +1,52 @@
+<!-- shared/components/forms/form-entrada/form-entrada.html -->
+<form (ngSubmit)="onSubmit()" #f="ngForm" class="form-blog">
+    
+    <!-- TÍTULO -->
+    <app-input 
+        label="Título de la entrada" 
+        [(ngModel)]="entrada.titulo" 
+        name="titulo"
+        placeholder="Ej: Las claves de la gnosis"
+        required>
+    </app-input>
+
+    <!-- SLUG (Se manda como string) -->
+    <app-input 
+        label="URL Amigable (Slug)" 
+        [(ngModel)]="entrada.slug" 
+        name="slug"
+        placeholder="ej-las-claves-de-la-gnosis"
+        required>
+    </app-input>
+
+    <!-- CATEGORÍA USANDO TU COMPONENTE PERSONALIZADO -->
+    <app-select 
+        label="Categoría del post"
+        [opciones]="categoriasDisponibles"
+        [(ngModel)]="entrada.nombreCategoria"
+        name="nombreCategoria"
+        required>
+    </app-select>
+
+    <!-- IMAGEN URL (De momento solo el string) -->
+    <app-input 
+        label="Nombre o URL de la imagen" 
+        [(ngModel)]="entrada.imagenUrl" 
+        name="imagenUrl"
+        placeholder="imagen-post.jpg">
+    </app-input>
+
+    <!-- CONTENIDO -->
+    <app-textarea 
+        label="Contenido del post" 
+        [(ngModel)]="entrada.contenido" 
+        name="contenido"
+        required>
+    </app-textarea>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-save" [disabled]="!f.valid">
+            Guardar Entrada
+        </button>
+    </div>
+</form>

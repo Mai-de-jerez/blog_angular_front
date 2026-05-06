@@ -1,4 +1,5 @@
 <div class="detalle-container">
+  <app-toast-local></app-toast-local>
   @if (cargando) {
     <div class="spinner">Cargando la entrada...</div>
   } @else if (error) {
@@ -38,6 +39,12 @@
           </p>
         }
         <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
+        <!-- boton para editar la entrada -->
+        @if (isLoggedIn) {
+          <button (click)="irAEditar()" class="btn-volver">
+            ✎ Editar Entrada
+          </button>
+        }
       </footer>
     </article>
   }

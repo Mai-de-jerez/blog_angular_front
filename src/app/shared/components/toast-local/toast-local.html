@@ -1,0 +1,6 @@
+@if (toastService.mensaje()) {
+  <div [ngClass]="toastService.tipo() === 'success' ? 'toast-success' : 'toast-error'" class="toast-box">
+    <i [class]="toastService.tipo() === 'success' ? 'bi bi-check-circle-fill' : 'bi bi-exclamation-circle-fill'"></i>
+    <span class="msg-text">{{ toastService.mensaje() }}</span>
+  </div>
+}

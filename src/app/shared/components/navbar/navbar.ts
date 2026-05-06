@@ -17,7 +17,6 @@ export class Navbar {
   private router = inject(Router);
 
   onLogout() {
-    this.authService.logout(); // Borra el token
-    this.router.navigate(['/login']); // Te manda fuera
+    this.authService.logout(); 
   }
 }

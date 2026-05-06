@@ -8,6 +8,9 @@ import { Login } from './pages/public/login/login';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { SobreMi } from './pages/public/sobre-mi/sobre-mi';
 import { authGuard } from './core/guards/auth-guard';
+import { AdminLayout } from './layouts/admin-layout/admin-layout';
+import { Dashboard } from './pages/admin/dashboard/dashboard';
+import { EditarEntrada } from './pages/public/editar-entrada/editar-entrada';
 
 
 export const routes: Routes = [
@@ -18,7 +21,8 @@ export const routes: Routes = [
       { path: '', component: Home },
       { path: 'sobre-mi', component: SobreMi },
       { path: 'entradas', component: ListaEntradas },
-      { path: 'entradas/:slug', component: DetalleEntrada } 
+      { path: 'entradas/:slug', component: DetalleEntrada },
+      { path: 'entradas/editar-entrada/:slug', component: EditarEntrada }
     ]
   },
 
@@ -27,6 +31,15 @@ export const routes: Routes = [
     component: AuthLayout,
     children: [
       { path: 'login', component: Login }
+    ]
+  },
+
+  {
+    path: 'admin',
+    component: AdminLayout,
+    canActivate: [authGuard], 
+    children: [      
+      { path: '', component: Dashboard },
     ]
   },
 

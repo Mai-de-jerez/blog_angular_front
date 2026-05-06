@@ -6,8 +6,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(Auth);
   const router = inject(Router);
 
-  // Comprobamos el Signal que creamos antes
-  if (authService.isLogged()) {
+  // Miramos si está logueado Y si es Admin (rol 1 o 2)
+  if (authService.isLogged() && authService.isAdmin()) {
     return true; // Adelante, puedes pasar
   }
 

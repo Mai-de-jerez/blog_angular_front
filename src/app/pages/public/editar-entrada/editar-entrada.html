@@ -1,0 +1,17 @@
+<div class="editar-container">
+    <h1>Panel de Edición</h1>
+    <p>Modificando la entrada: <strong>{{ entradaCargada()?.titulo }}</strong></p>
+    <app-toast-local></app-toast-local>
+    <hr>
+
+    @if (entradaCargada()) {
+        <app-form-entrada 
+            [entrada]="entradaCargada()!" 
+            (save)="actualizar($event)">
+        </app-form-entrada>
+    } @else {
+        <div class="loading">
+            <span>Cargando datos de la entrada...</span>
+        </div>
+    } 
+</div>

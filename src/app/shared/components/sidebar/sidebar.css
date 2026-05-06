@@ -1,0 +1,75 @@
+.sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  font-weight: bold;
+  color: #6b21a8; /* Púrpura */
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.nav-list li {
+  margin-bottom: 0.5rem;
+}
+
+.nav-list a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #4b5563;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.nav-list a:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* Clase que aplica Angular automáticamente al estar en la ruta */
+.active-link {
+  background-color: #f3e8ff !important; /* Púrpura claro */
+  color: #6b21a8 !important;
+  font-weight: 600;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  color: #111827;
+}

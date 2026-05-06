@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse } from '../models/auth-response'; 
 import { Router } from '@angular/router';
+import { Toast } from './toast';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class Auth {
   // Usamos inject() para un estilo más limpio y moderno
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly toastService = inject(Toast);
   
   // URL de mi backend de Java 
   private readonly URL_API = 'http://localhost:8080/Blog/api/auth'; 
@@ -21,14 +23,30 @@ export class Auth {
    */
   public isLogged = signal<boolean>(!!sessionStorage.getItem('token'));
 
+  private readonly rolGuardado = sessionStorage.getItem('rol');
+  public userRol = signal<number | null>(this.rolGuardado ? Number(this.rolGuardado) : null);
+
   login(credentials: any): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.URL_API}/login`, credentials).pipe(
       tap(response => {
         // Si el login es correcto, guardamos token y actualizamos el estado
         this.saveToken(response.token);
+        sessionStorage.setItem('rol', response.rol.toString());
         this.isLogged.set(true);
+        this.userRol.set(response.rol);
       })
     );
+  }
+
+  // Método para verificar si el usuario tiene rol de admin
+  isAdmin(): boolean {
+    const rol = this.userRol();
+    return rol === 1 || rol === 2; 
+  }
+
+  // Método para verificar si el usuario tiene rol de super admin
+  isSuperAdmin(): boolean {
+    return this.userRol() === 1;
   }
 
   // Método para guardar el token después del login exitoso
@@ -42,8 +60,25 @@ export class Auth {
   }
 
   logout(): void {
-    sessionStorage.clear(); // Borra todo el sessionStorage, incluyendo el token
-    this.isLogged.set(false); // Notifica a la Navbar instantáneamente
-    this.router.navigate(['/login']);
+    // Llamamos al backend para que invalide la sesión
+    this.http.post(`${this.URL_API}/logout`, {}).subscribe({
+      next: (res: any) => {
+        //  capturamos mi mensaje de Java
+        console.log('Backend dice:', res.mensaje); 
+        if (res && res.mensaje) {
+          this.toastService.mostrar(res.mensaje, 'success');
+        }
+      },
+      error: (err) => {
+        console.error('Error al cerrar sesión en servidor', err);
+      },
+      complete: () => {
+        // 2. Cuando termine la comunicación, limpiamos y redirigimos
+        sessionStorage.clear();
+        this.isLogged.set(false);
+        this.userRol.set(null);
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

@@ -1,0 +1,22 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin-view {
+  display: flex;
+  flex: 1; /* Ocupa el espacio entre el header y el footer */
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f9fafb;
+  overflow-y: auto;
+}
+
+/* Ajuste opcional para que el footer no se coma el contenido */
+footer {
+  margin-top: auto;
+}
