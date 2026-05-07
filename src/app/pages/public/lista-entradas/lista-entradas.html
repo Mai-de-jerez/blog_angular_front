@@ -18,9 +18,11 @@
 
           <!-- Info del Post --> 
           <div class="info">
-            <h2>{{ entrada.titulo }}</h2>
-            <p><strong>{{ entrada.nombreCategoria }}</strong> | {{ entrada.nombreAutor }} — {{ entrada.fechaCreacion | date:'dd/MM/yyyy' }}</p> 
-             
+            <h2>{{ entrada.titulo }}</h2>           
+             <p>
+              <strong>{{ entrada.nombreCategoriaPadre ? entrada.nombreCategoriaPadre + ', ' + entrada.nombreCategoria : entrada.nombreCategoria }}</strong> 
+              | {{ entrada.nombreAutor }} — {{ entrada.fechaCreacion | date:'dd/MM/yyyy' }}
+            </p>
             <!-- Extracto del texto (limitado a 150 caracteres) -->
             <p class="resumen">
               {{ entrada.contenido.substring(0, 150) }}...

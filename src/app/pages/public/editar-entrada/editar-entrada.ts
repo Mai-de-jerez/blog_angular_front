@@ -14,19 +14,16 @@ import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
   styleUrl: './editar-entrada.css',
   standalone: true
 })
+
 export class EditarEntrada implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private entradaService = inject(EntradaService);
   private toastService = inject(Toast);
 
-  // Signal para guardar la entrada que recuperamos de Java
   entradaCargada = signal<Entrada | null>(null);
 
-  categoriasDisponibles: string[] = ['Java', 'Python', 'Hacking', 'Gnosis', 'Ciberseguridad'];
-
   ngOnInit(): void {
-    // Pillamos el ID de la ruta (admin/editar-entrada/:id)
     const slug = this.route.snapshot.paramMap.get('slug');
 
     if (slug) {
@@ -40,23 +37,20 @@ export class EditarEntrada implements OnInit {
     }
   }
 
-actualizar(datosEditados: Partial<Entrada>): void {
-  const entradaActual = this.entradaCargada();
-  
-  if (entradaActual?.id) {
-    console.log('Objeto JSON que va a recibir Java:', datosEditados);
-    this.entradaService.updateEntrada(entradaActual.id, datosEditados).subscribe({
-      next: () => {
-        this.toastService.mostrar('¡Entrada actualizada con éxito!', 'success');
-        const slugFinal = datosEditados.slug || entradaActual.slug;
-        this.router.navigate(['/entradas', slugFinal]);
-      },
-      error: (err) => {
-        console.error('Error al editar:', err);
-        this.toastService.mostrar('Error al validar los datos', 'error');
-      }
-    });
-  }
-}
+  actualizar(datosEditados: Partial<Entrada>): void {
+    const entradaActual = this.entradaCargada();
 
+    if (entradaActual?.id) {
+      this.entradaService.updateEntrada(entradaActual.id, datosEditados).subscribe({
+        next: (entradaActualizada) => {
+          this.toastService.mostrar('¡Entrada actualizada con éxito!', 'success');
+          this.router.navigate(['/entradas', entradaActualizada.slug]);
+        },
+        error: (err) => {
+          console.error('Error al editar:', err);
+          this.toastService.mostrar('Error al validar los datos', 'error');
+        }
+      });
+    }
+  }
 }

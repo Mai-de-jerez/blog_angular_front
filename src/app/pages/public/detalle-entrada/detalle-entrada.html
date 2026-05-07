@@ -28,7 +28,7 @@
         <hr>
         <p>
           <small>
-            Categoría: {{ entrada.nombreCategoria }} |
+            Categoría: {{ entrada.nombreCategoriaPadre ? entrada.nombreCategoriaPadre + ', ' + entrada.nombreCategoria : entrada.nombreCategoria }} |
             Autor: {{ entrada.nombreAutor }}
           </small>
         </p>

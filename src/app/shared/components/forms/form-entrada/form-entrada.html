@@ -10,21 +10,12 @@
         required>
     </app-input>
 
-    <!-- SLUG (Se manda como string) -->
-    <app-input 
-        label="URL Amigable (Slug)" 
-        [(ngModel)]="entrada.slug" 
-        name="slug"
-        placeholder="ej-las-claves-de-la-gnosis"
-        required>
-    </app-input>
-
-    <!-- CATEGORÍA USANDO TU COMPONENTE PERSONALIZADO -->
-    <app-select 
+    <!-- CATEGORÍA  -->
+    <app-select
         label="Categoría del post"
-        [opciones]="categoriasDisponibles"
-        [(ngModel)]="entrada.nombreCategoria"
-        name="nombreCategoria"
+        [opciones]="opcionesCategoria"
+        [(ngModel)]="entrada.categoriaId"
+        name="categoriaId"
         required>
     </app-select>
 

@@ -2,6 +2,11 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+export interface OpcionSelect {
+  valor: string | number;
+  etiqueta: string;
+}
+
 @Component({
   selector: 'app-select',
   standalone: true,
@@ -19,15 +24,15 @@ import { CommonModule } from '@angular/common';
 export class SelectComponent implements ControlValueAccessor {
 
   @Input() label: string = '';
-  @Input() opciones: string[] = [];
+  @Input() opciones: OpcionSelect[] = [];
 
-  value: string = '';
+  value: string | number = '';
   disabled: boolean = false;
 
-  onChange = (value: string) => {};
+  onChange = (value: string | number) => {};
   onTouched = () => {};
 
-  writeValue(value: string) {
+  writeValue(value: string | number) {
     this.value = value ?? '';
   }
 
