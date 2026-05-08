@@ -3,8 +3,7 @@ export interface Categoria {
   nombre: string;
   slug?: string;
   padreId: number | null;      
-  nombrePadre: string | null;  
-  subcategorias: Categoria[];  
+  nombrePadre: string | null;   
   fechaCreacion?: string;       
   fechaActualizacion?: string;
 }

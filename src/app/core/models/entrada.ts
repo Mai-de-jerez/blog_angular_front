@@ -4,10 +4,11 @@ export interface Entrada {
   slug?: string;
   contenido: string;
   imagenUrl: string | null; 
+  autorId?: number;
   nombreAutor?: string;
   fotoAutor?: string;
-  categoriaId: number;
-  nombreCategoria: string;
+  categoriaId?: number;
+  nombreCategoria?: string;
   nombreCategoriaPadre?: string | null; 
   fechaCreacion?: string; 
   fechaActualizacion?: string;

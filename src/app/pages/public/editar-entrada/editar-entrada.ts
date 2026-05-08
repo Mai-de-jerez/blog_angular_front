@@ -6,6 +6,7 @@ import { FormEntrada } from '../../../shared/components/forms/form-entrada/form-
 import { Entrada } from '../../../core/models/entrada';
 import { Toast } from '../../../core/services/toast';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-editar-entrada',
@@ -14,27 +15,40 @@ import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
   styleUrl: './editar-entrada.css',
   standalone: true
 })
-
 export class EditarEntrada implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private entradaService = inject(EntradaService);
   private toastService = inject(Toast);
+  private authService = inject(Auth); 
 
   entradaCargada = signal<Entrada | null>(null);
 
   ngOnInit(): void {
-    const slug = this.route.snapshot.paramMap.get('slug');
+      const slug = this.route.snapshot.paramMap.get('slug');
 
-    if (slug) {
-      this.entradaService.getEntradaBySlug(slug).subscribe({
-        next: (res) => this.entradaCargada.set(res),
-        error: () => {
-          this.toastService.mostrar('No se ha podido cargar la entrada', 'error');
-          this.router.navigate(['/entradas']);
-        }
-      });
-    }
+      if (slug) {
+          this.entradaService.getEntradaBySlug(slug).subscribe({
+              next: (res) => {
+                  // ---  SEGURIDAD ---
+                  const usuarioId = Number(this.authService.getUsuarioId()); 
+                  const autorId = Number(res.autorId);
+                  const isAdmin = this.authService.isAdmin();
+
+                  // Si NO es el autor Y NO es admin, le echamos
+                  if (autorId !== usuarioId && !isAdmin) {
+                      this.toastService.mostrar('No tienes permiso para editar esto', 'error');
+                      this.router.navigate(['/entradas']);
+                      return; // Cortamos la ejecución aquí
+                  }
+                  this.entradaCargada.set(res);
+              },
+              error: () => {
+                  this.toastService.mostrar('No se ha podido cargar la entrada', 'error');
+                  this.router.navigate(['/entradas']);
+              }
+          });
+      }
   }
 
   actualizar(datosEditados: Partial<Entrada>): void {
@@ -44,6 +58,7 @@ export class EditarEntrada implements OnInit {
       this.entradaService.updateEntrada(entradaActual.id, datosEditados).subscribe({
         next: (entradaActualizada) => {
           this.toastService.mostrar('¡Entrada actualizada con éxito!', 'success');
+          // Redirigimos al detalle con el nuevo slug por si ha cambiado el título
           this.router.navigate(['/entradas', entradaActualizada.slug]);
         },
         error: (err) => {
@@ -54,3 +69,6 @@ export class EditarEntrada implements OnInit {
     }
   }
 }
+
+
+

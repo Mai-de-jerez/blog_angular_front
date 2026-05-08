@@ -1,7 +1,5 @@
-<!-- shared/components/forms/form-entrada/form-entrada.html -->
 <form (ngSubmit)="onSubmit()" #f="ngForm" class="form-blog">
     
-    <!-- TÍTULO -->
     <app-input 
         label="Título de la entrada" 
         [(ngModel)]="entrada.titulo" 
@@ -10,16 +8,19 @@
         required>
     </app-input>
 
-    <!-- CATEGORÍA  -->
-    <app-select
-        label="Categoría del post"
-        [opciones]="opcionesCategoria"
-        [(ngModel)]="entrada.categoriaId"
-        name="categoriaId"
-        required>
-    </app-select>
+    <div class="campo-form">
+        <label class="label-pro">Categoría del post</label>
+        <p-treeSelect 
+            name="categoriaSelect"
+            [(ngModel)]="nodoSeleccionado" 
+            [options]="categoriasArbol" 
+            (onNodeSelect)="onNodeSelect($event)"
+            placeholder="Selecciona una categoría..."
+            [style]="{'width':'100%'}"
+            scrollHeight="300px">
+        </p-treeSelect>           
+    </div>
 
-    <!-- IMAGEN URL (De momento solo el string) -->
     <app-input 
         label="Nombre o URL de la imagen" 
         [(ngModel)]="entrada.imagenUrl" 
@@ -27,7 +28,6 @@
         placeholder="imagen-post.jpg">
     </app-input>
 
-    <!-- CONTENIDO -->
     <app-textarea 
         label="Contenido del post" 
         [(ngModel)]="entrada.contenido" 
@@ -36,6 +36,10 @@
     </app-textarea>
 
     <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="onCancel()">
+            Cancelar
+        </button>
+
         <button type="submit" class="btn-save" [disabled]="!f.valid">
             Guardar Entrada
         </button>

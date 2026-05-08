@@ -1,0 +1,9 @@
+<div class="crear-container">
+    <h1>Nueva Entrada</h1>
+    <app-toast-local></app-toast-local>
+    <hr>
+    <app-form-entrada 
+        [entrada]="nuevaEntrada" 
+        (save)="crear($event)">
+    </app-form-entrada>
+</div>

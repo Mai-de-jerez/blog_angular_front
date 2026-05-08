@@ -36,7 +36,6 @@ export class DetalleEntrada implements OnInit {
   }
 
   irAEditar(): void {
-    console.log('Botón pulsado, entrada actual:', this.entrada);
     if (this.entrada) {
       this.router.navigate(['/entradas/editar-entrada', this.entrada.slug]);
     }

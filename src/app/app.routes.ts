@@ -2,15 +2,12 @@
 import { Routes } from '@angular/router';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { Home } from './pages/public/home/home';
-import { ListaEntradas } from './pages/public/lista-entradas/lista-entradas';
-import { DetalleEntrada } from './pages/public/detalle-entrada/detalle-entrada';
 import { Login } from './pages/public/login/login';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { SobreMi } from './pages/public/sobre-mi/sobre-mi';
 import { authGuard } from './core/guards/auth-guard';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
-import { Dashboard } from './pages/admin/dashboard/dashboard';
-import { EditarEntrada } from './pages/public/editar-entrada/editar-entrada';
+import { loggedGuard } from './core/guards/logged-guard';
 
 
 export const routes: Routes = [
@@ -20,9 +17,20 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home },
       { path: 'sobre-mi', component: SobreMi },
-      { path: 'entradas', component: ListaEntradas },
-      { path: 'entradas/:slug', component: DetalleEntrada },
-      { path: 'entradas/editar-entrada/:slug', component: EditarEntrada }
+      { path: 'entradas', 
+        loadComponent: () => import('./pages/public/lista-entradas/lista-entradas').then(m => m.ListaEntradas)
+       },
+      { path: 'entradas/crear', 
+        canActivate: [loggedGuard],
+        loadComponent: () => import('./pages/public/crear-entrada/crear-entrada').then(m => m.CrearEntrada)
+      },
+      { path: 'entradas/:slug',
+        loadComponent: () => import('./pages/public/detalle-entrada/detalle-entrada').then(m => m.DetalleEntrada)
+       },
+      { path: 'entradas/editar-entrada/:slug', 
+        canActivate: [loggedGuard],
+        loadComponent: () => import('./pages/public/editar-entrada/editar-entrada').then(m => m.EditarEntrada)
+       }
     ]
   },
 
@@ -39,7 +47,9 @@ export const routes: Routes = [
     component: AdminLayout,
     canActivate: [authGuard], 
     children: [      
-      { path: '', component: Dashboard },
+      { path: '', 
+        loadComponent: () => import('./pages/admin/dashboard/dashboard').then(m => m.Dashboard)
+     },
     ]
   },
 

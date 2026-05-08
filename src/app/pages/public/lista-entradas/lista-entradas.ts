@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EntradaService } from '../../../core/services/entrada';
 import { Entrada } from '../../../core/models/entrada';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-lista-entradas',
@@ -14,12 +15,13 @@ import { Entrada } from '../../../core/models/entrada';
 
 export class ListaEntradas implements OnInit {
 
+  public authService = inject(Auth);
   entradas: Entrada[] = [];
   cargando: boolean = true;
   error: string = '';
 
-  constructor(private entradaService: EntradaService, private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private entradaService: EntradaService, private cdr: ChangeDetectorRef) {}
+  
   ngOnInit(): void {
     this.entradaService.getEntradas().subscribe({
       next: (data) => {

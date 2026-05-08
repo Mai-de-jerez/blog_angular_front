@@ -1,0 +1,44 @@
+/* ── Caja del select ── */
+:host ::ng-deep .p-treeselect {
+    background: #34495e !important;
+    border-radius: 4px !important;
+    width: 100% !important;
+    padding: 12px !important;
+}
+
+/* texto blanco de la categoria elegida */
+:host ::ng-deep .p-treeselect-label {
+    color: #ffffff !important;
+}
+
+/* gracias a esto cambia blanca la flechita */
+:host ::ng-deep svg.p-treeselect-dropdown-icon path {
+    color: #ffffff !important; 
+} 
+
+/* ── Panel desplegable ── */
+:host ::ng-deep .p-treeselect-panel {
+    background-color: #34495e !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9) !important;
+}
+
+
+:host ::ng-deep .p-tree {
+    background-color: #1e1e2e !important;
+    color: #e0e0e0 !important;
+}
+
+/* ── Layout ── */
+.campo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.label-pro {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: sans-serif;
+}

@@ -25,6 +25,8 @@ export class Auth {
 
   private readonly rolGuardado = sessionStorage.getItem('rol');
   public userRol = signal<number | null>(this.rolGuardado ? Number(this.rolGuardado) : null);
+  private readonly idGuardado = sessionStorage.getItem('userId');
+  public userId = signal<number | null>(this.idGuardado ? Number(this.idGuardado) : null);
 
   login(credentials: any): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.URL_API}/login`, credentials).pipe(
@@ -32,10 +34,17 @@ export class Auth {
         // Si el login es correcto, guardamos token y actualizamos el estado
         this.saveToken(response.token);
         sessionStorage.setItem('rol', response.rol.toString());
+        sessionStorage.setItem('userId', response.id.toString());
         this.isLogged.set(true);
         this.userRol.set(response.rol);
+        this.userId.set(response.id);
       })
     );
+  }
+
+  // Método para obtener el ID del usuario cuando lo necesites
+  getUsuarioId(): number | null {
+    return this.userId();
   }
 
   // Método para verificar si el usuario tiene rol de admin
@@ -77,6 +86,7 @@ export class Auth {
         sessionStorage.clear();
         this.isLogged.set(false);
         this.userRol.set(null);
+        this.userId.set(null);
         this.router.navigate(['/login']);
       }
     });
