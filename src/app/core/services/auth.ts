@@ -122,4 +122,9 @@ export class Auth {
       pass2 
     });
   }
+
+  registro(datos: any): Observable<any> {
+    return this.http.post(`${this.URL_API}/registro`, datos);
+  }
+  
 }

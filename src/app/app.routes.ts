@@ -10,6 +10,7 @@ import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { loggedGuard } from './core/guards/logged-guard';
 import { SolicitarPassword } from './pages/public/solicitar-password/solicitar-password';
 import { CambiarPassword } from './pages/public/cambiar-password/cambiar-password';
+import { Registro } from './pages/public/registro/registro';
 
 
 export const routes: Routes = [
@@ -42,7 +43,8 @@ export const routes: Routes = [
     children: [
       { path: 'login', component: Login },
       { path: 'solicitar-recuperacion', component: SolicitarPassword },
-      { path: 'cambiar-password', component: CambiarPassword }
+      { path: 'cambiar-password', component: CambiarPassword },
+      { path: 'registro', component: Registro }
     ]
   },
 

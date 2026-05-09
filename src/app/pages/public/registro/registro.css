@@ -1,0 +1,113 @@
+.register-title {
+  color: #800080;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-family: monospace;
+}
+
+.register-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 0 20px 40px;
+}
+
+h2{
+    margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+label {
+  display: block;
+  color: #ccc;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 4px;
+}
+
+span, a {
+  color: #bc13fe;
+}
+
+input:focus {
+  border-color: #bc13fe;
+  outline: none;
+}
+
+.helper-links {
+  text-align: center;
+  margin: 20px 0;
+  font-family: monospace;
+}
+
+/* Esto asegura que el texto y el link se comporten como texto normal (en linea) */
+.helper-links span, .helper-links a {
+  display: inline; 
+  color: #bc13fe;
+  text-decoration: none;
+}
+
+.btn-register {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  background-color: #800080;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+  margin: 20px auto 0; 
+}
+
+.btn-register:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+.back-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-back {
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: monospace;
+  transition: color 0.3s;
+}
+
+.btn-back:hover {
+  color: #bc13fe; 
+  text-decoration: underline;
+}
+
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.form-row .form-group {
+  flex: 1;
+}
+.hint {
+  color: #888;
+  font-size: 12px;
+}
