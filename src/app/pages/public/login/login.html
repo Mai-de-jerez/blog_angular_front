@@ -1,17 +1,31 @@
 <app-toast-local></app-toast-local>
 <h2 class="login-title">Acceso Sistema</h2>
+
 <form (ngSubmit)="onLogin()" #loginForm="ngForm">
   <div class="form-group">
     <label>Usuario</label>
     <input type="text" name="username" [(ngModel)]="credentials.username" required>
   </div>
+
   <div class="form-group">
     <label>Contraseña</label>
     <input type="password" name="password" [(ngModel)]="credentials.password" required>
   </div>
+
+  <div class="helper-links">
+    <span>¿Olvidaste tu contraseña? </span>
+    <a routerLink="/solicitar-recuperacion" class="link-secondary">Recupérala aquí</a>
+  </div>
+
   <button type="submit" class="btn-login" [disabled]="!loginForm.valid">
     Entrar
   </button>
+  
+  <div class="helper-links">
+    <span>¿No tienes cuenta? </span>
+    <a routerLink="/registro" class="link-register">Regístrate aquí</a>
+  </div>
+
   <div class="back-container">
     <a routerLink="/" class="btn-back">← Volver al blog</a>
   </div>

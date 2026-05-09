@@ -8,6 +8,8 @@ import { SobreMi } from './pages/public/sobre-mi/sobre-mi';
 import { authGuard } from './core/guards/auth-guard';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { loggedGuard } from './core/guards/logged-guard';
+import { SolicitarPassword } from './pages/public/solicitar-password/solicitar-password';
+import { CambiarPassword } from './pages/public/cambiar-password/cambiar-password';
 
 
 export const routes: Routes = [
@@ -38,7 +40,9 @@ export const routes: Routes = [
     path: '',
     component: AuthLayout,
     children: [
-      { path: 'login', component: Login }
+      { path: 'login', component: Login },
+      { path: 'solicitar-recuperacion', component: SolicitarPassword },
+      { path: 'cambiar-password', component: CambiarPassword }
     ]
   },
 
