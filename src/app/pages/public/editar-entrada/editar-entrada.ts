@@ -35,7 +35,7 @@ export class EditarEntrada implements OnInit {
                   const autorId = Number(res.autorId);
                   const isAdmin = this.authService.isAdmin();
 
-                  // Si NO es el autor Y NO es admin, le echamos
+                  // Si no es autor ni admin, no puede editar
                   if (autorId !== usuarioId && !isAdmin) {
                       this.toastService.mostrar('No tienes permiso para editar esto', 'error');
                       this.router.navigate(['/entradas']);

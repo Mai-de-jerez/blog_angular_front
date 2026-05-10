@@ -2,17 +2,21 @@ import { Component, ChangeDetectorRef, EventEmitter, Input, Output, OnInit, inje
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { TreeSelectModule } from 'primeng/treeselect';
-import { InputComponent } from '../../input/input';
-import { TextareaComponent } from '../../textarea/textarea';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { Entrada } from '../../../../core/models/entrada';
 import { CategoriaService } from '../../../../core/services/categoria';
 import { Categoria } from '../../../../core/models/categoria';
 
+interface CategoriaSelectGroup {
+  label: string;
+  data: number;
+  groupLabel: string;
+}
+
 @Component({
   selector: 'app-form-entrada',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputComponent, TextareaComponent, TreeSelectModule],
+  imports: [CommonModule, FormsModule, NgSelectModule],
   templateUrl: './form-entrada.html',
   styleUrl: './form-entrada.css'
 })
@@ -21,61 +25,49 @@ export class FormEntrada implements OnInit {
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
-  // Usamos un setter para detectar cuando la entrada cargada por el signal llega aquí
   private _entrada: Partial<Entrada> = {};
+
   @Input() set entrada(val: Partial<Entrada>) {
-    this._entrada = val;
-    this.marcarCategoriaActual(); 
+    this._entrada = {
+      ...val,
+      categoriaId: val.categoriaId ? Number(val.categoriaId) : undefined
+    };
+    this.cdr.detectChanges();
   }
   get entrada() { return this._entrada; }
 
   @Output() save = new EventEmitter<Partial<Entrada>>();
 
-  categoriasArbol: any[] = [];
-  nodoSeleccionado: any = null;
+  categoriasParaSelect: CategoriaSelectGroup[] = [];
 
   ngOnInit(): void {
     this.categoriaService.getCategorias().subscribe({
       next: (categorias: Categoria[]) => {
-        this.categoriasArbol = this.formatearArbol(categorias, null);
-        this.marcarCategoriaActual(); // También lo intentamos al cargar el árbol
+        this.categoriasParaSelect = this.formatearParaSelect(categorias);
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error al cargar categorías:', err)
     });
   }
 
-  private formatearArbol(lista: Categoria[], padreId: number | null): any[] {
-  return lista
-    .filter(c => c.padreId === padreId)
-    .map(c => ({
-      label: c.nombre,
-      data: Number(c.id),        // ← CAMBIO
-      key: c.id?.toString(),
-      children: this.formatearArbol(lista, c.id!)
-    }));
-  }
+  private formatearParaSelect(lista: Categoria[]): CategoriaSelectGroup[] {
+    const result: CategoriaSelectGroup[] = [];
+    const padres = lista.filter(c => !c.padreId);
 
-  private marcarCategoriaActual() {
-    if (this._entrada?.categoriaId && this.categoriasArbol.length > 0) {
-      const id = Number(this._entrada.categoriaId);
-      this.nodoSeleccionado = this.encontrarNodo(this.categoriasArbol, id);
-      this.cdr.detectChanges(); // ← fuerza a Angular a re-evaluar la vista
-    }
-  }
+    for (const padre of padres) {
+      result.push({ label: padre.nombre, data: Number(padre.id), groupLabel: padre.nombre });
 
-  private encontrarNodo(nodos: any[], id: number): any {
-    for (const nodo of nodos) {
-      if (Number(nodo.data) === id) return nodo;             
-      if (nodo.children?.length) {
-        const hijo = this.encontrarNodo(nodo.children, id);
-        if (hijo) return hijo;
+      const hijos = lista.filter(c => c.padreId === padre.id);
+      for (const hijo of hijos) {
+        result.push({ label: hijo.nombre, data: Number(hijo.id), groupLabel: padre.nombre });
+
+        const nietos = lista.filter(c => c.padreId === hijo.id);
+        for (const nieto of nietos) {
+          result.push({ label: nieto.nombre, data: Number(nieto.id), groupLabel: hijo.nombre });
+        }
       }
     }
-    return null;
-  }
-
-  onNodeSelect(event: any) {
-    this.entrada.categoriaId = event.node.data;
+    return result;
   }
 
   onCancel() {
@@ -90,3 +82,5 @@ export class FormEntrada implements OnInit {
     this.save.emit(this.entrada);
   }
 }
+
+

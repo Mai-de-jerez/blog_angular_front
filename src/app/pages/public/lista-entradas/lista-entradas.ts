@@ -20,19 +20,21 @@ export class ListaEntradas implements OnInit {
 
   public authService = inject(Auth);
 
+  // variables para datos, estado y errores
   pagina: Pagina<Entrada> | null = null;
   entradas: Entrada[] = [];
   cargando: boolean = true;
   error: string = '';
 
-  // filtros
+  // variables para filtros y paginación
   titulo = '';
   categoria = '';
   autor = '';
   paginaActual = 0;
 
+  // inyección de servicios
   constructor(private entradaService: EntradaService, private cdr: ChangeDetectorRef) {}
-  
+  // método para cargar las entradas con filtros y paginación
   cargar(): void {
     this.cargando = true;
     this.entradaService.getEntradas(this.titulo, this.categoria, this.autor, this.paginaActual).subscribe({

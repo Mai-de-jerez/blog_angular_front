@@ -7,14 +7,11 @@
   } @else if (entrada) {
     <article class="post-card">
       <header>
-         
-        <h1>{{ entrada.titulo }}</h1>
-        
         <div class="meta-data">
           <span class="author">Por: <strong>{{ entrada.nombreAutor }}</strong></span>
-          <span class="date">Publicado el {{ entrada.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
-            
+          <span class="date">Publicado el {{ entrada.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>            
         </div>
+        <h1>{{ entrada.titulo }}</h1>
       </header>
       @if (entrada.imagenUrl) {
         <div class="main-image">

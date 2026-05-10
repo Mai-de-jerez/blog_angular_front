@@ -1,47 +1,43 @@
-<form (ngSubmit)="onSubmit()" #f="ngForm" class="form-blog">
-    
-    <app-input 
-        label="Título de la entrada" 
-        [(ngModel)]="entrada.titulo" 
-        name="titulo"
-        placeholder="Ej: Las claves de la gnosis"
-        required>
-    </app-input>
+<form (ngSubmit)="onSubmit()" #f="ngForm" class="form-container">
+  <h2 class="form-title">Editar Entrada</h2>
 
-    <div class="campo-form">
-        <label class="label-pro">Categoría del post</label>
-        <p-treeSelect 
-            name="categoriaSelect"
-            [(ngModel)]="nodoSeleccionado" 
-            [options]="categoriasArbol" 
-            (onNodeSelect)="onNodeSelect($event)"
-            placeholder="Selecciona una categoría..."
-            [style]="{'width':'100%'}"
-            scrollHeight="300px">
-        </p-treeSelect>           
+  <div class="grid-form">
+    <!-- Título -->
+    <div class="form-group full-width">
+      <label>Título de la entrada</label>
+      <input type="text" [(ngModel)]="entrada.titulo" name="titulo" required placeholder="Ej: Las claves de la gnosis">
     </div>
 
-    <app-input 
-        label="Nombre o URL de la imagen" 
-        [(ngModel)]="entrada.imagenUrl" 
-        name="imagenUrl"
-        placeholder="imagen-post.jpg">
-    </app-input>
-
-    <app-textarea 
-        label="Contenido del post" 
-        [(ngModel)]="entrada.contenido" 
-        name="contenido"
-        required>
-    </app-textarea>
-
-    <div class="form-actions">
-        <button type="button" class="btn-cancel" (click)="onCancel()">
-            Cancelar
-        </button>
-
-        <button type="submit" class="btn-save" [disabled]="!f.valid">
-            Guardar Entrada
-        </button>
+    <!-- Categoría -->
+    <div class="form-group">
+      <label>Categoría</label>
+      <ng-select
+          [items]="categoriasParaSelect"
+          bindLabel="label"
+          bindValue="data"
+          groupBy="groupLabel"
+          [(ngModel)]="entrada.categoriaId"
+          name="categoriaId"
+          placeholder="Selecciona una categoría...">
+      </ng-select>     
     </div>
+
+    <!-- URL de la imagen -->
+    <div class="form-group">
+      <label>URL de la imagen</label>
+      <input type="text" [(ngModel)]="entrada.imagenUrl" name="imagenUrl" placeholder="imagen-post.jpg">
+    </div>
+
+    <!-- Contenido -->
+    <div class="form-group full-width">
+      <label>Contenido del post</label>
+      <textarea [(ngModel)]="entrada.contenido" name="contenido" required rows="12" placeholder="Escribe aquí..."></textarea>
+    </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="form-actions">
+    <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" class="btn-primary" [disabled]="!f.valid">Guardar Entrada</button>
+  </div>
 </form>
