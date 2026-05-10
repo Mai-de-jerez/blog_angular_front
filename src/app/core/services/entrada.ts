@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Entrada } from '../models/entrada';
+import { Pagina } from '../models/pagina';
 
 
 @Injectable({
@@ -13,8 +14,17 @@ export class EntradaService {
   private readonly http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/Blog/api/entradas';
 
-  getEntradas(): Observable<Entrada[]> {
-    return this.http.get<Entrada[]>(this.apiUrl);
+  // getEntradas(): Observable<Entrada[]> {
+  //   return this.http.get<Entrada[]>(this.apiUrl);
+  // }
+
+  getEntradas(titulo?: string, categoria?: string, autor?: string, page: number = 0): Observable<Pagina<Entrada>> {
+    let params = new HttpParams().set('page', page);
+    if (titulo)    params = params.set('titulo', titulo);
+    if (categoria) params = params.set('categoria', categoria);
+    if (autor)     params = params.set('autor', autor);
+    
+    return this.http.get<Pagina<Entrada>>(this.apiUrl, { params });
   }
 
   getEntrada(id: number): Observable<Entrada> {

@@ -9,6 +9,8 @@
     }
   </div>
 
+  <app-filtro (filtroChanged)="onFiltro($event)"></app-filtro>
+  
   @if (cargando) {
     <p>Cargando entradas...</p>
   } @else if (error) {
@@ -42,6 +44,11 @@
       }
     </div>
   }
+  <app-paginador 
+  [totalPaginas]="pagina?.totalPaginas ?? 0"
+  [paginaActual]="paginaActual"
+  (pageChanged)="onPage($event)">
+</app-paginador>
 </div>
 
 
