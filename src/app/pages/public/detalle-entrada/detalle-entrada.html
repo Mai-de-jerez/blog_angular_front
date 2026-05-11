@@ -8,7 +8,12 @@
     <article class="post-card">
       <header>
         <div class="meta-data">
+          <div class="author-info">
+          <img [src]="'http://localhost:4200/Blog/api/media/' + entrada.fotoAutor" 
+              [alt]="entrada.nombreAutor"
+              class="autor-avatar">
           <span class="author">Por: <strong>{{ entrada.nombreAutor }}</strong></span>
+        </div>
           <span class="date">Publicado el {{ entrada.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>            
         </div>
         <h1>{{ entrada.titulo }}</h1>
@@ -36,7 +41,6 @@
           </p>
         }
         <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
-        <!-- boton para editar la entrada -->
         @if (isLoggedIn) {
           <button (click)="irAEditar()" class="btn-volver">
             ✎ Editar Entrada

@@ -1,8 +1,9 @@
-<app-toast-local></app-toast-local>
+<div class="auth-card">
+  
   <h2 class="register-title">Crear cuenta</h2>
 
   <form (ngSubmit)="onRegistro()" #registroForm="ngForm">
-
+  <div class="form-row">
     <div class="form-group">
       <label>Usuario</label>
       <input
@@ -13,7 +14,7 @@
         placeholder="nombreusuario">
     </div>
 
-    <div class="form-row">
+    
       <div class="form-group">
         <label>Nombre</label>
         <input
@@ -23,6 +24,7 @@
           required
           placeholder="Ana">
       </div>
+    </div>
       <div class="form-group">
         <label>Apellidos</label>
         <input
@@ -31,9 +33,8 @@
           [(ngModel)]="datos.apellidos"
           required
           placeholder="García López">
-      </div>
-    </div>
-
+      </div> 
+  
     <div class="form-group">
       <label>Email</label>
       <input
@@ -44,25 +45,30 @@
         placeholder="ana@correo.com">
     </div>
 
-    <div class="form-group">
+    <div class="form-row">
+      <div class="form-group">
       <label>Contraseña</label>
       <input
         type="password"
-        name="password"
-        [(ngModel)]="datos.password"
+        name="pass1"
+        [(ngModel)]="datos.pass1"
         required
-        placeholder="••••••••">
-    </div>
+        placeholder="••••••••"
+        autocomplete="new-password">
+      </div>
 
-    <div class="form-group">
-      <label>Confirmar contraseña</label>
-      <input
-        type="password"
-        name="password2"
-        [(ngModel)]="password2"
-        required
-        placeholder="••••••••">
+      <div class="form-group">
+        <label>Confirmar contraseña</label>
+        <input
+          type="password"
+          name="pass2"
+          [(ngModel)]="datos.pass2"
+          required
+          placeholder="••••••••"
+          autocomplete="new-password">
+      </div>
     </div>
+    
 
     <div class="form-group">
       <label>Teléfono</label>
@@ -83,14 +89,14 @@
     </div>
 
     <div class="form-group">
-      <label>Foto <span class="hint">(nombre del archivo, ej: mifoto.png)</span></label>
-      <input
-        type="text"
-        name="foto"
-        [(ngModel)]="datos.foto"
-        placeholder="mifoto.png">
+      <label>Foto</label>
+      <input type="file" 
+      name="foto" 
+      accept=".jpg,.jpeg,.png,.webp" 
+      (change)="onFotoSeleccionada($event)">
     </div>
 
+    <app-toast-local></app-toast-local>
     <button type="submit" class="btn-register" [disabled]="!registroForm.valid || cargando">
       {{ cargando ? 'Registrando...' : 'Registrarse' }}
     </button>
@@ -105,4 +111,4 @@
     </div>
 
   </form>
-
+</div>

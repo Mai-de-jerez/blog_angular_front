@@ -3,16 +3,9 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #0a0a0a; /* Negro profundo */
+  background-color: #0a0a0a; 
 }
 
 
 
-.auth-card {
-  background: #1a1a1a;
-  padding: 2rem;
-  border-radius: 8px;
-  border: 1px solid #800080;
-  box-shadow: 0 0 15px rgba(128, 0, 128, 0.3);
-  width: fit-content;
-}
+

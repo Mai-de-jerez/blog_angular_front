@@ -20,38 +20,51 @@ export class Registro {
   private readonly router = inject(Router);
 
   cargando = false;
-  password2 = '';
+  fotoArchivo: File | null = null;
 
   datos = {
     username: '',
     nombre: '',
     apellidos: '',
     email: '',
-    password: '',
+    pass1: '',
+    pass2: '',
     telefono: '',
-    direccion: '',
-    foto: '',
-    rol: null
+    direccion: ''
   };
 
+  onFotoSeleccionada(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.fotoArchivo = input.files[0];
+    }
+  }
+
   onRegistro(): void {
-    if (this.datos.password !== this.password2) {
+    if (this.datos.pass1 !== this.datos.pass2) {
       this.toastService.mostrar('Las contraseñas no coinciden', 'error');
       return;
     }
 
     this.cargando = true;
 
-    this.authService.registro(this.datos).subscribe({
+    const form = new FormData();
+    form.append('username', this.datos.username);
+    form.append('nombre', this.datos.nombre);
+    form.append('apellidos', this.datos.apellidos);
+    form.append('email', this.datos.email);
+    form.append('pass1', this.datos.pass1);
+    form.append('pass2', this.datos.pass2);
+    form.append('telefono', this.datos.telefono);
+    form.append('direccion', this.datos.direccion);
+    if (this.fotoArchivo) form.append('foto', this.fotoArchivo);
+
+    this.authService.registro(form).subscribe({
       next: () => {
         this.toastService.mostrar('Registro completado. ¡Ya puedes iniciar sesión!', 'success');
         this.router.navigate(['/login']);
       },
-      error: (err) => {
-        const msg = err?.error?.codigo ?? 'Error al registrarse';
-        this.toastService.mostrar(msg, 'error');
-        this.cargando = false;
-      }
+      error: () => { this.cargando = false; }
     });
   }
 }

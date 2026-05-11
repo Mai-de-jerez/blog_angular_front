@@ -117,3 +117,18 @@
   color: #888;
   font-family: 'Georgia', serif;
 }
+
+/* Estilos para la información del autor */
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.autor-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #800080;
+}
