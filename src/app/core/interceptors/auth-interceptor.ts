@@ -1,10 +1,12 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { Auth } from '../services/auth';
+import { inject } from '@angular/core';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  // 1. Obtenemos el token del sessionStorage 
-  const token = sessionStorage.getItem('token');
+  const authService = inject(Auth);
+  const token = authService.getToken();
 
-  // 2. Si el token existe, clonamos la petición y le añadimos el Header
+  // Si el token existe, clonamos la petición y le añadimos el Header
   if (token) {
     const authReq = req.clone({
       setHeaders: {

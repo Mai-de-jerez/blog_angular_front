@@ -1,7 +1,6 @@
 <div class="list-container">
   <div class="header-lista">
-    <h1>Blog</h1>
-    
+    <h1>Blog</h1><app-toast-local></app-toast-local>     
     @if (authService.isLogged()) {
       <button class="btn-publicar" [routerLink]="['/entradas/crear']">
         + Crear Nueva Entrada

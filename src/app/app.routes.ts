@@ -33,6 +33,11 @@ export const routes: Routes = [
       { path: 'entradas/editar-entrada/:slug', 
         canActivate: [loggedGuard],
         loadComponent: () => import('./pages/public/editar-entrada/editar-entrada').then(m => m.EditarEntrada)
+       },
+       {
+        path: 'mi-perfil',
+        canActivate: [loggedGuard],
+        loadComponent: () => import('./pages/public/mi-perfil/mi-perfil').then(m => m.MiPerfil)
        }
     ]
   },

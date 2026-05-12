@@ -1,5 +1,5 @@
 // app.ts
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Auth } from './core/services/auth';
 
@@ -11,13 +11,11 @@ import { Auth } from './core/services/auth';
   styleUrl: './app.css'
 }) 
 
-export class App implements OnInit {
+export class App {
   protected readonly title = signal('blog-frontend');
   private auth = inject(Auth);
-
-  ngOnInit(): void {
-    if (this.auth.getToken()) {
-      this.auth.checkToken().subscribe();
-    }
-  }
 }
+
+
+
+

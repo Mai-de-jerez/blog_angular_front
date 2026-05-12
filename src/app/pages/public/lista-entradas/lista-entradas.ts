@@ -7,10 +7,11 @@ import { Auth } from '../../../core/services/auth';
 import { Pagina } from '../../../core/models/pagina';
 import { Paginador } from '../../../shared/components/paginador/paginador';
 import { Filtro } from '../../../shared/components/filtro/filtro';
+import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 
 @Component({
   selector: 'app-lista-entradas',
-  imports: [CommonModule, RouterLink, Paginador, Filtro ],
+  imports: [CommonModule, RouterLink, Paginador, Filtro, ToastLocal], 
   templateUrl: './lista-entradas.html',
   styleUrl: './lista-entradas.css',
   standalone: true

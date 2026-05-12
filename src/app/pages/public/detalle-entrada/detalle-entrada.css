@@ -16,11 +16,13 @@
 .post-card header h1 {
   font-size: 2.4rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #4b0082;
   line-height: 1.25;
   letter-spacing: -0.5px;
   font-family: 'Georgia', serif;
   border-bottom: none;
+  margin-bottom: 15px;
+  margin-top: 0;
 }
 
 .meta-data {
@@ -86,6 +88,8 @@
 .updated {
   color: #bbb;
   font-style: italic;
+  margin-left: auto;
+  align-self: flex-end;
 }
 
 .btn-volver {
@@ -118,17 +122,23 @@
   font-family: 'Georgia', serif;
 }
 
-/* Estilos para la información del autor */
 .author-info {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: space-between;
 }
 
+
+
 .autor-avatar {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #800080;
-}
+} 
+
+
+
+
+
