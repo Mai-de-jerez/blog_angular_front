@@ -19,9 +19,12 @@
       @for (entrada of entradas; track entrada.id) {
         <div class="entrada-card">
           <!-- Imagen del Post -->
-          @if (entrada.imagenUrl) {
+          @if (entrada.imagenUrl) { 
             <div class="thumb">
-              <img [src]="entrada.imagenUrl" [alt]="entrada.titulo" style="width: 200px; border-radius: 4px;">
+              <img 
+                [src]="'http://localhost:4200/Blog/api/media/' + entrada.imagenUrl" 
+                [alt]="entrada.titulo" 
+                class="thumb-img">
             </div>
           }
 

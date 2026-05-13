@@ -16,7 +16,10 @@
       </header> 
       @if (entrada.imagenUrl) {
         <div class="main-image">
-          <img [src]="entrada.imagenUrl" [alt]="entrada.titulo">
+          <img 
+                [src]="'http://localhost:4200/Blog/api/media/' + entrada.imagenUrl" 
+                [alt]="entrada.titulo" 
+                class="thumb-img">
         </div>
       }
       <section class="content">

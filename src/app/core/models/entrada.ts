@@ -3,7 +3,7 @@ export interface Entrada {
   titulo: string;
   slug?: string;
   contenido: string;
-  imagenUrl: string | null; 
+  imagenUrl: string | File | null;
   autorId?: number;
   nombreAutor?: string;
   fotoAutor?: string;

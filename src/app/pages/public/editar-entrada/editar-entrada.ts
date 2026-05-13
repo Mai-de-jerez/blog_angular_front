@@ -50,15 +50,25 @@ export class EditarEntrada implements OnInit {
           });
       }
   }
-
+  // ---  FUNCIONALIDAD DE ACTUALIZACIÓN ---
   actualizar(datosEditados: Partial<Entrada>): void {
     const entradaActual = this.entradaCargada();
 
     if (entradaActual?.id) {
-      this.entradaService.updateEntrada(entradaActual.id, datosEditados).subscribe({
+      const fd = new FormData();
+
+      fd.append('titulo', datosEditados.titulo || '');
+      fd.append('contenido', datosEditados.contenido || '');
+      
+      if (datosEditados.categoriaId) {
+        fd.append('categoriaId', datosEditados.categoriaId.toString());
+      }
+      if (datosEditados.imagenUrl instanceof File) {
+        fd.append('imagen', datosEditados.imagenUrl, datosEditados.imagenUrl.name);
+      }
+      this.entradaService.updateEntrada(entradaActual.id, fd).subscribe({
         next: (entradaActualizada) => {
           this.toastService.mostrar('¡Entrada actualizada con éxito!', 'success');
-          // Redirigimos al detalle con el nuevo slug por si ha cambiado el título
           this.router.navigate(['/entradas', entradaActualizada.slug]);
         },
         error: (err) => {

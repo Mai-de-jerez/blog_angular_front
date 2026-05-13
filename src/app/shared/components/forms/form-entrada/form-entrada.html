@@ -22,10 +22,16 @@
       </ng-select>     
     </div>
 
-    <!-- URL de la imagen -->
+    <!-- Imagen -->
     <div class="form-group">
-      <label>URL de la imagen</label>
-      <input type="text" [(ngModel)]="entrada.imagenUrl" name="imagenUrl" placeholder="imagen-post.jpg">
+      <label>Imagen de la entrada</label>
+        <input 
+          type="file" 
+          (change)="onFileSelected($event)" 
+          name="imagen" 
+          accept="image/*"
+          class="file-input"
+        >
     </div>
 
     <!-- Contenido -->

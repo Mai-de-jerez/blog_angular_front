@@ -70,6 +70,14 @@ export class FormEntrada implements OnInit {
     return result;
   }
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.entrada.imagenUrl = file;
+      this.cdr.detectChanges();
+    }
+  }
+
   onCancel() {
     if (this.entrada?.slug) {
       this.router.navigate(['/entradas', this.entrada.slug]);

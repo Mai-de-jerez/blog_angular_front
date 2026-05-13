@@ -60,7 +60,11 @@ export const routes: Routes = [
     children: [      
       { path: '', 
         loadComponent: () => import('./pages/admin/dashboard/dashboard').then(m => m.Dashboard)
-     },
+      },
+      {
+        path: 'usuarios',
+        loadComponent: () => import('./pages/admin/lista-usuarios/lista-usuarios').then(m => m.ListaUsuarios)
+      },
     ]
   },
 

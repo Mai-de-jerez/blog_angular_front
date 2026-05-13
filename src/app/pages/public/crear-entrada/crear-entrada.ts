@@ -31,17 +31,27 @@ export class CrearEntrada {
   };
 
   crear(datos: Partial<Entrada>): void {
-    // por si le caduca el token mientras escribe al hijo de la gran puta
-      if (!this.authService.isLogged()) {
+    if (!this.authService.isLogged()) {
       this.toastService.mostrar('Tu sesión ha expirado', 'error');
       this.router.navigate(['/login']);
       return;
     }
-    // Castamos a Entrada porque el servicio espera el modelo completo
-    this.entradaService.crearEntrada(datos as Entrada).subscribe({
+    const fd = new FormData();
+    
+    fd.append('titulo', datos.titulo || '');
+    fd.append('contenido', datos.contenido || '');
+    
+    if (datos.categoriaId) {
+      fd.append('categoriaId', datos.categoriaId.toString());
+    }
+
+    if (datos.imagenUrl instanceof File) {
+      fd.append('imagen', datos.imagenUrl, datos.imagenUrl.name);
+    }
+
+    this.entradaService.crearEntrada(fd).subscribe({
       next: (res) => {
         this.toastService.mostrar('¡Entrada creada con éxito!', 'success');
-        // Redirigimos al detalle de la nueva entrada usando el slug que nos devuelva el backend
         this.router.navigate(['/entradas', res.slug]);
       },
       error: (err) => {
