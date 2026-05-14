@@ -31,16 +31,6 @@ export class EntradaService {
     return this.http.get<Entrada>(`${this.apiUrl}/slug/${slug}`);
   }
 
-  // Para el @POST
-  // crearEntrada(entrada: Partial<Entrada>): Observable<Entrada> {
-  //   return this.http.post<Entrada>(this.apiUrl, entrada);
-  // }
-
-  // Para el @PUT (El que necesitas ahora)
-  // updateEntrada(id: number, entrada: Partial<Entrada>): Observable<Entrada> {
-  //   return this.http.put<Entrada>(`${this.apiUrl}/${id}`, entrada);
-  // }
-
   // Métodos con FormData para manejar archivos (imagen)
   crearEntrada(formData: FormData): Observable<Entrada> {
     return this.http.post<Entrada>(this.apiUrl, formData);

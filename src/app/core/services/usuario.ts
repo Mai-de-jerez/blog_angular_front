@@ -10,9 +10,11 @@ import { Usuario } from '../models/usuario';
 export class UsuarioService {
 
   private url = 'http://localhost:8080/Blog/api/usuarios';
+  private perfilUrl = 'http://localhost:8080/Blog/api/perfil';
 
   constructor(private http: HttpClient) {}
 
+  // Administración de usuarios
   listar(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.url);
   }
@@ -31,5 +33,18 @@ export class UsuarioService {
 
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  // Perfil propio
+  verPerfil(): Observable<Usuario> {
+    return this.http.get<Usuario>(this.perfilUrl);
+  }
+
+  editarPerfil(form: FormData): Observable<Usuario> {
+    return this.http.put<Usuario>(this.perfilUrl, form);
+  }
+
+  borrarCuenta(): Observable<void> {
+    return this.http.delete<void>(this.perfilUrl);
   }
 }

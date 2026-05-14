@@ -45,12 +45,12 @@
         </div>
       }
     </div>
+      <app-paginador 
+        [totalPaginas]="pagina!.totalPaginas"  
+        [paginaActual]="paginaActual"
+        (pageChanged)="onPage($event)">
+    </app-paginador>
   }
-  <app-paginador 
-  [totalPaginas]="pagina?.totalPaginas ?? 0"
-  [paginaActual]="paginaActual"
-  (pageChanged)="onPage($event)">
-</app-paginador>
 </div>
 
 

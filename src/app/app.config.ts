@@ -14,7 +14,6 @@ export const appConfig: ApplicationConfig = {
 
     // El cliente HTTP con tus interceptores (token y errores)
     provideHttpClient(
-      withFetch(),
       withInterceptors([authInterceptor, errorInterceptor])
     ),
 
