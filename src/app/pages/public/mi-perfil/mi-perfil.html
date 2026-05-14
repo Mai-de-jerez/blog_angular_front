@@ -6,12 +6,12 @@
       <div class="perfil-header">
         <div class="avatar-wrap">
           <img *ngIf="u.foto"
-               [src]="'http://localhost:4200/Blog/api/media/' + u.foto"
+               [src]="mediaUrl + u.foto"
                class="avatar"
                alt="foto de perfil">
           <div *ngIf="!u.foto" class="avatar-placeholder">
             {{ u.nombre.charAt(0).toUpperCase() }}
-          </div>
+          </div> 
         </div>
         <div class="perfil-nombre">
           <p class="username">@{{ u.username }}</p>

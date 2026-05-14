@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { Component, signal , EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +23,6 @@ interface CategoriaSelectGroup {
 export class FormEntrada implements OnInit {
   private categoriaService = inject(CategoriaService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
 
   private _entrada: Partial<Entrada> = {};
 
@@ -32,19 +31,16 @@ export class FormEntrada implements OnInit {
       ...val,
       categoriaId: val.categoriaId ? Number(val.categoriaId) : undefined
     };
-    this.cdr.detectChanges();
   }
   get entrada() { return this._entrada; }
 
   @Output() save = new EventEmitter<Partial<Entrada>>();
-
-  categoriasParaSelect: CategoriaSelectGroup[] = [];
+  categoriasParaSelect = signal<CategoriaSelectGroup[]>([]);
 
   ngOnInit(): void {
     this.categoriaService.getCategorias().subscribe({
       next: (categorias: Categoria[]) => {
-        this.categoriasParaSelect = this.formatearParaSelect(categorias);
-        this.cdr.detectChanges();
+        this.categoriasParaSelect.set(this.formatearParaSelect(categorias));
       },
       error: (err) => console.error('Error al cargar categorías:', err)
     });
@@ -74,7 +70,6 @@ export class FormEntrada implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       this.entrada.imagenUrl = file;
-      this.cdr.detectChanges();
     }
   }
 

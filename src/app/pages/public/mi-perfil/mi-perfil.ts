@@ -3,6 +3,7 @@ import { UsuarioService } from '../../../core/services/usuario';
 import { Usuario } from '../../../core/models/usuario';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -11,6 +12,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './mi-perfil.css',
 })
 export class MiPerfil implements OnInit {
+
+  public readonly mediaUrl = environment.mediaUrl;
 
   usuario = signal<Usuario | null>(null);
   cargando = signal(true);
@@ -25,7 +28,6 @@ export class MiPerfil implements OnInit {
         this.cargando.set(false);
       },
       error: () => {
-        this.error.set('Error al cargar el perfil');
         this.cargando.set(false);
       }
     });

@@ -4,6 +4,7 @@ import { Observable, tap, of } from 'rxjs';
 import { AuthResponse } from '../models/auth-response'; 
 import { Router } from '@angular/router';
 import { Toast } from './toast';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class Auth {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly toastService = inject(Toast); 
-  private readonly URL_API = 'http://localhost:8080/Blog/api/auth'; 
+  private readonly URL_API = `${environment.apiUrl}/auth`;
 
   // métodos para manejar el token en sessionStorage
   private getTokenFromStorage(): string | null {

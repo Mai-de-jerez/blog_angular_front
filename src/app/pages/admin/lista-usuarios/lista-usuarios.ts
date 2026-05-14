@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UsuarioService } from '../../../core/services/usuario';
 import { Usuario } from '../../../core/models/usuario';
 import { CommonModule } from '@angular/common';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -13,23 +14,24 @@ import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 
 export class ListaUsuarios implements OnInit {
 
+  // inyección de servicios y variables
+  public mediaUrl = environment.mediaUrl; 
   public usuarioService = inject(UsuarioService);
-  private cdr = inject(ChangeDetectorRef);
-  usuarios: Usuario[] = [];
-  cargando = true;
-  error = '';
+
+  // variables para datos, estado y errores
+  usuarios = signal<Usuario[]>([]);
+  cargando = signal(true);
+  error = signal('');
  
   ngOnInit(): void {
     this.usuarioService.listar().subscribe({
       next: data => {
-        this.usuarios = data;
-        this.cargando = false;
-        this.cdr.detectChanges();
+        this.usuarios.set(data);
+        this.cargando.set(false);
       },
       error: () => {
-        this.error = 'Error al cargar usuarios';
-        this.cargando = false;
-        this.cdr.detectChanges();
+        this.error.set('Error al cargar usuarios');
+        this.cargando.set(false);
       }
     });
   }

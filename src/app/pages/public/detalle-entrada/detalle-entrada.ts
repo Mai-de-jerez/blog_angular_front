@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule, DatePipe, Location } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { EntradaService } from '../../../core/services/entrada';
 import { Entrada } from '../../../core/models/entrada';
 import { Auth } from '../../../core/services/auth';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-detalle-entrada',
@@ -16,52 +17,49 @@ import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 
 export class DetalleEntrada implements OnInit {
 
+  // Inyectamos los servicios necesarios 
   private authService = inject(Auth); 
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private entradaService = inject(EntradaService);
+  public readonly mediaUrl = environment.mediaUrl;
 
-  entrada: Entrada | null = null;
-  cargando: boolean = true;
-  error: string = '';
 
-  isLoggedIn: boolean = false;
+  // variables para manejar el estado
+  entrada = signal<Entrada | null>(null);
+  cargando = signal(true);
+  isLoggedIn = signal(false);
 
-  constructor(
-    private route: ActivatedRoute,
-    private entradaService: EntradaService,
-    private cdr: ChangeDetectorRef
-  ) {}
-
+  // Para volver a la página anterior
   irAtras(): void {
     this.router.navigate(['/entradas']);
   }
 
+  // Para ir a la página de edición
   irAEditar(): void {
-    if (this.entrada) {
-      this.router.navigate(['/entradas/editar-entrada', this.entrada.slug]);
+    const e = this.entrada();
+    if (e) {
+      this.router.navigate(['/entradas/editar-entrada', e.slug]);
     }
   }
 
+  // método para cargar la entrada al iniciar el componente
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLogged();
-
+    this.isLoggedIn.set(this.authService.isLogged());
     const slug = this.route.snapshot.paramMap.get('slug');
-      if (slug) {
-        this.entradaService.getEntradaBySlug(slug).subscribe({
-          next: (data) => {
-            this.entrada = data;
-            this.cargando = false;
-            this.cdr.detectChanges(); 
-          },
-          error: (err) => {
-            this.error = 'Entrada no encontrada';
-            this.cargando = false;
-            this.cdr.detectChanges();
-          }
-        });
-      } else {
-        this.error = 'URL no válida';
-        this.cargando = false;
-      }
+    if (slug) {
+      this.entradaService.getEntradaBySlug(slug).subscribe({
+        next: (data) => {
+          this.entrada.set(data);
+          this.cargando.set(false);
+        },
+        error: () => {
+          this.cargando.set(false);
+        }
+      });
+    } else {
+      this.cargando.set(false);
+    }
   }
 }
 

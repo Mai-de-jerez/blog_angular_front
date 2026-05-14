@@ -1,10 +1,8 @@
 <div class="detalle-container">
   <app-toast-local></app-toast-local>
-  @if (cargando) {
+  @if (cargando()) {
     <div class="spinner">Cargando la entrada...</div>
-  } @else if (error) {
-    <div class="error-msg">{{ error }}</div>
-  } @else if (entrada) {
+  } @else if (entrada(); as entrada) {
     <article class="post-card">
       <header>
         <h1>{{ entrada.titulo }}</h1>
@@ -17,7 +15,7 @@
       @if (entrada.imagenUrl) {
         <div class="main-image">
           <img 
-                [src]="'http://localhost:4200/Blog/api/media/' + entrada.imagenUrl" 
+                [src]="mediaUrl + entrada.imagenUrl"
                 [alt]="entrada.titulo" 
                 class="thumb-img">
         </div>
@@ -28,9 +26,9 @@
       <footer class="tech-info">
         <hr>
           <div class="author-info">
-            <img [src]="'http://localhost:4200/Blog/api/media/' + entrada.fotoAutor" 
-                [alt]="entrada.nombreAutor"
-                class="autor-avatar"> 
+            <img [src]="mediaUrl + entrada.fotoAutor" 
+                 [alt]="entrada.nombreAutor"
+                 class="autor-avatar"> 
             <small>
               Categoría: {{ entrada.nombreCategoriaPadre ? entrada.nombreCategoriaPadre + ', ' + entrada.nombreCategoria : entrada.nombreCategoria }} |
               Autor: {{ entrada.nombreAutor }}
@@ -42,7 +40,7 @@
             }       
           </div>        
         <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
-        @if (isLoggedIn) {
+        @if (isLoggedIn()) {
           <button (click)="irAEditar()" class="btn-volver">
             ✎ Editar Entrada
           </button>

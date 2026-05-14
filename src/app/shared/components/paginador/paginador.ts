@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -39,9 +39,9 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class Paginador {
-  @Input() totalPaginas: number = 0;
-  @Input() paginaActual: number = 0;
-  @Output() pageChanged = new EventEmitter<number>();
+  @Input() totalPaginas: number = 0; // para comunicar el total de páginas al componente
+  @Input() paginaActual: number = 0; // para comunicar la página actual al componente
+  @Output() pageChanged = new EventEmitter<number>(); // para emitir el número de página seleccionado al componente padre
 
   // Calcula las páginas visibles para mostrar en el paginador
   get paginasVisibles(): (number | string)[] {
@@ -74,6 +74,7 @@ export class Paginador {
     return paginas;
   }
 
+  // Maneja el cambio de página cuando el usuario hace clic en un número de página o en los botones de navegación
   cambiar(page: any): void {
     const p = Number(page);
     if (!isNaN(p) && p >= 0 && p < this.totalPaginas && p !== this.paginaActual) {

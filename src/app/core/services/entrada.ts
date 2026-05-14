@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Entrada } from '../models/entrada';
 import { Pagina } from '../models/pagina';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { Pagina } from '../models/pagina';
 export class EntradaService {
   
   private readonly http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/Blog/api/entradas';
+  private readonly apiUrl = `${environment.apiUrl}/entradas`;
 
   getEntradas(titulo?: string, categoria?: string, autor?: string, page: number = 0): Observable<Pagina<Entrada>> {
     let params = new HttpParams().set('page', page);

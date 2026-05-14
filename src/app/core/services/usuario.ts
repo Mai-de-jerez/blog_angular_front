@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,9 @@ import { Usuario } from '../models/usuario';
 
 export class UsuarioService {
 
-  private url = 'http://localhost:8080/Blog/api/usuarios';
-  private perfilUrl = 'http://localhost:8080/Blog/api/perfil';
-
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly url = `${environment.apiUrl}/usuarios`; 
+  private readonly perfilUrl = `${environment.apiUrl}/perfil`;
 
   // Administración de usuarios
   listar(): Observable<Usuario[]> {

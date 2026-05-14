@@ -3,10 +3,10 @@
     <h1>Usuarios</h1><app-toast-local></app-toast-local>
   </div>
 
-  @if (cargando) {
+  @if (cargando()) {
     <p>Cargando usuarios...</p>
-  } @else if (error) {
-    <p>{{ error }}</p>
+  } @else if (error()) {
+    <p>{{ error() }}</p>
   } @else {
     <table>
       <thead>
@@ -21,13 +21,18 @@
         </tr>
       </thead>
       <tbody>
-       @for (u of usuarios; track u.id) {
+       @for (u of usuarios(); track u.id) {
         <tr>
             <td>{{ u.id }}</td>
-            <td><img [src]="u.foto ? 'http://localhost:4200/Blog/api/media/' + u.foto : 'assets/sin-foto.png'" [alt]="u.username" class="autor-avatar"></td>
+            <td>
+              <img 
+                [src]="u.foto ? mediaUrl + u.foto : 'assets/sin-foto.png'" 
+                [alt]="u.username" 
+                class="autor-avatar">
+            </td>
             <td>{{ u.nombre }}</td>
             <td>{{ u.apellidos }}</td>   
-            <td>{{ u.email }}</td>
+            <td>{{ u.email }}</td> 
             <td>{{ u.rol }}</td>
             <td>
               <button class="btn-editar">Editar</button>

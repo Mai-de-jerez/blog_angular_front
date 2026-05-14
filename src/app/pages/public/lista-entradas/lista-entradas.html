@@ -10,19 +10,19 @@
 
   <app-filtro (filtroChanged)="onFiltro($event)"></app-filtro>
   
-  @if (cargando) {
+  @if (cargando()) {
     <p>Cargando entradas...</p>
-  } @else if (error) {
-    <p>{{ error }}</p>
+  } @else if (error()) {
+    <p>{{ error() }}</p>
   } @else {
     <div class="lista-grid">
-      @for (entrada of entradas; track entrada.id) {
+      @for (entrada of entradas(); track entrada.id) {
         <div class="entrada-card">
           <!-- Imagen del Post -->
           @if (entrada.imagenUrl) { 
             <div class="thumb">
               <img 
-                [src]="'http://localhost:4200/Blog/api/media/' + entrada.imagenUrl" 
+                [src]="mediaUrl + entrada.imagenUrl"
                 [alt]="entrada.titulo" 
                 class="thumb-img">
             </div>
@@ -46,8 +46,8 @@
       }
     </div>
       <app-paginador 
-        [totalPaginas]="pagina!.totalPaginas"  
-        [paginaActual]="paginaActual"
+        [totalPaginas]="pagina()!.totalPaginas"  
+        [paginaActual]="paginaActual()"
         (pageChanged)="onPage($event)">
     </app-paginador>
   }
