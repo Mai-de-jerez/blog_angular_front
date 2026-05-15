@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:4200/Blog/api',
-  mediaUrl: 'http://localhost:4200/Blog/api/media/'
+  production: true,
+  apiUrl: '/Blog/api',
+  mediaUrl: '/Blog/api/media/'
 };

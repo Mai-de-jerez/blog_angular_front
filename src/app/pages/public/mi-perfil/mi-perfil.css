@@ -7,14 +7,26 @@
 
 .perfil-card {
   background: #fff;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0 40px;
+  align-items: start;
 }
 
-.perfil-header {
-  background: #1a1a1a;
-  padding: 40px 40px 32px;
+.perfil-izq {
+  padding: 40px 0 40px 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 12px;
+}
+
+.username {
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
 }
 
 .avatar {
@@ -39,22 +51,6 @@
   color: #4b0082;
 }
 
-.perfil-nombre h1 {
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 6px;
-  font-family: 'Georgia', serif;
-}
-
-.perfil-nombre .username {
-  font-size: 0.85rem;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin: 0 0 10px;
-}
-
 .rol-badge {
   display: inline-block;
   padding: 4px 14px;
@@ -65,10 +61,6 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   border-radius: 2px;
-}
-
-.perfil-body {
-  padding: 36px 40px;
 }
 
 .seccion-titulo {
@@ -108,6 +100,10 @@
   color: #ccc;
   font-style: italic;
   font-size: 0.9rem;
+}
+
+.campo .rol-badge {
+  color: #e0d0f5;
 }
 
 .acciones {

@@ -1,71 +1,75 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { EntradaService } from '../../../core/services/entrada';
-import { Entrada } from '../../../core/models/entrada';
 import { Auth } from '../../../core/services/auth';
-import { Pagina } from '../../../core/models/pagina';
 import { Paginador } from '../../../shared/components/paginador/paginador';
-import { Filtro } from '../../../shared/components/filtro/filtro';
+import { FiltroPublico } from '../../../shared/components/filtro-publico/filtro-publico';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-lista-entradas',
-  imports: [CommonModule, RouterLink, Paginador, Filtro, ToastLocal], 
+  imports: [CommonModule, Paginador, FiltroPublico, ToastLocal],
   templateUrl: './lista-entradas.html',
   styleUrl: './lista-entradas.css',
   standalone: true
 })
-
 export class ListaEntradas implements OnInit {
-  // inyección de servicios
-  public authService = inject(Auth);
-  public entradaService = inject(EntradaService);
-  public readonly mediaUrl = environment.mediaUrl;
 
-  // variables para datos, estado y errores
-  pagina = signal<Pagina<Entrada> | null>(null);
-  entradas = signal<Entrada[]>([]);
+  // Inyección de servicios
+  private authService = inject(Auth);
+  private entradaService = inject(EntradaService);
+  readonly mediaUrl = environment.mediaUrl;
+  private router = inject(Router);
+
+  // Estado de carga
   cargando = signal(true);
-  error = signal(''); 
-  titulo = signal('');
-  categoria = signal('');
-  autor = signal('');
-  paginaActual = signal(0);
 
-  // método para cargar las entradas con filtros y paginación
+  // Getters para el template
+  get isLogged() { return this.authService.isLogged(); }
+  get pagina() { return this.entradaService.pagina; }
+  get paginaActual() { return this.entradaService.paginaActual; }
+
+  // Ciclo de vida
+  ngOnInit(): void {
+    this.cargar();
+  }
+
+  // Métodos
   cargar(): void {
     this.cargando.set(true);
-    this.entradaService.getEntradas(this.titulo(), this.categoria(), this.autor(), this.paginaActual()).subscribe({
+    this.entradaService.getEntradas().subscribe({
       next: (data) => {
-        this.pagina.set(data);
-        this.entradas.set(data.contenido);
-        this.cargando.set(false); 
+        this.entradaService.pagina.set(data);
+        this.cargando.set(false);
       },
-      error: (err) => {
-        this.error.set('Error al cargar las entradas');
+      error: () => {
         this.cargando.set(false);
       }
     });
   }
 
-  ngOnInit(): void {
-    this.cargar();
-  }
-
-
-  onFiltro(filtros: { titulo: string, categoria: string, autor: string }): void {
-    this.titulo.set(filtros.titulo);
-    this.categoria.set(filtros.categoria);
-    this.autor.set(filtros.autor);
-    this.paginaActual.set(0); 
+  onFiltro(filtros: any): void {
+    this.entradaService.titulo.set(filtros.c1);    
+    this.entradaService.categoria.set(filtros.c2); 
+    this.entradaService.autor.set(filtros.c3);         
+    this.entradaService.paginaActual.set(0);
     this.cargar();
   }
 
   onPage(page: number): void {
-    this.paginaActual.set(page);
+    this.entradaService.paginaActual.set(page);
     this.cargar();
   }
+
+  irACrear(): void {
+  this.router.navigate(['/entradas/crear']);
+}
+
+  irADetalle(slug: string): void {
+    this.router.navigate(['/entradas', slug]);
+  }
+
 }
 

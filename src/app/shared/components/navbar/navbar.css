@@ -4,10 +4,8 @@
   align-items: center;
   padding: 1rem 2rem;
   background-color: #1a1a1a;
-  border-bottom: 2px solid #800080; /* Tu púrpura */
+  border-bottom: 2px solid #800080; 
 }
-
-
 
 .navbar-brand {
   font-size: 1.5rem;
@@ -15,27 +13,32 @@
   color: #800080;
   text-decoration: none;
   white-space: nowrap; 
-  margin-right: 30px; /* Espacio entre el logo y los enlaces */
+  margin-right: 30px; 
 }
 
 .navbar-nav {
   display: flex;
   list-style: none;
   gap: 20px;
-  width: 100%; /* Ocupa el espacio restante */
+  width: 100%;
   align-items: center;
 }
 
 .login-item {
-  margin-left: auto; /* Empuja este elemento y todo lo que le sigue a la derecha */
+  margin-left: auto; 
 }
 
 .nav-link {
   color: white;
 }
 
-/* Se ilumina al pasar el ratón o cuando estás en esa página */
 .nav-link:hover, .active-link {
   color: #bc13fe;
   font-weight: bold;
+}
+
+.user-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }

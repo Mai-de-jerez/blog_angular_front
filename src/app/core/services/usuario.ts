@@ -1,7 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
+import { Pagina } from '../models/pagina';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -14,9 +15,26 @@ export class UsuarioService {
   private readonly url = `${environment.apiUrl}/usuarios`; 
   private readonly perfilUrl = `${environment.apiUrl}/perfil`;
 
+  // --- ESTADO DE FILTROS Y PAGINACIÓN ---
+  idFiltro = signal<number | null>(null);
+  usernameFiltro = signal('');
+  nombreFiltro = signal('');
+  apellidosFiltro = signal('');  
+  paginaActual = signal(0);
+  usuariosPagina = signal<Pagina<Usuario> | null>(null);
+
   // Administración de usuarios
-  listar(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.url);
+  listar(): Observable<Pagina<Usuario>> {
+    // Configuramos los parámetros de búsqueda
+    let params = new HttpParams()
+      .set('page', this.paginaActual())
+      .set('size', '12'); 
+
+    if (this.idFiltro())       params = params.set('id', this.idFiltro()!.toString());
+    if (this.usernameFiltro()) params = params.set('username', this.usernameFiltro());
+    if (this.nombreFiltro())   params = params.set('nombre', this.nombreFiltro());
+    if (this.apellidosFiltro()) params = params.set('apellidos', this.apellidosFiltro());
+    return this.http.get<Pagina<Usuario>>(this.url, { params });
   }
 
   buscar(id: number): Observable<Usuario> {

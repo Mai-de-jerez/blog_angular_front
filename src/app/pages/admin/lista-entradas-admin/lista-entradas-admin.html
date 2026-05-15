@@ -1,0 +1,56 @@
+<div class="list-container">
+  <div class="header-lista">
+    <h1>Entradas</h1>
+    <app-toast-local></app-toast-local>
+  </div>
+  <app-filtro 
+    labelId="ID..." 
+    label1="Título de la entrada" 
+    label2="Categoría" 
+    label3="Nombre del Autor"
+    (alFiltrar)="onFiltro($event)">
+  </app-filtro>
+  @if (cargando()) {
+    <p>Cargando entradas...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Imagen</th>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Autor</th>
+          <th>Extracto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (e of pagina()?.contenido; track e.id) {
+          <tr>
+            <td>{{ e.id }}</td>
+            <td>
+              <img 
+                [src]="e.imagenUrl ? mediaUrl + e.imagenUrl : 'assets/sin-foto.png'"
+                [alt]="e.titulo"
+                class="autor-avatar">
+            </td>
+            <td>{{ e.titulo }}</td>
+            <td>{{ e.nombreCategoriaPadre ? e.nombreCategoriaPadre + ', ' + e.nombreCategoria : e.nombreCategoria }}</td>
+            <td>{{ e.nombreAutor }}</td>
+            <td>{{ e.contenido.substring(0, 10) }}...</td>
+            <td>
+              <button class="btn-editar">Editar</button>
+              <button class="btn-eliminar">Eliminar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  <app-paginador 
+    [totalPaginas]="pagina()!.totalPaginas"  
+    [paginaActual]="paginaActual()"
+    (pageChanged)="onPage($event)">
+  </app-paginador>
+</div>

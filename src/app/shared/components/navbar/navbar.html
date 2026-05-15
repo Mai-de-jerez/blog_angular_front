@@ -1,4 +1,3 @@
-<!-- navbar.html -->
 <nav class="navbar">
   <a routerLink="/" class="navbar-brand">MAI-BLOG</a>
   <ul class="navbar-nav">
@@ -12,12 +11,12 @@
       <li class="nav-item login-item">
         <a routerLink="/login" routerLinkActive="active-link" class="nav-link">Login</a>
       </li> 
-    } 
-    @else {
-      <li class="nav-item login-item"> 
+    } @else {
+      <li class="nav-item login-item user-group">
+        @if (authService.isAdmin()) {
+          <a routerLink="/admin" routerLinkActive="active-link" class="nav-link">Admin</a>
+        }
         <a routerLink="/mi-perfil" routerLinkActive="active-link" class="nav-link">Mi Perfil</a>
-      </li> 
-      <li class="nav-item login-item">
         <a (click)="onLogout()" class="nav-link" style="cursor: pointer;">Logout</a>
       </li>
     }

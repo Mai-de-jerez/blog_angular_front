@@ -2,11 +2,15 @@
   <div class="header-lista">
     <h1>Usuarios</h1><app-toast-local></app-toast-local>
   </div>
-
+  <app-filtro 
+      labelId="ID..." 
+      label1="Username" 
+      label2="Nombre" 
+      label3="Apellidos"
+      (alFiltrar)="onFiltro($event)">
+  </app-filtro>
   @if (cargando()) {
     <p>Cargando usuarios...</p>
-  } @else if (error()) {
-    <p>{{ error() }}</p>
   } @else {
     <table>
       <thead>
@@ -21,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-       @for (u of usuarios(); track u.id) {
+       @for (u of pagina()?.contenido; track u.id) {
         <tr>
             <td>{{ u.id }}</td>
             <td>
@@ -35,7 +39,7 @@
             <td>{{ u.email }}</td> 
             <td>{{ u.rol }}</td>
             <td>
-              <button class="btn-editar">Editar</button>
+              <button (click)="irAEditar(u.id)" class="btn-editar">Editar</button>
               <button class="btn-eliminar">Eliminar</button>
             </td>
         </tr>
@@ -43,4 +47,9 @@
       </tbody>
     </table>
   }
+  <app-paginador 
+    [totalPaginas]="pagina()!.totalPaginas"  
+    [paginaActual]="paginaActual()"
+    (pageChanged)="onPage($event)">
+  </app-paginador>
 </div>

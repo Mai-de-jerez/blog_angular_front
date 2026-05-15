@@ -1,7 +1,7 @@
 export interface Entrada {
   id?: number;
   titulo: string;
-  slug?: string;
+  slug: string;
   contenido: string;
   imagenUrl: string | File | null;
   autorId?: number;

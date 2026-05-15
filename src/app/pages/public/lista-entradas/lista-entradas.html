@@ -1,22 +1,25 @@
 <div class="list-container">
   <div class="header-lista">
-    <h1>Blog</h1><app-toast-local></app-toast-local>     
-    @if (authService.isLogged()) {
-      <button class="btn-publicar" [routerLink]="['/entradas/crear']">
+    <h1>Blog</h1>
+    <app-toast-local></app-toast-local> 
+       
+    @if (isLogged) {
+      <button class="btn-publicar" (click)="irACrear()">
         + Crear Nueva Entrada
       </button>
     }
   </div>
-
-  <app-filtro (filtroChanged)="onFiltro($event)"></app-filtro>
-  
+  <app-filtro-publico 
+    label1="Título..." 
+    label2="Categoría..." 
+    label3="Autor..."
+    (alFiltrar)="onFiltro($event)">
+  </app-filtro-publico>
   @if (cargando()) {
     <p>Cargando entradas...</p>
-  } @else if (error()) {
-    <p>{{ error() }}</p>
   } @else {
     <div class="lista-grid">
-      @for (entrada of entradas(); track entrada.id) {
+      @for (entrada of pagina()?.contenido; track entrada.id) {
         <div class="entrada-card">
           <!-- Imagen del Post -->
           @if (entrada.imagenUrl) { 
@@ -39,16 +42,15 @@
             <p class="resumen">
               {{ entrada.contenido.substring(0, 150) }}...
             </p>
-
-            <a [routerLink]="['/entradas', entrada.slug]">Leer más</a>
+            <button class="leer-mas" (click)="irADetalle(entrada.slug)">Leer más</button>
           </div>
         </div>
       }
     </div>
-      <app-paginador 
-        [totalPaginas]="pagina()!.totalPaginas"  
-        [paginaActual]="paginaActual()"
-        (pageChanged)="onPage($event)">
+    <app-paginador 
+      [totalPaginas]="pagina()!.totalPaginas"  
+      [paginaActual]="paginaActual()"
+      (pageChanged)="onPage($event)">
     </app-paginador>
   }
 </div>

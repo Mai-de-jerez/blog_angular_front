@@ -1,3 +1,9 @@
 .about-container {
     margin: 20px;
 }
+
+h1 {
+  letter-spacing: -1px;
+  color: #4b0082;
+  font-family: 'Georgia', serif;
+}

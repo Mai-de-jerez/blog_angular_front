@@ -1,6 +1,6 @@
 /// navbar.component.ts
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 
 @Component({
@@ -14,7 +14,6 @@ import { Auth } from '../../../core/services/auth';
 export class Navbar {
   // Inyectamos el servicio para saber si estamos logueados
   public authService = inject(Auth);
-  private router = inject(Router);
 
   onLogout() {
     this.authService.logout(); 
