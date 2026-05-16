@@ -1,166 +1,51 @@
-<section class="comentarios-section">
-  <h3 class="comentarios-titulo">Comentarios</h3>
+<section class="comentarios">
 
-  @if (comentarioService.cargando()) {
-    <p class="cargando">Cargando comentarios...</p>
+  <h2 class="comentarios__titulo">
+    Comentarios
+    @if (totalElementos() > 0) {
+      <span class="comentarios__total">({{ totalElementos() }})</span>
+    }
+  </h2>
+
+  <!-- FORMULARIO NUEVO COMENTARIO -->
+  @if (auth.isLogged()) {
+    <div class="comentarios__form">
+      <textarea
+        class="comentarios__textarea"
+        [ngModel]="textoNuevo()"
+        (ngModelChange)="textoNuevo.set($event)"
+        placeholder="Escribe un comentario..."
+        rows="4"
+      ></textarea>
+      <button class="btn" (click)="enviar()" [disabled]="enviando() || !textoNuevo().trim()">
+        {{ enviando() ? 'Enviando...' : 'Comentar' }}
+      </button>
+    </div>
   } @else {
-
-    <!-- FORM NUEVO COMENTARIO -->
-    @if (isLoggedIn) {
-      <div class="nuevo-comentario">
-        <h4>Añadir comentario</h4>
-        <textarea [ngModel]="comentarioService.textoNuevo()"
-                  (ngModelChange)="comentarioService.textoNuevo.set($event)"
-                  placeholder="Escribe tu comentario..."
-                  rows="4"></textarea>
-        <button (click)="enviarComentario()"
-                [disabled]="comentarioService.enviando() || !comentarioService.textoNuevo().trim()">
-          {{ comentarioService.enviando() ? 'Enviando...' : 'Publicar comentario' }}
-        </button>
-      </div>
-    } @else {
-      <p class="login-aviso"><a routerLink="/login">Inicia sesión</a> para comentar.</p>
-    }
-
-    @if (listaActual.length === 0 && !padreActual) {
-      <p class="sin-comentarios">Sé el primero en comentar.</p>
-    } @else {
-
-      <!-- SI HAY PADRE ACTIVO, LO MOSTRAMOS ENCIMA CON BOTON VOLVER -->
-      @if (padreActual) {
-        <div class="comentario padre-activo">
-          <button (click)="volverARaiz()" class="btn-volver-raiz">← Volver a todos los comentarios</button>
-          <div class="comentario-header">
-            @if (padreActual.fotoAutor) {
-              <img [src]="mediaUrl + padreActual.fotoAutor"
-                   [alt]="padreActual.usernameAutor"
-                   class="avatar">
-            } @else {
-              <div class="avatar-placeholder">{{ padreActual.usernameAutor?.charAt(0) }}</div>
-            }
-            <div class="comentario-meta">
-              <strong>{{ padreActual.usernameAutor }}</strong>
-              <span class="fecha">{{ padreActual.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-          </div>
-
-          @if (comentarioService.editandoId() === padreActual.id) {
-            <div class="edicion-form">
-              <textarea [ngModel]="comentarioService.textoEditando()"
-                        (ngModelChange)="comentarioService.textoEditando.set($event)"
-                        rows="3"></textarea>
-              <div class="form-acciones">
-                <button (click)="guardarEdicion(padreActual.id!)"
-                        [disabled]="comentarioService.enviando()">Guardar</button>
-                <button (click)="cancelarEdicion()" class="btn-cancelar">Cancelar</button>
-              </div>
-            </div>
-          } @else {
-            <p class="comentario-texto">{{ padreActual.texto }}</p>
-          }
-
-          <div class="comentario-acciones">
-            @if (isLoggedIn) {
-              <button (click)="activarRespuesta(padreActual.id!)" class="btn-responder">Responder</button>
-            }
-            @if (puedeActuar(padreActual.usuarioId!)) {
-              <button (click)="activarEdicion(padreActual)" class="btn-editar">Editar</button>
-              <button (click)="borrar(padreActual.id!)" class="btn-borrar">Eliminar</button>
-            }
-          </div>
-
-          @if (comentarioService.respondendoA() === padreActual.id) {
-            <div class="respuesta-form">
-              <textarea [ngModel]="comentarioService.textoRespuesta()"
-                        (ngModelChange)="comentarioService.textoRespuesta.set($event)"
-                        placeholder="Escribe tu respuesta..."
-                        rows="3"></textarea>
-              <div class="form-acciones">
-                <button (click)="enviarRespuesta(padreActual.id!)"
-                        [disabled]="comentarioService.enviando()">Enviar</button>
-                <button (click)="cancelarRespuesta()" class="btn-cancelar">Cancelar</button>
-              </div>
-            </div>
-          }
-        </div>
-        <p class="respuestas-titulo">Respuestas:</p>
-      }
-
-      <!-- LISTA: raíz o hijas del padre activo -->
-      <ul class="comentarios-lista">
-        @for (comentario of listaActual; track comentario.id) {
-          <li class="comentario">
-
-            <div class="comentario-header">
-              @if (comentario.fotoAutor) {
-                <img [src]="mediaUrl + comentario.fotoAutor"
-                     [alt]="comentario.usernameAutor"
-                     class="avatar">
-              } @else {
-                <div class="avatar-placeholder">{{ comentario.usernameAutor?.charAt(0) }}</div>
-              }
-              <div class="comentario-meta">
-                <strong>{{ comentario.usernameAutor }}</strong>
-                <span class="fecha">{{ comentario.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
-              </div>
-            </div>
-
-            @if (comentarioService.editandoId() === comentario.id) {
-              <div class="edicion-form">
-                <textarea [ngModel]="comentarioService.textoEditando()"
-                          (ngModelChange)="comentarioService.textoEditando.set($event)"
-                          rows="3"></textarea>
-                <div class="form-acciones">
-                  <button (click)="guardarEdicion(comentario.id!)"
-                          [disabled]="comentarioService.enviando()">Guardar</button>
-                  <button (click)="cancelarEdicion()" class="btn-cancelar">Cancelar</button>
-                </div>
-              </div>
-            } @else {
-              <p class="comentario-texto">{{ comentario.texto }}</p>
-            }
-
-            <div class="comentario-acciones">
-              @if (isLoggedIn) {
-                <button (click)="activarRespuesta(comentario.id!)" class="btn-responder">Responder</button>
-              }
-              @if (comentario.respuestas && comentario.respuestas.length > 0) {
-                <button (click)="verRespuestas(comentario.id!)" class="btn-ver-respuestas">
-                  Ver respuestas ({{ comentario.respuestas.length }})
-                </button>
-              }
-              @if (puedeActuar(comentario.usuarioId!)) {
-                <button (click)="activarEdicion(comentario)" class="btn-editar">Editar</button>
-                <button (click)="borrar(comentario.id!)" class="btn-borrar">Eliminar</button>
-              }
-            </div>
-
-            @if (comentarioService.respondendoA() === comentario.id) {
-              <div class="respuesta-form">
-                <textarea [ngModel]="comentarioService.textoRespuesta()"
-                          (ngModelChange)="comentarioService.textoRespuesta.set($event)"
-                          placeholder="Escribe tu respuesta..."
-                          rows="3"></textarea>
-                <div class="form-acciones">
-                  <button (click)="enviarRespuesta(comentario.id!)"
-                          [disabled]="comentarioService.enviando()">Enviar</button>
-                  <button (click)="cancelarRespuesta()" class="btn-cancelar">Cancelar</button>
-                </div>
-              </div>
-            }
-
-          </li>
-        }
-      </ul>
-
-      <!-- PAGINADOR solo en vista raíz -->
-      @if (!padreActual) {
-        <app-paginador
-          [totalPaginas]="comentarioService.totalPaginas()"
-          [paginaActual]="comentarioService.paginaActual()"
-          (pageChanged)="onPage($event)">
-        </app-paginador>
-      }
-    }
+    <p class="comentarios__aviso">Inicia sesión para comentar.</p>
   }
+
+  <!-- LISTA -->
+  @if (cargando()) {
+    <p class="comentarios__estado">Cargando comentarios...</p>
+  } @else if (comentarios().length === 0) {
+    <p class="comentarios__estado">Sé el primero en comentar.</p>
+  } @else {
+    <div class="comentarios__lista">
+      @for (comentario of comentarios(); track comentario.id) {
+        <app-comentario-item
+          [comentario]="comentario"
+          [entradaId]="entradaId()"
+          (borrado)="onBorrado($event)"
+        />
+      }
+    </div>
+
+    <app-paginador
+      [totalPaginas]="totalPaginas()"
+      [paginaActual]="paginaActual()"
+      (pageChanged)="paginaActual.set($event); cargar()"
+    />
+  }
+
 </section>

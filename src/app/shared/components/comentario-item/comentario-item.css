@@ -1,0 +1,135 @@
+.comentario {
+  border-top: 1px solid #e0e0e0;
+  padding: 1.2rem 0;
+}
+
+.comentario__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.comentario__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #111;
+  flex-shrink: 0;
+}
+
+.comentario__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.comentario__autor {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #111;
+}
+
+.comentario__fecha {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.comentario__texto {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #222;
+  margin: 0 0 0.75rem 0;
+}
+
+.comentario__textarea {
+  width: 100%;
+  border: 2px solid #111;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.comentario__textarea:focus {
+  outline: none;
+  border-color: #555;
+}
+
+.comentario__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.comentario__acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.comentario__form-respuesta {
+  margin-top: 0.75rem;
+  padding-left: 1rem;
+  border-left: 3px solid #111;
+}
+
+.comentario__respuestas {
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid #e0e0e0;
+}
+
+.comentario__cargando {
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+}
+
+.btn {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border: 2px solid #111;
+  background: #111;
+  color: #fff;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #111;
+}
+
+.btn--ghost {
+  background: #fff;
+  color: #111;
+}
+
+.btn--ghost:hover {
+  background: #111;
+  color: #fff;
+}
+
+.btn--danger {
+  background: #fff;
+  color: #c00;
+  border-color: #c00;
+}
+
+.btn--danger:hover {
+  background: #c00;
+  color: #fff;
+}
+
+.btn--sm {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.72rem;
+}

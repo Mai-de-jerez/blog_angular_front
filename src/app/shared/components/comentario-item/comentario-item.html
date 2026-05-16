@@ -1,0 +1,95 @@
+<article class="comentario">
+
+  <!-- CABECERA -->
+  <header class="comentario__header">
+    <img
+      [src]="comentario().fotoAutor ? mediaUrl + comentario().fotoAutor : 'assets/avatar-default.png'"
+      [alt]="comentario().usernameAutor"
+      class="comentario__avatar"
+    />
+    <div class="comentario__meta">
+      <span class="comentario__autor">{{ comentario().usernameAutor }}</span>
+      <span class="comentario__fecha">{{ comentario().fechaCreacion | date:'dd/MM/yy HH:mm' }}</span>
+    </div>
+  </header>
+
+  <!-- TEXTO O EDICIÓN -->
+  @if (editando()) {
+    <textarea class="comentario__textarea"
+      [ngModel]="textoEdicion()"
+      (ngModelChange)="textoEdicion.set($event)"
+      rows="3">
+    </textarea>
+    <div class="comentario__acciones">
+      <button class="btn btn--sm" (click)="guardar()">Guardar</button>
+      <button class="btn btn--sm btn--ghost" (click)="toggleEdicion()">Cancelar</button>
+    </div>
+  } @else {
+    <p class="comentario__texto">{{ comentario().texto }}</p>
+
+    <!-- BOTONES -->
+    <footer class="comentario__footer">
+
+      @if (auth.isLogged()) {
+        <button class="btn btn--sm btn--ghost" (click)="toggleRespuesta()">
+          {{ mostrarFormRespuesta() ? 'Cancelar' : 'Responder' }}
+        </button>
+      }
+
+      @if (totalRespuestas() > 0 && !expandido()) {
+        <button class="btn btn--sm btn--ghost" (click)="verRespuestas()">
+          Ver respuestas ({{ totalRespuestas() }})
+        </button>
+      }
+
+      @if (expandido()) {
+        <button class="btn btn--sm btn--ghost" (click)="verMenos()">Ver menos</button>
+      }
+
+      @if (puedeGestionar) {
+        <button class="btn btn--sm btn--ghost" (click)="toggleEdicion()">Editar</button>
+        <button class="btn btn--sm btn--danger" (click)="borrar()">Eliminar</button>
+      }
+
+    </footer>
+  }
+
+  <!-- FORM RESPUESTA -->
+  @if (mostrarFormRespuesta()) {
+    <div class="comentario__form-respuesta">
+      <textarea class="comentario__textarea"
+        [ngModel]="textoRespuesta()"
+        (ngModelChange)="textoRespuesta.set($event)"
+        placeholder="Escribe tu respuesta..."
+        rows="3">
+      </textarea>
+      <div class="comentario__acciones">
+        <button class="btn btn--sm" (click)="enviarRespuesta()">Enviar</button>
+      </div>
+    </div>
+  }
+
+  <!-- RESPUESTAS ANIDADAS -->
+  @if (expandido()) {
+    <div class="comentario__respuestas">
+
+      @if (cargando()) {
+        <p class="comentario__cargando">Cargando...</p>
+      }
+
+      @for (respuesta of respuestas(); track respuesta.id) {
+        <app-comentario-item
+          [comentario]="respuesta"
+          [entradaId]="entradaId()"
+          (borrado)="onBorradoRespuesta($event)"
+        />
+      }
+
+      @if (hayMas && !cargando()) {
+        <button class="btn btn--sm btn--ghost" (click)="verMas()">Ver más respuestas</button>
+      }
+
+    </div>
+  }
+
+</article>
