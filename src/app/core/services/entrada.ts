@@ -15,7 +15,8 @@ export class EntradaService {
   // inyección de HttpClient para llamadas a la API
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/entradas`;
-
+  // Variables de estado para la entrada detallada 
+  entradaDetalle = signal<Entrada | null>(null);
   // Variables de estado para la vista pública
   pagina = signal<Pagina<Entrada> | null>(null);
   titulo = signal('');
@@ -74,4 +75,7 @@ export class EntradaService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  resetDetalle(): void {
+    this.entradaDetalle.set(null);
+  }
 }

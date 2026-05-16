@@ -40,13 +40,14 @@
             }       
           </div>        
         <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
-        @if (isLoggedIn()) {
+        @if (isLoggedIn) {
           <button (click)="irAEditar()" class="btn-volver">
             ✎ Editar Entrada
           </button>
         }
       </footer>
     </article>
+    <app-comentarios [entradaId]="entrada.id!"></app-comentarios>
   }
 </div>
 

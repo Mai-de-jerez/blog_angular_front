@@ -1,0 +1,226 @@
+.comentarios-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.comentarios-titulo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+/* --- COMENTARIO --- */
+.comentario {
+  list-style: none;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.comentario.padre-activo {
+  border: 2px solid #333;
+  background: #f9f9f9;
+  margin-bottom: 0.5rem;
+}
+
+.comentario-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.comentario-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.comentario-meta strong {
+  font-size: 0.95rem;
+}
+
+.fecha {
+  font-size: 0.78rem;
+  color: #999;
+}
+
+.comentario-texto {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* --- ACCIONES --- */
+.comentario-acciones {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.comentario-acciones button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-responder { color: #0066cc; }
+.btn-responder:hover { background: #e8f0fe; }
+
+.btn-ver-respuestas { color: #555; font-weight: 600; }
+.btn-ver-respuestas:hover { background: #f0f0f0; }
+
+.btn-editar { color: #888; }
+.btn-editar:hover { background: #f5f5f5; }
+
+.btn-borrar { color: #cc0000; }
+.btn-borrar:hover { background: #fdecea; }
+
+.btn-volver-raiz {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #555;
+  padding: 0 0 0.75rem 0;
+  display: block;
+  font-weight: 600;
+}
+
+.btn-volver-raiz:hover { color: #000; }
+
+/* --- FORMULARIOS --- */
+.nuevo-comentario,
+.respuesta-form,
+.edicion-form {
+  margin-top: 1rem;
+}
+
+.nuevo-comentario h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  resize: vertical;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.form-acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.form-acciones button {
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.form-acciones button:first-child {
+  background: #333;
+  color: white;
+}
+
+.form-acciones button:first-child:hover { background: #000; }
+.form-acciones button:first-child:disabled { background: #aaa; cursor: not-allowed; }
+
+.btn-cancelar {
+  background: #f0f0f0 !important;
+  color: #333 !important;
+}
+
+.btn-cancelar:hover { background: #e0e0e0 !important; }
+
+.nuevo-comentario > button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1.5rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.nuevo-comentario > button:hover { background: #000; }
+.nuevo-comentario > button:disabled { background: #aaa; cursor: not-allowed; }
+
+/* --- ESTADOS --- */
+.cargando,
+.sin-comentarios,
+.login-aviso {
+  text-align: center;
+  color: #888;
+  padding: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.login-aviso a {
+  color: #333;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.respuestas-titulo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  margin: 0.5rem 0;
+  padding-left: 0.5rem;
+}
+
+.comentarios-lista {
+  padding: 0;
+  margin: 0;
+}
