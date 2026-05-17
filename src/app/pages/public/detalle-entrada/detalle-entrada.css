@@ -180,14 +180,40 @@
   justify-content: space-between;
 }
 
-
-
 .autor-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
 } 
+
+@media (max-width: 768px) {
+  .acciones {
+    flex-direction: column;
+  }
+
+  .acciones button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .author-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .updated {
+    margin-left: 0;
+  }
+
+  .detalle-container {
+    padding: 20px 24px;
+  }
+
+  .post-card header h1 {
+    font-size: 1.7rem; 
+  }
+}
 
 
 

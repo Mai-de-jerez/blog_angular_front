@@ -48,14 +48,6 @@ export class DetalleEntrada implements OnInit {
   }
 
   // Para eliminar la entrada
-  // borrar(): void {
-  //   const e = this.entrada();
-  //   if (!e?.id) return;
-  //   this.entradaService.deleteEntrada(e.id).subscribe({
-  //     next: () => this.router.navigate(['/entradas'])
-  //   });
-  // }
-
   borrar(): void {
     const e = this.entrada();
     if (!e?.id) return;
@@ -85,6 +77,7 @@ export class DetalleEntrada implements OnInit {
     }
   }
 
+  // Limpiamos el detalle al destruir el componente para evitar mostrar datos antiguos si se vuelve a cargar
   ngOnDestroy(): void {
     this.entradaService.resetDetalle();
   }

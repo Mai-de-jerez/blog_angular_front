@@ -12,10 +12,18 @@ import { Auth } from '../../../core/services/auth';
 })
 
 export class Navbar {
-  // Inyectamos el servicio para saber si estamos logueados
   public authService = inject(Auth);
+  menuAbierto = false;
 
   onLogout() {
-    this.authService.logout(); 
+    this.authService.logout();
+  }
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  cerrarMenu() {
+    this.menuAbierto = false;
   }
 }

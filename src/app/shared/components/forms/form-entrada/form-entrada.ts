@@ -26,6 +26,7 @@ export class FormEntrada implements OnInit {
 
   private _entrada: Partial<Entrada> = {};
 
+  @Input() titulo: string = 'Editar Entrada';
   @Input() set entrada(val: Partial<Entrada>) {
     this._entrada = {
       ...val,

@@ -1,11 +1,15 @@
 :host {
   display: block;
+  width: 100%;
+  box-sizing: border-box;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-container {
   max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
   margin: 0 auto;
   background: #ffffff;
   padding: 30px;
@@ -14,7 +18,7 @@
 }
 
 .form-title {
-  color: #4b0082; /* Púrpura */
+  color: #4b0082;
   margin-bottom: 25px;
   font-size: 1.8rem;
   border-bottom: 2px solid #f0f0f0;
@@ -35,6 +39,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 label {
@@ -49,6 +54,8 @@ input, textarea {
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input:focus, textarea:focus {
@@ -57,7 +64,6 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.1);
 }
 
-/* Fix para PrimeNG TreeSelect */
 ::ng-deep .w-full-custom {
   width: 100% !important;
   border-radius: 6px !important;
@@ -99,14 +105,29 @@ button:hover:not(:disabled) {
 }
 
 ::ng-deep .ng-select.ng-select-single .ng-select-container {
-    height: 45px;
-    border-radius: 6px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 45px;
+  border-radius: 6px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+@media (max-width: 768px) {
+  :host {
+    padding: 12px;
+  }
 
+  .form-container {
+    padding: 20px 16px;
+  }
 
+  .grid-form {
+    grid-template-columns: 1fr;
+  }
 
+  .form-actions {
+    flex-direction: column;
+  }
 
-
-
+  .form-actions button {
+    width: 100%;
+  }
+}

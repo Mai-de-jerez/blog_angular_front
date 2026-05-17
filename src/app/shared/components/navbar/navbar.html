@@ -1,23 +1,30 @@
 <nav class="navbar">
   <a routerLink="/" class="navbar-brand">MAI-BLOG</a>
-  <ul class="navbar-nav">
+
+  <button class="hamburger" (click)="toggleMenu()" [class.abierto]="menuAbierto" aria-label="Menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="navbar-nav" [class.abierto]="menuAbierto">
     <li class="nav-item">
-      <a routerLink="/entradas" routerLinkActive="active-link" class="nav-link">Entradas</a>
+      <a routerLink="/entradas" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Entradas</a>
     </li>
     <li class="nav-item">
-      <a routerLink="/sobre-mi" routerLinkActive="active-link" class="nav-link">Sobre mí</a>
-    </li> 
+      <a routerLink="/sobre-mi" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Sobre mí</a>
+    </li>
     @if (!authService.isLogged()) {
       <li class="nav-item login-item">
-        <a routerLink="/login" routerLinkActive="active-link" class="nav-link">Login</a>
-      </li> 
+        <a routerLink="/login" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Login</a>
+      </li>
     } @else {
       <li class="nav-item login-item user-group">
         @if (authService.isAdmin()) {
-          <a routerLink="/admin" routerLinkActive="active-link" class="nav-link">Admin</a>
+          <a routerLink="/admin" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Admin</a>
         }
-        <a routerLink="/mi-perfil" routerLinkActive="active-link" class="nav-link">Mi Perfil</a>
-        <a (click)="onLogout()" class="nav-link" style="cursor: pointer;">Logout</a>
+        <a routerLink="/mi-perfil" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Mi Perfil</a>
+        <a (click)="onLogout(); cerrarMenu()" class="nav-link" style="cursor: pointer;">Logout</a>
       </li>
     }
   </ul>

@@ -1,10 +1,15 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background-color: #1a1a1a;
-  border-bottom: 2px solid #800080; 
+  border-bottom: 2px solid #800080;
 }
 
 .navbar-brand {
@@ -12,8 +17,8 @@
   font-weight: bold;
   color: #800080;
   text-decoration: none;
-  white-space: nowrap; 
-  margin-right: 30px; 
+  white-space: nowrap;
+  margin-right: 30px;
 }
 
 .navbar-nav {
@@ -25,11 +30,12 @@
 }
 
 .login-item {
-  margin-left: auto; 
+  margin-left: auto;
 }
 
 .nav-link {
   color: white;
+  text-decoration: none;
 }
 
 .nav-link:hover, .active-link {
@@ -41,4 +47,96 @@
   display: flex;
   gap: 20px;
   align-items: center;
+}
+
+/* Hamburguesa oculta en escritorio */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 100;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: white;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animación a X cuando está abierto */
+.hamburger.abierto span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.abierto span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.abierto span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* MÓVIL */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .navbar-brand {
+    margin-right: 0;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar-nav {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0;
+    background-color: #1a1a1a;
+    padding: 8px 0;
+  }
+
+  .navbar-nav.abierto {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 12px 8px;
+    width: 100%;
+  }
+
+  .login-item {
+    margin-left: 0;
+  }
+
+  .user-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+  }
+
+  .user-group a {
+    width: 100%;
+    padding: 12px 8px;
+    border-bottom: 1px solid #2a2a2a;
+  }
 }

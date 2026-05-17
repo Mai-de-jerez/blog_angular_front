@@ -1,8 +1,6 @@
 .footer {
-  /* Fondo oscuro como tu navbar */
   background-color: #1a1a1a; 
   padding: 60px 20px 20px;
-  /* El borde púrpura arriba para cerrar el diseño igual que la nav */
   border-top: 2px solid #800080; 
   color: white;
   font-family: 'Playfair Display', serif;
@@ -26,7 +24,6 @@
   font-size: 1.1rem;
   letter-spacing: 2px;
   margin-bottom: 25px;
-  /* El título en púrpura para que destaque sobre el negro */
   color: #800080; 
   text-transform: uppercase;
   font-weight: bold;
@@ -53,7 +50,7 @@
 /* El hover ahora usa tu púrpura neón de la nav */
 .footer-column a:hover {
   color: #bc13fe;
-  padding-left: 5px; /* Pequeño efecto de movimiento */
+  padding-left: 5px; 
 }
 
 /* Sección Contacto e Iconos */
@@ -61,12 +58,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #ccc; /* Un gris claro para que sea legible pero no brille tanto como el blanco */
+  color: #ccc; 
   font-family: 'Lora', serif;
 }
 
 .contact-list i {
-  color: #800080; /* Iconos en púrpura */
+  color: #800080; 
   font-size: 1.1rem;
 }
 
@@ -91,7 +88,7 @@
 .footer-bottom {
   margin-top: 50px;
   padding-top: 20px;
-  border-top: 1px solid #333; /* Un gris muy oscuro para separar suavemente */
+  border-top: 1px solid #333; 
   text-align: center;
   font-size: 0.85rem;
   color: #666;
@@ -99,4 +96,30 @@
 
 .footer-bottom strong {
   color: #800080;
+}
+
+/* Estilos responsivos */
+:host {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 40px 16px 20px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .footer-column {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .footer-bottom {
+    margin-top: 32px;
+  }
 }

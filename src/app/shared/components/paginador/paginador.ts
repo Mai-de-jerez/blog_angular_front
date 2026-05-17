@@ -36,6 +36,11 @@ import { CommonModule } from '@angular/common';
     button.activa { background: #333; color: white; border-color: #333; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
     .puntos { padding: 0 4px; color: #666; font-weight: bold; }
+
+    @media (max-width: 768px) {
+      .paginador { gap: 4px; flex-wrap: wrap; padding: 0 8px; }
+      button { padding: 6px 10px; font-size: 0.85rem; min-width: 36px; }
+    }
   `]
 })
 export class Paginador {
