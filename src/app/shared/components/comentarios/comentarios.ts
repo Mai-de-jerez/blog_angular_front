@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, input, inject, signal } from '@angular/core';
+import { Component, OnInit, input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ComentarioService } from '../../../core/services/comentario';
@@ -16,7 +16,7 @@ import { Paginador } from '../paginador/paginador';
   styleUrl: './comentarios.css'
 })
 
-export class Comentarios implements OnInit, OnDestroy {
+export class Comentarios implements OnInit {
 
   entradaId = input.required<number>();
 
@@ -32,46 +32,26 @@ export class Comentarios implements OnInit, OnDestroy {
   textoNuevo = signal('');
   enviando = signal(false);
 
+  // --- CICLO DE VIDA ---
   ngOnInit(): void {
     this.cargar();
   }
 
-  ngOnDestroy(): void {
-    this.comentarios.set([]);
-  }
-
-
+  // Carga los comentarios de la entrada actual, con paginación
   cargar(): void {
     this.cargando.set(true);
     this.comentarioService.getComentariosPorEntrada(this.entradaId(), this.paginaActual()).subscribe({
       next: (data) => {
-        if (data) {
-          this.comentarios.set(data.contenido);
-          this.totalPaginas.set(data.totalPaginas);
-          this.totalElementos.set(data.totalElementos);
-        } else {
-          this.comentarios.set([]);
-        }
+        this.comentarios.set(data.contenido);
+        this.totalPaginas.set(data.totalPaginas);
+        this.totalElementos.set(data.totalElementos);
         this.cargando.set(false);
       },
       error: () => this.cargando.set(false)
     });
   }
 
-
-  anterior(): void {
-    if (this.paginaActual() <= 0) return;
-    this.paginaActual.update(p => p - 1);
-    this.cargar();
-  }
-
-  siguiente(): void {
-    if (this.paginaActual() >= this.totalPaginas() - 1) return;
-    this.paginaActual.update(p => p + 1);
-    this.cargar();
-  }
-
-
+  // Enviar un nuevo comentario raíz (sin padre)
   enviar(): void {
     const texto = this.textoNuevo().trim();
     if (!texto || this.enviando()) return;
@@ -88,6 +68,7 @@ export class Comentarios implements OnInit, OnDestroy {
     });
   }
 
+  // Manejar el borrado de un comentario (removerlo de la lista y actualizar el total)
   onBorrado(id: number): void {
     this.comentarios.update(list => list.filter(c => c.id !== id));
     this.totalElementos.update(t => t - 1);

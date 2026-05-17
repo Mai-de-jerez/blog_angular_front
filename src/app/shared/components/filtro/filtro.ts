@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, input, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,22 +10,22 @@ import { FormsModule } from '@angular/forms';
     <div class="admin-filter-bar">
       <!-- Campo 1: Siempre el ID -->
       <div class="filter-group id-field">
-        <input type="number" [(ngModel)]="id" [placeholder]="labelId">
+        <input type="number" [(ngModel)]="id" [placeholder]="labelId()">
       </div>
 
       <!-- Campo 2: Dinámico (Título, Username...) -->
       <div class="filter-group">
-        <input type="text" [(ngModel)]="campo1" [placeholder]="label1" (keyup.enter)="enviar()">
+        <input type="text" [(ngModel)]="campo1" [placeholder]="label1()" (keyup.enter)="enviar()">
       </div>
 
       <!-- Campo 3: Dinámico (Categoría, Nombre...) -->
       <div class="filter-group">
-        <input type="text" [(ngModel)]="campo2" [placeholder]="label2" (keyup.enter)="enviar()">
+        <input type="text" [(ngModel)]="campo2" [placeholder]="label2()" (keyup.enter)="enviar()">
       </div>
 
       <!-- Campo 4: Dinámico (Autor, Apellidos...) -->
       <div class="filter-group">
-        <input type="text" [(ngModel)]="campo3" [placeholder]="label3" (keyup.enter)="enviar()">
+        <input type="text" [(ngModel)]="campo3" [placeholder]="label3()" (keyup.enter)="enviar()">
       </div>
 
       <div class="filter-actions">
@@ -64,11 +64,11 @@ import { FormsModule } from '@angular/forms';
   `]
 })
 export class Filtro {
-  // Etiquetas que cambian según la entidad
-  @Input() labelId = 'ID...';
-  @Input() label1 = 'Campo 1...';
-  @Input() label2 = 'Campo 2...';
-  @Input() label3 = 'Campo 3...';
+  labelId = input('ID...');
+  label1 = input('Campo 1...');
+  label2 = input('Campo 2...');
+  label3 = input('Campo 3...');
+  valores = input<{id?: number, c1: string, c2: string, c3: string}>({ c1: '', c2: '', c3: '' });
 
   @Output() alFiltrar = new EventEmitter<any>();
 
@@ -76,6 +76,15 @@ export class Filtro {
   campo1 = '';
   campo2 = '';
   campo3 = '';
+
+  constructor() {
+  effect(() => {
+    this.id = this.valores().id;
+    this.campo1 = this.valores().c1;
+    this.campo2 = this.valores().c2;
+    this.campo3 = this.valores().c3;
+  });
+}
 
   enviar() {
     this.alFiltrar.emit({

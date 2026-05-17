@@ -6,6 +6,7 @@ import { Auth } from '../../../core/services/auth';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 import { environment } from '../../../../environments/environment';
 import { Comentarios } from '../../../shared/components/comentarios/comentarios';
+import { Toast } from '../../../core/services/toast';
 
 @Component({
   selector: 'app-detalle-entrada',
@@ -21,11 +22,14 @@ export class DetalleEntrada implements OnInit {
   private authService = inject(Auth); 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private toastService = inject(Toast);
   private entradaService = inject(EntradaService);
   public readonly mediaUrl = environment.mediaUrl;
 
-  get isLoggedIn(): boolean { return this.authService.isLogged(); }
   get entrada() { return this.entradaService.entradaDetalle; }
+  get puedeGestionar(): boolean {
+    return this.authService.isAdmin() || this.authService.userId() === this.entrada()?.autorId;
+  }
 
   // variables para manejar el estado
   cargando = signal(true);
@@ -41,6 +45,26 @@ export class DetalleEntrada implements OnInit {
     if (e) {
       this.router.navigate(['/entradas/editar-entrada', e.slug]);
     }
+  }
+
+  // Para eliminar la entrada
+  // borrar(): void {
+  //   const e = this.entrada();
+  //   if (!e?.id) return;
+  //   this.entradaService.deleteEntrada(e.id).subscribe({
+  //     next: () => this.router.navigate(['/entradas'])
+  //   });
+  // }
+
+  borrar(): void {
+    const e = this.entrada();
+    if (!e?.id) return;
+    this.entradaService.deleteEntrada(e.id).subscribe({
+      next: () => {
+        this.toastService.mostrar('Entrada eliminada correctamente', 'success');
+        setTimeout(() => this.router.navigate(['/entradas']), 1500);
+      }
+    });
   }
 
   // método para cargar la entrada al iniciar el componente

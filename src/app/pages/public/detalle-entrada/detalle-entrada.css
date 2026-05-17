@@ -94,8 +94,6 @@
 
 .btn-volver {
   display: inline-block;
-  margin-top: 20px;
-  margin-right: 12px;
   padding: 10px 20px;
   background: #1a1a1a;
   color: white;
@@ -112,6 +110,59 @@
 .btn-volver:hover {
   background-color: #4b0082;
   transform: translateY(-1px);
+}
+
+.btn-editar {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #000000;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-editar:hover {
+  background-color: #6a0dad;
+  transform: translateY(-1px);
+}
+
+.btn-eliminar {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #c0392b;
+  background: white;
+  border: none;
+  border: 1px solid #c0392b;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-eliminar:hover {
+  background-color: #e74c3c;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-volver, .btn-editar, .btn-eliminar {
+  margin-top: 0;
+  margin-right: 0;
+}
+
+.acciones {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  align-items: stretch;
 }
 
 .spinner, .error-msg {

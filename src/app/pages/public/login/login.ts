@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { Auth } from '../../../core/services/auth';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
+import { LoginRequest } from '../../../core/models/login-request';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class Login {
   private authService = inject(Auth);
   private router = inject(Router);
 
-  credentials = { username: '', password: '' };
+  credentials: LoginRequest = { username: '', password: '' };
 
   onLogin() {
     this.authService.login(this.credentials).subscribe({

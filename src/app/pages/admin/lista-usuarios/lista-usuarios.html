@@ -7,6 +7,7 @@
       label1="Username" 
       label2="Nombre" 
       label3="Apellidos"
+      [valores]="usuarioService.filtros()"
       (alFiltrar)="onFiltro($event)">
   </app-filtro>
   @if (cargando()) {

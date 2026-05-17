@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of } from 'rxjs';
 import { AuthResponse } from '../models/auth-response'; 
+import { LoginRequest } from '../models/login-request';
 import { Router } from '@angular/router';
 import { Toast } from './toast';
 import { environment } from '../../../environments/environment';
@@ -45,37 +46,8 @@ export class Auth {
     return this.checkToken();
   }
 
-  // Método para iniciar sesión
-  login(credentials: any): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.URL_API}/login`, credentials).pipe(
-      tap(response => {
-        // Si el login es correcto, guardamos token y actualizamos el estado
-        this.setTokenStorage(response.token);
-        this.isLogged.set(true);
-        this.userRol.set(response.rol);
-        this.userId.set(response.id);
-      })
-    );
-  }
-
-  // Método para verificar el token al cargar la aplicación
-  checkToken(): Observable<any> {
-    return this.http.get<any>(`${this.URL_API}/check`).pipe(
-      tap({
-        next: (res) => {
-          this.isLogged.set(true);
-          this.userRol.set(res.nivel);
-          this.userId.set(res.id);
-        },
-        error: () => {
-          this.limpiarSesionLocal(); 
-        }
-      })
-    );
-  }
-
   // Método privado para limpiar la sesión local y redirigir al login
-  private limpiarSesionLocal(): void {
+  private limpiarSesionLocal(): void { 
     this.clearStorage();
     this.isLogged.set(false);
     this.userRol.set(null);
@@ -109,6 +81,42 @@ export class Auth {
     return this.getTokenFromStorage();
   }
 
+  // LLAMADAS A LA API
+
+  // Método para verificar el token al cargar la aplicación
+  checkToken(): Observable<any> {
+    return this.http.get<any>(`${this.URL_API}/check`).pipe(
+      tap({
+        next: (res) => {
+          this.isLogged.set(true);
+          this.userRol.set(res.nivel);
+          this.userId.set(res.id);
+        },
+        error: () => {
+          this.limpiarSesionLocal(); 
+        }
+      })
+    );
+  }
+
+  // Método para iniciar sesión
+  login(credentials: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.URL_API}/login`, credentials).pipe(
+      tap(response => {
+        // Si el login es correcto, guardamos token y actualizamos el estado
+        this.setTokenStorage(response.token);
+        this.isLogged.set(true);
+        this.userRol.set(response.rol);
+        this.userId.set(response.id);
+      })
+    );
+  }
+
+  // Método para registrar un nuevo usuario
+  registro(datos: any): Observable<any> {
+    return this.http.post(`${this.URL_API}/registro`, datos);
+  }
+
   // Método para cerrar sesión
   logout(): void {
     this.http.post(`${this.URL_API}/logout`, {}).subscribe({
@@ -116,12 +124,14 @@ export class Auth {
         if (res && res.mensaje) {
           this.toastService.mostrar(res.mensaje, 'success');
         }
-      },
-      error: (err) => {
-        console.error('Error al cerrar sesión en servidor', err);
-      },
-      complete: () => {
-        this.limpiarSesionLocal();
+        setTimeout(() => {
+        this.clearStorage();
+        window.location.href = '/login';
+      }, 1500); // para q se vea mi mensaje de éxito antes de redirigir
+    },
+      error: () => {
+        this.clearStorage();
+        window.location.href = '/login';
       }
     });
   }
@@ -129,7 +139,6 @@ export class Auth {
 
   // Método para solicitar recuperación de contraseña
   solicitarRecuperacion(email: string): Observable<any> {
-    // Enviamos un objeto que Java recibirá como un Map<String, String>
     return this.http.post(`${this.URL_API}/solicitar-recuperacion`, { email });
   }
 
@@ -140,11 +149,5 @@ export class Auth {
       pass1, 
       pass2 
     });
-  }
-
-  // Método para registrar un nuevo usuario
-  registro(datos: any): Observable<any> {
-    return this.http.post(`${this.URL_API}/registro`, datos);
-  }
-  
+  }  
 }

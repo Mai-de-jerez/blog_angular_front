@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, input, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,17 +10,17 @@ import { FormsModule } from '@angular/forms';
     <div class="public-filter-bar">
       <!-- Campo 1: Dinámico -->
       <div class="filter-group">
-        <input type="text" [(ngModel)]="campo1" [placeholder]="label1" (keyup.enter)="enviar()">
+        <input type="text" [(ngModel)]="campo1" [placeholder]="label1()" (keyup.enter)="enviar()">
       </div>
 
       <!-- Campo 2: Dinámico -->
       <div class="filter-group">
-        <input type="text" [(ngModel)]="campo2" [placeholder]="label2" (keyup.enter)="enviar()">
+        <input type="text" [(ngModel)]="campo2" [placeholder]="label2()" (keyup.enter)="enviar()">
       </div>
 
       <!-- Campo 3: Dinámico -->
       <div class="filter-group">
-        <input type="text" [(ngModel)]="campo3" [placeholder]="label3" (keyup.enter)="enviar()">
+        <input type="text" [(ngModel)]="campo3" [placeholder]="label3()" (keyup.enter)="enviar()">
       </div>
 
       <div class="filter-actions">
@@ -70,9 +70,10 @@ import { FormsModule } from '@angular/forms';
   `]
 })
 export class FiltroPublico {
-  @Input() label1 = 'Buscar...';
-  @Input() label2 = 'Categoría...';
-  @Input() label3 = 'Autor...';
+  label1 = input('Buscar...');
+  label2 = input('Categoría...');
+  label3 = input('Autor...');
+  valores = input<{c1: string, c2: string, c3: string}>({ c1: '', c2: '', c3: '' });
 
   @Output() alFiltrar = new EventEmitter<any>();
 
@@ -80,11 +81,19 @@ export class FiltroPublico {
   campo2 = '';
   campo3 = '';
 
+  constructor() {
+    effect(() => {
+      this.campo1 = this.valores().c1;
+      this.campo2 = this.valores().c2;
+      this.campo3 = this.valores().c3;
+    });
+  }
+
   enviar() {
-    this.alFiltrar.emit({
-      c1: this.campo1.trim(),
-      c2: this.campo2.trim(),
-      c3: this.campo3.trim()
+    this.alFiltrar.emit({ 
+      c1: this.campo1.trim(), 
+      c2: this.campo2.trim(), 
+      c3: this.campo3.trim() 
     });
   }
 

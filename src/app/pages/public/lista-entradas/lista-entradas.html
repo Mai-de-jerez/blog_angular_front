@@ -13,6 +13,7 @@
     label1="Título..." 
     label2="Categoría..." 
     label3="Autor..."
+    [valores]="entradaService.filtrosPublico()"
     (alFiltrar)="onFiltro($event)">
   </app-filtro-publico>
   @if (cargando()) {

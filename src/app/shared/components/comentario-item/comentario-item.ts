@@ -29,6 +29,7 @@ export class ComentarioItem implements OnInit {
   pagina = signal(0);
   totalRespuestas = signal(0);
   cargando = signal(false);
+  textoMostrado = signal('');
 
   mostrarFormRespuesta = signal(false);
   textoRespuesta = signal('');
@@ -37,6 +38,7 @@ export class ComentarioItem implements OnInit {
   textoEdicion = signal('');
 
   ngOnInit(): void {
+    this.textoMostrado.set(this.comentario().texto); 
     this.textoEdicion.set(this.comentario().texto);
     this.cargarTotal();
   }
@@ -120,8 +122,7 @@ export class ComentarioItem implements OnInit {
     if (!texto) return;
     this.comentarioService.editarComentario(this.comentario().id!, { texto }).subscribe({
       next: (actualizado) => {
-        this.comentario().texto = actualizado.texto;
-        this.comentario().fechaActualizacion = actualizado.fechaActualizacion;
+        this.textoMostrado.set(actualizado.texto);
         this.editando.set(false);
       }
     });

@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class ListaEntradasAdmin implements OnInit {
 
   // Inyección de servicios
-  private entradaService = inject(EntradaService);
+  readonly entradaService = inject(EntradaService);
   private router = inject(Router); 
   readonly mediaUrl = environment.mediaUrl;
 

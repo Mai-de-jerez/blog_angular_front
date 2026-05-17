@@ -1,12 +1,13 @@
 .comentarios {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 3px solid #111;
+  border-top: 1px solid #ebe9e9;
 }
 
 .comentarios__titulo {
   font-size: 1rem;
   font-weight: 700;
+  color: #888;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 1.5rem 0;
@@ -27,7 +28,7 @@
 
 .comentarios__textarea {
   width: 100%;
-  border: 2px solid #111;
+  border: 1px solid #ebe9e9;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
   font-family: inherit;

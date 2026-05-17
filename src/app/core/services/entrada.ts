@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Entrada } from '../models/entrada';
@@ -30,23 +30,40 @@ export class EntradaService {
   autorAdmin = signal('');
   paginaAdminData = signal<Pagina<Entrada> | null>(null);
   paginaActualAdmin = signal(0);
+
+  // computed para filtros públicos
+  filtrosPublico = computed(() => ({
+    c1: this.titulo(),
+    c2: this.categoria(),
+    c3: this.autor()
+  }));
+
+  // computed para filtros admin
+  filtrosAdmin = computed(() => ({
+    id: this.idAdmin() ?? undefined,
+    c1: this.tituloAdmin(),
+    c2: this.categoriaAdmin(),
+    c3: this.autorAdmin()
+  }));
  
   // obtener entradas con filtros y paginación
   getEntradas() {
+    const f = this.filtrosPublico();
     let params = new HttpParams().set('page', this.paginaActual()).set('size', '4');
-    if (this.titulo())    params = params.set('titulo', this.titulo());
-    if (this.categoria()) params = params.set('categoria', this.categoria());
-    if (this.autor())     params = params.set('autor', this.autor());
+    if (f.c1) params = params.set('titulo', f.c1);
+    if (f.c2) params = params.set('categoria', f.c2);
+    if (f.c3) params = params.set('autor', f.c3);
     return this.http.get<Pagina<Entrada>>(this.apiUrl, { params });
   }
 
-  // obtener entradas para administración con filtros y paginación
+  // obtener entradas para admin con filtros y paginación
   getEntradasAdmin(): Observable<Pagina<Entrada>> {
-    let params = new HttpParams().set('page', this.paginaActualAdmin()).set('size', '12'); 
-    if (this.idAdmin())        params = params.set('id', this.idAdmin()!);
-    if (this.tituloAdmin())    params = params.set('titulo', this.tituloAdmin());
-    if (this.categoriaAdmin()) params = params.set('categoria', this.categoriaAdmin());
-    if (this.autorAdmin())     params = params.set('autor', this.autorAdmin());
+    const f = this.filtrosAdmin();
+    let params = new HttpParams().set('page', this.paginaActualAdmin()).set('size', '12');
+    if (f.id) params = params.set('id', f.id!);
+    if (f.c1) params = params.set('titulo', f.c1);
+    if (f.c2) params = params.set('categoria', f.c2);
+    if (f.c3) params = params.set('autor', f.c3);
     return this.http.get<Pagina<Entrada>>(`${this.apiUrl}/admin`, { params });
   }
 

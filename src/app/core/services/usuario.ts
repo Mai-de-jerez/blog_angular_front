@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
@@ -23,17 +23,25 @@ export class UsuarioService {
   paginaActual = signal(0);
   usuariosPagina = signal<Pagina<Usuario> | null>(null);
 
-  // Administración de usuarios
+  // Computed para obtener un objeto con los filtros actuales
+  filtros = computed(() => ({
+    id: this.idFiltro() ?? undefined,
+    c1: this.usernameFiltro(),
+    c2: this.nombreFiltro(),
+    c3: this.apellidosFiltro()
+  }));
+
   listar(): Observable<Pagina<Usuario>> {
-    // Configuramos los parámetros de búsqueda
+    const f = this.filtros();
     let params = new HttpParams()
       .set('page', this.paginaActual())
-      .set('size', '12'); 
+      .set('size', '12');
 
-    if (this.idFiltro())       params = params.set('id', this.idFiltro()!.toString());
-    if (this.usernameFiltro()) params = params.set('username', this.usernameFiltro());
-    if (this.nombreFiltro())   params = params.set('nombre', this.nombreFiltro());
-    if (this.apellidosFiltro()) params = params.set('apellidos', this.apellidosFiltro());
+    if (f.id)  params = params.set('id', f.id.toString());
+    if (f.c1)  params = params.set('username', f.c1);
+    if (f.c2)  params = params.set('nombre', f.c2);
+    if (f.c3)  params = params.set('apellidos', f.c3);
+
     return this.http.get<Pagina<Usuario>>(this.url, { params });
   }
 

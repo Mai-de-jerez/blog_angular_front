@@ -19,9 +19,9 @@ export class ListaEntradas implements OnInit {
 
   // Inyección de servicios
   private authService = inject(Auth);
-  private entradaService = inject(EntradaService);
+  readonly entradaService = inject(EntradaService);
   readonly mediaUrl = environment.mediaUrl;
-  private router = inject(Router);
+  private router = inject(Router); 
 
   // Estado de carga
   cargando = signal(true);

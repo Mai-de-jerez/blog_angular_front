@@ -8,6 +8,7 @@
     label1="Título de la entrada" 
     label2="Categoría" 
     label3="Nombre del Autor"
+    [valores]="entradaService.filtrosAdmin()"
     (alFiltrar)="onFiltro($event)">
   </app-filtro>
   @if (cargando()) {
