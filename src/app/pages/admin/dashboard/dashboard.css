@@ -1,6 +1,5 @@
 .admin-container {
   padding: 20px;
-  /* Quitamos el margin auto para que se alinee a la izquierda con el título */
   text-align: left; 
   font-family: sans-serif;
 }
@@ -17,12 +16,28 @@
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 24px;
-  /* Ya no hay cursor pointer ni hover agresivo */
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .icon {
   font-size: 32px;
   margin-bottom: 15px;
-  color: #6b21a8; /* Tu púrpura directamente en el icono */
+  color: #6b21a8; 
+}
+
+/* Responsive styles para móviles */
+@media (max-width: 600px) {
+  .grid-menu {
+    grid-template-columns: 1fr;
+  }
+  h1{
+    font-size: 24px;
+  }
+  p{
+    font-size: 14px;
+  }
+
+  .admin-container {
+    padding-top: 60px;
+  }
 }

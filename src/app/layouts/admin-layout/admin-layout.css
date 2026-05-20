@@ -6,7 +6,7 @@
 
 .admin-view {
   display: flex;
-  flex: 1; /* Ocupa el espacio entre el header y el footer */
+  flex: 1; 
 }
 
 .admin-content {
@@ -16,7 +16,15 @@
   overflow-y: auto;
 }
 
-/* Ajuste opcional para que el footer no se coma el contenido */
 footer {
   margin-top: auto;
 }
+
+/* Responsive styles para móviles */
+@media (max-width: 600px) {
+  .admin-content {
+    padding: 0rem;
+  }
+}
+
+

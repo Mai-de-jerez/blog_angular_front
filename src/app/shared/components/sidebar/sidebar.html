@@ -1,4 +1,4 @@
-<nav class="sidebar">
+<!-- <nav class="sidebar">
   <div class="sidebar-header">
     <span>Administración</span>
   </div>
@@ -28,6 +28,47 @@
 
   <div class="sidebar-footer">
     <a routerLink="/" class="back-link">
+      <span>⬅️</span> Volver al Blog
+    </a>
+  </div>
+</nav> -->
+
+
+
+
+<button class="hamburger" (click)="abierta = !abierta">☰</button>
+<div class="overlay" (click)="abierta = false" [class.visible]="abierta"></div>
+
+<nav class="sidebar" [class.sidebar-abierta]="abierta">
+  <div class="sidebar-header">
+    <span>Administración</span>
+  </div>
+
+  <ul class="nav-list">
+    <li>
+      <a routerLink="usuarios" routerLinkActive="active-link" (click)="abierta = false">
+        <span class="icon">👥</span> Gestionar Usuarios
+      </a>
+    </li>
+    <li>
+      <a routerLink="entradas" routerLinkActive="active-link" (click)="abierta = false">
+        <span class="icon">📝</span> Gestionar Entradas
+      </a>
+    </li>
+    <li>
+      <a routerLink="comentarios" routerLinkActive="active-link" (click)="abierta = false">
+        <span class="icon">💬</span> Gestionar Comentarios
+      </a>
+    </li>
+    <li>
+      <a routerLink="categorias" routerLinkActive="active-link" (click)="abierta = false">
+        <span class="icon">📁</span> Gestionar Categorías
+      </a>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <a routerLink="/" class="back-link" (click)="abierta = false">
       <span>⬅️</span> Volver al Blog
     </a>
   </div>

@@ -21,11 +21,12 @@ interface CategoriaSelectGroup {
   styleUrl: './form-entrada.css'
 })
 export class FormEntrada implements OnInit {
+  // Inyección de servicios
   private categoriaService = inject(CategoriaService);
   private router = inject(Router);
-
   private _entrada: Partial<Entrada> = {};
 
+  // Inputs y Outputs para el formulario
   @Input() titulo: string = 'Editar Entrada';
   @Input() set entrada(val: Partial<Entrada>) {
     this._entrada = {

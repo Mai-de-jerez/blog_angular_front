@@ -7,4 +7,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './sidebar.css',
   standalone: true,
 })
-export class Sidebar {}
+export class Sidebar {
+  abierta = false;
+}

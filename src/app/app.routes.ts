@@ -69,6 +69,10 @@ export const routes: Routes = [
         path: 'entradas',
         loadComponent: () => import('./pages/admin/lista-entradas-admin/lista-entradas-admin').then(m => m.ListaEntradasAdmin)
       },
+      {
+        path: 'usuarios/editar/:id',
+        loadComponent: () => import('./pages/admin/editar-usuario/editar-usuario').then(m => m.EditarUsuario)
+      },
     ]
   },
 

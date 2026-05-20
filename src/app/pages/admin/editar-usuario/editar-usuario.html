@@ -1,0 +1,14 @@
+<div class="editar-container">
+  @if (usuarioCargado()) {
+    <app-form-usuario
+      titulo="Editar Usuario"
+      [usuario]="usuarioCargado() || {}"
+      [idUsuarioEditando]="usuarioCargado()!.id!"
+      (save)="actualizar($event)">
+    </app-form-usuario>
+  } @else {
+    <div class="loading">
+      <span>Cargando datos del usuario...</span>
+    </div>
+  }
+</div>
