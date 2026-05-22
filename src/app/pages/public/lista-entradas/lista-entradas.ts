@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { EntradaService } from '../../../core/services/entrada';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../auth/services/auth';
 import { Paginador } from '../../../shared/components/paginador/paginador';
 import { FiltroPublico } from '../../../shared/components/filtro-publico/filtro-publico';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Filtro } from '../../../shared/components/filtro/filtro';
 import { Paginador } from '../../../shared/components/paginador/paginador';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
+import { Toast } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -21,9 +22,12 @@ export class ListaUsuarios implements OnInit {
   public mediaUrl = environment.mediaUrl; 
   public router = inject(Router);
   public usuarioService = inject(UsuarioService);
+  public toast = inject(Toast);
 
-  // variables para estado y errores
+  // variables para estado y borrado de usuarios
   cargando = signal(true);
+  mostrarModal = signal(false);
+  idAEliminar = signal<number | null>(null);
 
   // Getters para simplificar el acceso en el HTML
   get pagina() { return this.usuarioService.usuariosPagina; }
@@ -63,5 +67,37 @@ export class ListaUsuarios implements OnInit {
 
   irAEditar(id: number): void {
     this.router.navigate(['/admin/usuarios/editar', id]);
+  }
+
+  irACrear(): void {
+    this.router.navigate(['/admin/usuarios/crear']);
+  }
+
+  // Métodos para eliminar usuarios
+  confirmarEliminar(id: number): void {
+    this.idAEliminar.set(id);
+    this.mostrarModal.set(true);
+  }
+
+  cancelar(): void {
+    this.mostrarModal.set(false);
+    this.idAEliminar.set(null);
+  }
+
+  eliminar(): void {
+    const id = this.idAEliminar();
+    if (!id) return;
+    this.usuarioService.eliminar(id).subscribe({
+      next: () => {
+        this.mostrarModal.set(false);
+        this.idAEliminar.set(null);
+        this.toast.mostrar('Usuario eliminado correctamente', 'success'); 
+        this.cargar();
+      },
+      error: () => {
+        this.mostrarModal.set(false);
+        this.toast.mostrar('Error al eliminar el usuario', 'error'); 
+      }
+    });
   }
 }

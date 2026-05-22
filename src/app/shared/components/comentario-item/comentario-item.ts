@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Comentario } from '../../../core/models/comentario';
 import { ComentarioPost } from '../../../core/models/comentario-post';
 import { ComentarioService } from '../../../core/services/comentario';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../auth/services/auth';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -114,11 +114,13 @@ export class ComentarioItem implements OnInit {
 
   toggleEdicion(): void {
     this.editando.update(v => !v);
-    this.textoEdicion.set(this.comentario().texto);
+    this.textoEdicion.set(this.textoMostrado());
   }
 
   guardar(): void {
     const texto = this.textoEdicion().trim();
+    console.log('texto:', texto);
+    console.log('id:', this.comentario().id);
     if (!texto) return;
     this.comentarioService.editarComentario(this.comentario().id!, { texto }).subscribe({
       next: (actualizado) => {

@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { EntradaService } from '../../../core/services/entrada';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../auth/services/auth';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 import { environment } from '../../../../environments/environment';
 import { Comentarios } from '../../../shared/components/comentarios/comentarios';

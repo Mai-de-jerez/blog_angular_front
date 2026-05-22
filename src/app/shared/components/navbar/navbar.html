@@ -14,13 +14,13 @@
     <li class="nav-item">
       <a routerLink="/sobre-mi" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Sobre mí</a>
     </li>
-    @if (!authService.isLogged()) {
+    @if (!isLogged()) {
       <li class="nav-item login-item">
         <a routerLink="/login" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Login</a>
       </li>
     } @else {
       <li class="nav-item login-item user-group">
-        @if (authService.isAdmin()) {
+        @if (isAdmin()) {
           <a routerLink="/admin" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Admin</a>
         }
         <a routerLink="/mi-perfil" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Mi Perfil</a>

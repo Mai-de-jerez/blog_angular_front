@@ -6,7 +6,7 @@ import { FormEntrada } from '../../../shared/components/forms/form-entrada/form-
 import { Entrada } from '../../../core/models/entrada';
 import { Toast } from '../../../core/services/toast';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../auth/services/auth';
 
 @Component({
   selector: 'app-editar-entrada',

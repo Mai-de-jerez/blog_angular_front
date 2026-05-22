@@ -1,0 +1,6 @@
+<app-toast-local></app-toast-local>
+@if (cargando()) {
+  <p>Cargando usuario...</p>
+} @else if (usuario()) {
+  <app-usuario-card [usuario]="usuario()!" [mostrarId]="true" />
+}

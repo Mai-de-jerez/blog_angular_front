@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { RouterLink, Router } from '@angular/router';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../auth/services/auth';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
-import { LoginRequest } from '../../../core/models/login-request';
+import { LoginRequest } from '../../interfaces/login-request';
 
 @Component({
   selector: 'app-login',

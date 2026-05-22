@@ -1,0 +1,68 @@
+<div class="perfil-wrap">
+  <app-toast-local></app-toast-local>
+  <div class="perfil-card">
+    <div class="perfil-izq">
+      @if (mostrarId()) {
+        <span class="user-id">#{{ usuario().id }}</span>
+      }
+      @if (usuario().foto) {
+        <img [src]="mediaUrl + usuario().foto" class="avatar" alt="foto de perfil">
+      } @else {
+        <div class="avatar-placeholder">
+          {{ usuario().nombre.charAt(0).toUpperCase() }}
+        </div>
+      }
+      <p class="username">@{{ usuario().username }}</p>
+      <span class="rol-badge">{{ usuario().rol }}</span>
+    </div>
+
+    <div class="perfil-der">
+      <p class="seccion-titulo">Datos personales</p>
+      <div class="campos-grid">
+        <div class="campo">
+          <label>Nombre</label>
+          <span>{{ usuario().nombre }}</span>
+        </div>
+        <div class="campo">
+          <label>Apellidos</label>
+          <span>{{ usuario().apellidos }}</span>
+        </div>
+        <div class="campo">
+          <label>Email</label>
+          <span>{{ usuario().email }}</span>
+        </div>
+        <div class="campo">
+          <label>Teléfono</label>
+          <span [class.vacio]="!usuario().telefono">
+            {{ usuario().telefono || 'No especificado' }}
+          </span>
+        </div>
+        <div class="campo">
+          <label>Dirección</label>
+          <span [class.vacio]="!usuario().direccion">
+            {{ usuario().direccion || 'No especificada' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="acciones">
+        @if (esPropioPerfil) {
+          <button class="btn btn-editar" (click)="irAEditar()">
+            <i class="bi bi-pencil me-1"></i>Editar perfil
+          </button>
+          <button class="btn btn-borrar">
+            <i class="bi bi-trash me-1"></i>Borrar cuenta
+          </button>
+        }
+        @if (esAdmin && !esPropioPerfil) {
+          <button class="btn btn-editar" (click)="irAEditar()">
+            <i class="bi bi-pencil me-1"></i>Editar usuario
+          </button>
+          <button class="btn btn-borrar">
+            <i class="bi bi-trash me-1"></i>Eliminar usuario
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</div>

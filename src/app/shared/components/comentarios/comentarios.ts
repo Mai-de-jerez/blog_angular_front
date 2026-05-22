@@ -2,7 +2,7 @@ import { Component, OnInit, input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ComentarioService } from '../../../core/services/comentario';
-import { Auth } from '../../../core/services/auth';
+import { Auth } from '../../../auth/services/auth';
 import { Comentario } from '../../../core/models/comentario';
 import { ComentarioPost } from '../../../core/models/comentario-post';
 import { ComentarioItem } from '../comentario-item/comentario-item';

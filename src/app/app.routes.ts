@@ -2,15 +2,8 @@
 import { Routes } from '@angular/router';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 import { Home } from './pages/public/home/home';
-import { Login } from './pages/public/login/login';
-import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { SobreMi } from './pages/public/sobre-mi/sobre-mi';
-import { authGuard } from './core/guards/auth-guard';
-import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { loggedGuard } from './core/guards/logged-guard';
-import { SolicitarPassword } from './pages/public/solicitar-password/solicitar-password';
-import { CambiarPassword } from './pages/public/cambiar-password/cambiar-password';
-import { Registro } from './pages/public/registro/registro';
 
 
 export const routes: Routes = [
@@ -23,13 +16,13 @@ export const routes: Routes = [
       { path: 'entradas', 
         loadComponent: () => import('./pages/public/lista-entradas/lista-entradas').then(m => m.ListaEntradas)
        },
-      { path: 'entradas/crear', 
-        canActivate: [loggedGuard],
-        loadComponent: () => import('./pages/public/crear-entrada/crear-entrada').then(m => m.CrearEntrada)
-      },
       { path: 'entradas/:slug',
         loadComponent: () => import('./pages/public/detalle-entrada/detalle-entrada').then(m => m.DetalleEntrada)
        },
+       { path: 'entradas/crear', 
+        canActivate: [loggedGuard],
+        loadComponent: () => import('./pages/public/crear-entrada/crear-entrada').then(m => m.CrearEntrada)
+      },
       { path: 'entradas/editar-entrada/:slug', 
         canActivate: [loggedGuard],
         loadComponent: () => import('./pages/public/editar-entrada/editar-entrada').then(m => m.EditarEntrada)
@@ -38,42 +31,22 @@ export const routes: Routes = [
         path: 'mi-perfil',
         canActivate: [loggedGuard],
         loadComponent: () => import('./pages/public/mi-perfil/mi-perfil').then(m => m.MiPerfil)
+       },
+       {
+        path: 'mi-perfil/editar',
+        canActivate: [loggedGuard],
+        loadComponent: () => import('./pages/public/editar-perfil/editar-perfil').then(m => m.EditarPerfil)
        }
     ]
   },
 
   {
-    path: '',
-    component: AuthLayout,
-    children: [
-      { path: 'login', component: Login },
-      { path: 'solicitar-recuperacion', component: SolicitarPassword },
-      { path: 'cambiar-password', component: CambiarPassword },
-      { path: 'registro', component: Registro }
-    ]
+  path: '',
+    loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
   },
-
   {
     path: 'admin',
-    component: AdminLayout,
-    canActivate: [authGuard], 
-    children: [      
-      { path: '', 
-        loadComponent: () => import('./pages/admin/dashboard/dashboard').then(m => m.Dashboard)
-      },
-      {
-        path: 'usuarios',
-        loadComponent: () => import('./pages/admin/lista-usuarios/lista-usuarios').then(m => m.ListaUsuarios)
-      },
-      {
-        path: 'entradas',
-        loadComponent: () => import('./pages/admin/lista-entradas-admin/lista-entradas-admin').then(m => m.ListaEntradasAdmin)
-      },
-      {
-        path: 'usuarios/editar/:id',
-        loadComponent: () => import('./pages/admin/editar-usuario/editar-usuario').then(m => m.EditarUsuario)
-      },
-    ]
+    loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
 
   { path: '**', redirectTo: '' } 

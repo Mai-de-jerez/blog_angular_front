@@ -1,7 +1,7 @@
 // app.ts
 import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Auth } from './core/services/auth';
+import { Auth } from './auth/services/auth';
 
 
 @Component({

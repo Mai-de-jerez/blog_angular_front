@@ -1,14 +1,14 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, of } from 'rxjs';
-import { AuthResponse } from '../models/auth-response'; 
-import { LoginRequest } from '../models/login-request';
+import { AuthResponse } from '../../auth/interfaces/auth-response'; 
+import { LoginRequest } from '../../auth/interfaces/login-request';
 import { Router } from '@angular/router';
-import { Toast } from './toast';
 import { environment } from '../../../environments/environment';
+import { Toast } from '../../core/services/toast';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class Auth {
   // inyectamos los servicios necesarios
@@ -34,6 +34,8 @@ export class Auth {
   public isLogged = signal<boolean>(false);
   public userRol = signal<number | null>(null);
   public userId = signal<number | null>(null);
+  isAdmin = computed(() => this.userRol() === 1 || this.userRol() === 2);
+  isSuperAdmin = computed(() => this.userRol() === 1);
 
   // Método para inicializar la autenticación al cargar la aplicación
   initAuth(): Observable<any> {
@@ -58,17 +60,6 @@ export class Auth {
   // Método para obtener el ID del usuario
   getUsuarioId(): number | null {
     return this.userId();
-  }
-
-  // Método para verificar si el usuario tiene rol de admin
-  isAdmin(): boolean {
-    const rol = this.userRol();
-    return rol === 1 || rol === 2; 
-  }
-
-  // Método para verificar si el usuario tiene rol de super admin
-  isSuperAdmin(): boolean {
-    return this.userRol() === 1;
   }
 
   // Método para guardar el token después del login exitoso

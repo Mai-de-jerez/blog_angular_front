@@ -49,8 +49,8 @@
       </tbody>
     </table>
   }
-  <app-paginador 
-    [totalPaginas]="pagina()!.totalPaginas"  
+  <app-paginador  
+    [totalPaginas]="pagina()?.totalPaginas ?? 0" 
     [paginaActual]="paginaActual()"
     (pageChanged)="onPage($event)">
   </app-paginador>

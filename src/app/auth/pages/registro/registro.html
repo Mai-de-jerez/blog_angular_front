@@ -1,6 +1,7 @@
 <div class="auth-card">
   <app-form-usuario
     titulo="Crear cuenta"
+    cancelUrl="/login"
     [cargando]="cargando()"
     (save)="procesarRegistro($event)">
   </app-form-usuario>

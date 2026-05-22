@@ -1,25 +1,22 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UsuarioService } from '../../../core/services/usuario';
 import { Usuario } from '../../../core/models/usuario';
-import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
-import { CommonModule } from '@angular/common';
-import { environment } from '../../../../environments/environment';
+import { UsuarioCard } from '../../../shared/components/usuario-card/usuario-card';
 
 @Component({
   selector: 'app-mi-perfil',
-  imports: [ ToastLocal , CommonModule ], 
+  imports: [ UsuarioCard],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css',
+  standalone: true
 })
+
 export class MiPerfil implements OnInit {
 
-  public readonly mediaUrl = environment.mediaUrl;
+  private usuarioService = inject(UsuarioService);
 
   usuario = signal<Usuario | null>(null);
   cargando = signal(true);
-  error = signal('');
-
-  constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
     this.usuarioService.verPerfil().subscribe({
@@ -27,9 +24,7 @@ export class MiPerfil implements OnInit {
         this.usuario.set(data);
         this.cargando.set(false);
       },
-      error: () => {
-        this.cargando.set(false);
-      }
+      error: () => this.cargando.set(false)
     });
   }
 }

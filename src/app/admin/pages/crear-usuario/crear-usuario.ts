@@ -1,24 +1,25 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth } from '../../../core/services/auth';
+import { UsuarioService } from '../../../core/services/usuario'; 
 import { Toast } from '../../../core/services/toast';
 import { FormUsuario } from '../../../shared/components/forms/form-usuario/form-usuario'; 
 
 @Component({
-  selector: 'app-registro',
+  selector: 'app-crear-usuario',
   standalone: true,
-  imports: [ FormUsuario], 
-  templateUrl: './registro.html',
-  styleUrl: './registro.css'
+  imports: [FormUsuario], 
+  templateUrl: './crear-usuario.html',
+  styleUrl: './crear-usuario.css'
 })
-export class Registro {
-  private readonly authService = inject(Auth);
+
+export class CrearUsuario {
+  private readonly usuarioService = inject(UsuarioService);
   private readonly toastService = inject(Toast);
   private readonly router = inject(Router);
 
   cargando = signal<boolean>(false);
 
-  procesarRegistro(datos: any): void {
+  procesarCreacion(datos: any): void {
     this.cargando.set(true);
 
     const form = new FormData();
@@ -31,14 +32,17 @@ export class Registro {
     if (datos.telefono) form.append('telefono', datos.telefono);
     if (datos.direccion) form.append('direccion', datos.direccion);
     
+    // Campo exclusivo de administración:
+    if (datos.rol) form.append('rol', datos.rol);
+    
     if (datos.foto instanceof File) {
       form.append('foto', datos.foto, datos.foto.name);
     }
 
-    this.authService.registro(form).subscribe({
+    this.usuarioService.crear(form).subscribe({
       next: () => {
-        this.toastService.mostrar('Registro completado. ¡Ya puedes iniciar sesión!', 'success');
-        this.router.navigate(['/login']);
+        this.toastService.mostrar('Usuario creado correctamente', 'success');
+        this.router.navigate(['/admin/usuarios']); 
       },
       error: () => { 
         this.cargando.set(false); 

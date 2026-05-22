@@ -1,7 +1,10 @@
 <div class="list-container">
   <div class="header-lista">
-    <h1>Usuarios</h1><app-toast-local></app-toast-local>
+    <h1><i class="bi bi-person-fill me-2"></i>Gestión de Usuarios</h1>
+    <app-toast-local></app-toast-local>
+    <button (click)="irACrear()" class="btn-crear">+ Crear Usuario</button>   
   </div>
+  <!-- Filtro de búsqueda -->
   <app-filtro 
       labelId="ID..." 
       label1="Username" 
@@ -10,6 +13,7 @@
       [valores]="usuarioService.filtros()"
       (alFiltrar)="onFiltro($event)">
   </app-filtro>
+  <!-- Cargando usuarios -->
   @if (cargando()) {
     <p>Cargando usuarios...</p>
   } @else {
@@ -41,15 +45,29 @@
             <td>{{ u.rol }}</td>
             <td>
               <button (click)="irAEditar(u.id)" class="btn-editar">Editar</button>
-              <button class="btn-eliminar">Eliminar</button>
+              <button (click)="confirmarEliminar(u.id)" class="btn-eliminar">Eliminar</button>
             </td>
         </tr>
         }
       </tbody>
     </table>
   }
+  <!-- Modal de confirmación para eliminación -->
+  @if (mostrarModal()) {
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <p>¿Estás seguro de que quieres eliminar este usuario?</p>
+        <span>Esta acción no se puede deshacer.</span>
+        <div class="modal-acciones">
+          <button (click)="cancelar()" class="btn-cancelar">Cancelar</button>
+          <button (click)="eliminar()" class="btn-eliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  }
+  <!-- Paginador -->
   <app-paginador 
-    [totalPaginas]="pagina()!.totalPaginas"  
+    [totalPaginas]="pagina()?.totalPaginas ?? 0" 
     [paginaActual]="paginaActual()"
     (pageChanged)="onPage($event)">
   </app-paginador>

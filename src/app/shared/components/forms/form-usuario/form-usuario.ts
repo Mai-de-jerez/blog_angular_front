@@ -1,16 +1,15 @@
 import { Component, inject, input, output, effect } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Auth } from '../../../../core/services/auth';
+import { Auth } from '../../../../auth/services/auth';
 import { UsuarioPost } from '../../../../core/models/usuario-post';
 import { ToastLocal } from '../../toast-local/toast-local';
 import { FieldError } from '../../field-error/field-error'; 
 
-
 @Component({
   selector: 'app-form-usuario',
   standalone: true,
-  imports: [ReactiveFormsModule, ToastLocal, FieldError],
+  imports: [ ReactiveFormsModule, ToastLocal, FieldError],
   templateUrl: './form-usuario.html',
   styleUrl: './form-usuario.css'
 })
@@ -24,6 +23,7 @@ export class FormUsuario {
   idUsuarioEditando = input<number | null>(null); 
   cargando = input<boolean>(false);
   usuario = input<Partial<UsuarioPost> | null>(null); 
+  cancelUrl = input<string>('/admin/usuarios');
 
   // output para emitir los datos del formulario al componente padre
   save = output<UsuarioPost>();
@@ -76,19 +76,17 @@ export class FormUsuario {
   }
 
   onCancel() {
-    this.router.navigate(['/admin/usuarios']);
+    this.router.navigate([this.cancelUrl()]);
   }
 
   onSubmit() {
-  if (this.form.invalid) {
-    this.form.markAllAsTouched();
-    return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    if (!this.cargando()) {
+      const datos = this.form.getRawValue() as UsuarioPost;
+      this.save.emit(datos);
+    }
   }
-  if (!this.cargando()) {
-    const datos = this.form.getRawValue() as UsuarioPost;
-    this.save.emit(datos);
-  }
-}
-
-
 }

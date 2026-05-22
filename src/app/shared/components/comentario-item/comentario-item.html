@@ -25,7 +25,8 @@
       <button class="btn btn--sm btn--ghost" (click)="toggleEdicion()">Cancelar</button>
     </div>
   } @else {
-    <p class="comentario__texto">{{ comentario().texto }}</p>
+    <!--<p class="comentario__texto">{{ comentario().texto }}</p>-->
+    <p class="comentario__texto">{{ textoMostrado() }}</p>
 
     <!-- BOTONES -->
     <footer class="comentario__footer">

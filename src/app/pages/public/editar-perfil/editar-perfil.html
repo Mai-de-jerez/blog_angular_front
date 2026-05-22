@@ -1,0 +1,7 @@
+<app-form-usuario
+  titulo="Editar mi perfil"
+  cancelUrl="/mi-perfil"
+  [idUsuarioEditando]="idUsuario"
+  [usuario]="usuarioCargado()"
+  (save)="actualizar($event)">
+</app-form-usuario>
