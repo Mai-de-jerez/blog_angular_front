@@ -2,23 +2,35 @@
   <h1>Panel de Control</h1>
   <p>Bienvenida de nuevo, May. Esto es lo que pasa en tu sistema:</p>
 
-  <div class="grid-menu">
-    <div class="card">
-      <div class="icon">👥</div>
-      <h3>Usuarios</h3>
-      <p>Total: 15 usuarios registrados.</p>
-    </div>
+  @if (stats()) {
+    <div class="grid-menu">
+      <div class="card">
+        <div class="icon">👥</div>
+        <h3>Usuarios</h3>
+        <p>Total: {{ stats()!.totalUsuarios }} usuarios registrados.</p>
+      </div>
 
-    <div class="card">
-      <div class="icon">📝</div>
-      <h3>Entradas</h3>
-      <p>Tienes 4 borradores pendientes.</p>
-    </div>
+      <div class="card">
+        <div class="icon">📝</div>
+        <h3>Entradas</h3>
+        <p>Total: {{ stats()!.totalEntradas }} entradas.</p>
+      </div>
 
-    <div class="card">
-      <div class="icon">⚙️</div>
-      <h3>Servidor</h3>
-      <p>Estado: <span style="color: green">Online</span></p>
+      <div class="card">
+        <div class="icon">⚙️</div>
+        <h3>Servidor</h3>
+        <p>Estado: 
+          <span [style.color]="stats()!.estadoServidor === 'online' ? 'green' : 'orange'">
+            {{ stats()!.estadoServidor }}
+          </span>
+        </p>
+      </div>
     </div>
-  </div>
+  }
+
+  @if (error()) {
+    <div class="card">
+      <p>⚙️ Servidor: <span style="color: red">Offline</span></p>
+    </div>
+  }
 </div>

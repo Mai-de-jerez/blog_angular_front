@@ -1,0 +1,9 @@
+<div class="crear-container">
+  <app-toast-local></app-toast-local>
+  <app-form-entrada
+    [entrada]="nuevaEntrada"
+    titulo="Nueva Entrada"
+    cancelUrl="/admin/entradas"
+    (save)="crear($event)">
+  </app-form-entrada>
+</div>

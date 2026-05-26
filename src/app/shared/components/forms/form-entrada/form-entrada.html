@@ -1,49 +1,55 @@
-<form (ngSubmit)="onSubmit()" #f="ngForm" class="form-container">
-  <h2 class="form-title">{{ titulo }}</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+  <h2 class="form-title">{{ titulo() }}</h2>
 
   <div class="grid-form">
+
     <!-- Título -->
     <div class="form-group full-width">
       <label>Título de la entrada</label>
-      <input type="text" [(ngModel)]="entrada.titulo" name="titulo" required placeholder="Ej: Las claves de la gnosis">
+      <input type="text" formControlName="titulo" placeholder="Ej: Las claves de la gnosis">
+      <app-field-error [control]="form.get('titulo')" [mensajes]="{ minlength: 'El título debe tener al menos 3 caracteres' }" />
     </div>
 
     <!-- Categoría -->
     <div class="form-group">
       <label>Categoría</label>
       <ng-select
-          [items]="categoriasParaSelect()"
-          bindLabel="label"
-          bindValue="data"
-          groupBy="groupLabel"
-          [(ngModel)]="entrada.categoriaId"
-          name="categoriaId"
-          placeholder="Selecciona una categoría...">
-      </ng-select>     
+        [items]="categoriasParaSelect()"
+        bindLabel="label"
+        bindValue="data"
+        groupBy="groupLabel"
+        formControlName="categoriaId"
+        placeholder="Selecciona una categoría...">
+      </ng-select>
+      <app-field-error [control]="form.get('categoriaId')" />
     </div>
 
     <!-- Imagen -->
     <div class="form-group">
       <label>Imagen de la entrada</label>
-        <input 
-          type="file" 
-          (change)="onFileSelected($event)" 
-          name="imagen" 
-          accept="image/*"
-          class="file-input"
-        >
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+        class="file-input"
+      >
     </div>
 
     <!-- Contenido -->
     <div class="form-group full-width">
       <label>Contenido del post</label>
-      <textarea [(ngModel)]="entrada.contenido" name="contenido" required rows="12" placeholder="Escribe aquí..."></textarea>
+      <textarea formControlName="contenido" rows="12" placeholder="Escribe aquí..."></textarea>
+      <app-field-error [control]="form.get('contenido')" [mensajes]="{ minlength: 'El contenido debe tener al menos 10 caracteres' }" />
     </div>
+
   </div>
 
-  <!-- Botones de acción -->
+  <app-toast-local></app-toast-local>
+
   <div class="form-actions">
     <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
-    <button type="submit" class="btn-primary" [disabled]="!f.valid">Guardar Entrada</button>
+    <button type="submit" class="btn-primary" [disabled]="cargando()">
+      {{ cargando() ? 'Guardando...' : 'Guardar Entrada' }}
+    </button>
   </div>
 </form>

@@ -32,6 +32,18 @@ export const ADMIN_ROUTES: Routes = [
         path: 'entradas',
         loadComponent: () => import('./pages/lista-entradas-admin/lista-entradas-admin').then(m => m.ListaEntradasAdmin)
       },
+      {
+        path: 'entradas/crear',
+        loadComponent: () => import('./pages/crear-entrada/crear-entrada').then(m => m.CrearEntrada)
+      },
+      {
+        path: 'entradas/editar/:id',
+        loadComponent: () => import('./pages/editar-entrada/editar-entrada').then(m => m.EditarEntrada)
+      },
+      {
+        path: 'entradas/detalle/:id',
+        loadComponent: () => import('./pages/detalle-entrada/detalle-entrada').then(m => m.DetalleEntrada)
+      }
     ]
   }
 ];

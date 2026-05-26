@@ -1,13 +1,14 @@
-import { Component, signal , EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, input, output, effect, signal } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Entrada } from '../../../../core/models/entrada';
 import { CategoriaService } from '../../../../core/services/categoria';
 import { Categoria } from '../../../../core/models/categoria';
+import { FieldError } from '../../field-error/field-error';
+import { ToastLocal } from '../../toast-local/toast-local';
+import { EntradaPost } from '../../../../core/models/entrada-post';
 
-interface CategoriaSelectGroup {
+interface CategoriaSelectGroup { 
   label: string;
   data: number;
   groupLabel: string;
@@ -16,35 +17,47 @@ interface CategoriaSelectGroup {
 @Component({
   selector: 'app-form-entrada',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgSelectModule],
+  imports: [ReactiveFormsModule, NgSelectModule, FieldError, ToastLocal],
   templateUrl: './form-entrada.html',
   styleUrl: './form-entrada.css'
 })
-export class FormEntrada implements OnInit {
-  // Inyección de servicios
-  private categoriaService = inject(CategoriaService);
-  private router = inject(Router);
-  private _entrada: Partial<Entrada> = {};
+export class FormEntrada {
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly categoriaService = inject(CategoriaService);
 
-  // Inputs y Outputs para el formulario
-  @Input() titulo: string = 'Editar Entrada';
-  @Input() set entrada(val: Partial<Entrada>) {
-    this._entrada = {
-      ...val,
-      categoriaId: val.categoriaId ? Number(val.categoriaId) : undefined
-    };
-  }
-  get entrada() { return this._entrada; }
+  // Inputs para configurar el formulario desde el componente padre
+  titulo = input<string>('Nueva Entrada');
+  idEntradaEditando = input<number | null>(null);
+  cargando = input<boolean>(false);
+  entrada = input<Partial<EntradaPost> | null>(null);
+  cancelUrl = input<string>('/entradas');
 
-  @Output() save = new EventEmitter<Partial<Entrada>>();
+  // Output para emitir los datos al componente padre
+  save = output<EntradaPost>();
+
   categoriasParaSelect = signal<CategoriaSelectGroup[]>([]);
 
-  ngOnInit(): void {
+  form = this.fb.group({
+    titulo:      ['', [Validators.required, Validators.minLength(3)]],
+    categoriaId: [null as number | null, Validators.required],
+    contenido:   ['', [Validators.required, Validators.minLength(10)]],
+    imagenUrl:   [null as string | File | null]
+  });
+
+  constructor() {
+    // Cargar categorías al iniciar
     this.categoriaService.getCategorias().subscribe({
       next: (categorias: Categoria[]) => {
         this.categoriasParaSelect.set(this.formatearParaSelect(categorias));
       },
       error: (err) => console.error('Error al cargar categorías:', err)
+    });
+
+    // Precargar datos si estamos editando
+    effect(() => {
+      const datos = this.entrada();
+      if (datos) this.form.patchValue(datos);
     });
   }
 
@@ -68,23 +81,24 @@ export class FormEntrada implements OnInit {
     return result;
   }
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.entrada.imagenUrl = file;
-    }
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) this.form.patchValue({ imagenUrl: file }); 
   }
 
   onCancel() {
-    if (this.entrada?.slug) {
-      this.router.navigate(['/entradas', this.entrada.slug]);
-    } else {
-      this.router.navigate(['/entradas']);
-    }
+    this.router.navigate([this.cancelUrl()]);
   }
 
   onSubmit() {
-    this.save.emit(this.entrada);
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    if (!this.cargando()) {
+      const datos = this.form.getRawValue() as EntradaPost;
+      this.save.emit(datos);
+    }
   }
 }
 

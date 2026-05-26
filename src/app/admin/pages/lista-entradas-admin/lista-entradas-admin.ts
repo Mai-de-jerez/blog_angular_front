@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EntradaService } from '../../../core/services/entrada';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
+import { Toast } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { Filtro } from '../../../shared/components/filtro/filtro';
 import { Paginador } from '../../../shared/components/paginador/paginador';
@@ -17,12 +18,15 @@ import { Router } from '@angular/router';
 export class ListaEntradasAdmin implements OnInit {
 
   // Inyección de servicios
+  readonly mediaUrl = environment.mediaUrl;
   readonly entradaService = inject(EntradaService);
   private router = inject(Router); 
-  readonly mediaUrl = environment.mediaUrl;
+  private toast = inject(Toast);
 
   // Estado de carga
   cargando = signal(true);
+  mostrarModal = signal(false);
+  idAEliminar = signal<number | null>(null);
 
   // Getters para el template
   get pagina() { return this.entradaService.paginaAdminData; }
@@ -61,6 +65,37 @@ export class ListaEntradasAdmin implements OnInit {
 
   irAEditar(id: number): void {
     this.router.navigate(['/admin/entradas/editar', id]);
+  }
+
+  irACrear(): void {
+    this.router.navigate(['/admin/entradas/crear']);
+  }
+
+  eliminar(): void {
+  const id = this.idAEliminar();
+  if (!id) return;
+  this.entradaService.deleteEntrada(id).subscribe({
+    next: () => {
+      this.mostrarModal.set(false);
+      this.idAEliminar.set(null);
+      this.toast.mostrar('Entrada eliminada correctamente', 'success');
+      this.cargar();
+    },
+    error: () => {
+      this.mostrarModal.set(false);
+      this.toast.mostrar('Error al eliminar la entrada', 'error');
+    }
+  });
+}
+
+  confirmarEliminar(id: number): void {
+  this.idAEliminar.set(id);
+  this.mostrarModal.set(true);
+}
+
+  cancelar(): void {
+    this.mostrarModal.set(false);
+    this.idAEliminar.set(null);
   }
 } 
  

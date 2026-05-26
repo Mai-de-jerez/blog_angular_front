@@ -19,10 +19,10 @@ import { Router } from '@angular/router';
 export class ListaUsuarios implements OnInit {
 
   // inyección de servicios y variables
-  public mediaUrl = environment.mediaUrl; 
-  public router = inject(Router);
-  public usuarioService = inject(UsuarioService);
-  public toast = inject(Toast);
+  readonly mediaUrl = environment.mediaUrl;
+  private router = inject(Router);
+  readonly usuarioService = inject(UsuarioService);
+  private toast = inject(Toast);
 
   // variables para estado y borrado de usuarios
   cargando = signal(true);

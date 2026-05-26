@@ -2,17 +2,18 @@
   padding: 0 2rem 2rem 2rem;
 }
 
-.header-lista {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
 .header-lista h1 {
   font-size: 2rem;
   font-weight: 700;
 }
+
+.header-lista {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
 
 table {
   width: 100%;
@@ -62,6 +63,25 @@ tbody tr:last-child td {
   object-fit: cover;
 }
 
+.btn-crear {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-crear:hover {
+  background-color: #4b0082;
+  transform: translateY(-1px);
+}
+
 .btn-editar,
 .btn-eliminar {
   padding: 0.35rem 0.8rem;
@@ -88,4 +108,88 @@ tbody tr:last-child td {
 
 .btn-eliminar:hover {
   background: #c53030;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 320px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.modal-box span {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.modal-acciones {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn-cancelar {
+  padding: 0.45rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background-color 0.2s;
+}
+
+.btn-cancelar:hover {
+  background: #f0f0f0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-lista {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  .header-lista h1 {
+    font-size: 1.6rem;
+    margin-top: 0.5rem;
+  }
+
+  .btn-crear {
+    margin-top: 1rem;
+  }
+
+  table {
+    font-size: 0.75rem;
+  }
+
+  .autor-avatar {
+    width: 30px;
+    height: 30px;
+  }
 }
