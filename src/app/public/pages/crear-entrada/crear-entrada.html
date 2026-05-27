@@ -3,6 +3,7 @@
     <app-form-entrada 
         [entrada]="nuevaEntrada" 
         titulo="Nueva Entrada"
-        (save)="crear($event)">
+        (save)="crear($event)"
+        (cancel)="volverAlListadoPublico()">
     </app-form-entrada>
-</div>
+</div> 

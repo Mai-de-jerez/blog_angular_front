@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Entrada } from '../models/entrada';
 import { Pagina } from '../models/pagina';
 import { environment } from '../../../environments/environment';
@@ -17,55 +17,26 @@ export class EntradaService {
   private readonly apiUrl = `${environment.apiUrl}/entradas`;
   // Variables de estado para la entrada detallada 
   entradaDetalle = signal<Entrada | null>(null);
-  // Variables de estado para la vista pública
-  pagina = signal<Pagina<Entrada> | null>(null);
-  titulo = signal('');
-  categoria = signal('');
-  autor = signal('');
-  paginaActual = signal(0);
-  // Variables de estado para la vista de administración
-  idAdmin = signal<number | null>(null);
-  tituloAdmin = signal('');
-  categoriaAdmin = signal('');
-  autorAdmin = signal('');
-  paginaAdminData = signal<Pagina<Entrada> | null>(null);
-  paginaActualAdmin = signal(0);
-
-  // computed para filtros públicos
-  filtrosPublico = computed(() => ({
-    c1: this.titulo(),
-    c2: this.categoria(),
-    c3: this.autor()
-  }));
-
-  // computed para filtros admin
-  filtrosAdmin = computed(() => ({
-    id: this.idAdmin() ?? undefined,
-    c1: this.tituloAdmin(),
-    c2: this.categoriaAdmin(),
-    c3: this.autorAdmin()
-  }));
+  categoriaFooter$ = new BehaviorSubject<string>('');
  
   // obtener entradas con filtros y paginación
-  getEntradas() {
-    const f = this.filtrosPublico();
-    let params = new HttpParams().set('page', this.paginaActual()).set('size', '4');
-    if (f.c1) params = params.set('titulo', f.c1);
-    if (f.c2) params = params.set('categoria', f.c2);
-    if (f.c3) params = params.set('autor', f.c3);
+  getEntradas(titulo: string, categoria: string, autor: string, pagina: number) {
+    let params = new HttpParams().set('page', pagina).set('size', '4');
+    if (titulo) params = params.set('titulo', titulo);
+    if (categoria) params = params.set('categoria', categoria);
+    if (autor) params = params.set('autor', autor);
     return this.http.get<Pagina<Entrada>>(this.apiUrl, { params });
   }
 
   // obtener entradas para admin con filtros y paginación
-  getEntradasAdmin(): Observable<Pagina<Entrada>> {
-    const f = this.filtrosAdmin();
-    let params = new HttpParams().set('page', this.paginaActualAdmin()).set('size', '12');
-    if (f.id) params = params.set('id', f.id!);
-    if (f.c1) params = params.set('titulo', f.c1);
-    if (f.c2) params = params.set('categoria', f.c2);
-    if (f.c3) params = params.set('autor', f.c3);
-    return this.http.get<Pagina<Entrada>>(`${this.apiUrl}/admin`, { params });
-  }
+  getEntradasAdmin(id: number | null, titulo: string, categoria: string, autor: string, pagina: number): Observable<Pagina<Entrada>> {
+  let params = new HttpParams().set('page', pagina).set('size', '12');
+  if (id) params = params.set('id', id);
+  if (titulo) params = params.set('titulo', titulo);
+  if (categoria) params = params.set('categoria', categoria);
+  if (autor) params = params.set('autor', autor);
+  return this.http.get<Pagina<Entrada>>(`${this.apiUrl}/admin`, { params });
+}
 
   // obtener entrada por id para la vista de edición
   getEntrada(id: number): Observable<Entrada> {

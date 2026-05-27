@@ -7,10 +7,11 @@ import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 import { environment } from '../../../../environments/environment';
 import { Comentarios } from '../../../shared/components/comentarios/comentarios';
 import { Toast } from '../../../core/services/toast';
+import { DetalleEntradaCard } from '../../../shared/components/detalle-entrada-card/detalle-entrada-card';
 
 @Component({
   selector: 'app-detalle-entrada',
-  imports: [CommonModule, DatePipe, ToastLocal, Comentarios],
+  imports: [CommonModule, ToastLocal, Comentarios, DetalleEntradaCard], 
   templateUrl: './detalle-entrada.html',
   styleUrl: './detalle-entrada.css',
   standalone: true

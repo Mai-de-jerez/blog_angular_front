@@ -15,8 +15,7 @@ export class Footer {
   private router = inject(Router);
 
   irACategoria(categoria: string): void {
-    this.entradaService.categoria.set(categoria);
-    this.entradaService.paginaActual.set(0);
+    this.entradaService.categoriaFooter$.next(categoria);
     this.router.navigate(['/entradas']);
   }
 }

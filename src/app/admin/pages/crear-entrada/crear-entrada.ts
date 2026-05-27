@@ -40,6 +40,10 @@ export class CrearEntrada {
         console.error('Error al crear:', err);
         this.toastService.mostrar('Error al guardar la nueva entrada', 'error');
       }
-    });
+    }); 
+  }
+
+  volverAlListadoAdmin(): void {
+    this.router.navigate(['/admin/entradas']);
   }
 }

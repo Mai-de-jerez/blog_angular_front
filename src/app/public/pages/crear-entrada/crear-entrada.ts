@@ -59,4 +59,8 @@ export class CrearEntrada {
       } 
     });
   }
+
+  volverAlListadoPublico(): void {
+    this.router.navigate(['/entradas']); 
+  }
 }

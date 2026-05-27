@@ -3,7 +3,7 @@
   <app-form-entrada
     [entrada]="nuevaEntrada"
     titulo="Nueva Entrada"
-    cancelUrl="/admin/entradas"
+    (cancel)="volverAlListadoAdmin()"
     (save)="crear($event)">
   </app-form-entrada>
 </div>

@@ -1,1 +1,16 @@
-<p>editar-entrada works!</p>
+<div class="editar-container">
+  @if (entradaCargada()) {
+    <app-toast-local></app-toast-local>
+    <app-form-entrada
+      titulo="Editar Entrada"
+      [entrada]="entradaCargada() || {}"
+      [idEntradaEditando]="entradaCargada()!.id!"
+      (save)="actualizar($event)"
+      (cancel)="volverAlListadoAdmin()">
+    </app-form-entrada>
+  } @else {
+    <div class="loading">
+      <span>Cargando datos de la entrada...</span>
+    </div>
+  }
+</div>

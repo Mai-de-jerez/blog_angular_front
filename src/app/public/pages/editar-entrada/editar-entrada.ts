@@ -72,6 +72,10 @@ export class EditarEntrada implements OnInit {
       });
     }
   }
+
+  volverAlListadoPublico(): void {
+    this.router.navigate(['/entradas']);
+  }
 }
 
 

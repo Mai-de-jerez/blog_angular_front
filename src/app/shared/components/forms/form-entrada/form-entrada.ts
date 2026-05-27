@@ -1,6 +1,5 @@
 import { Component, inject, input, output, effect, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CategoriaService } from '../../../../core/services/categoria';
 import { Categoria } from '../../../../core/models/categoria';
@@ -22,19 +21,18 @@ interface CategoriaSelectGroup {
   styleUrl: './form-entrada.css'
 })
 export class FormEntrada {
-  private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly categoriaService = inject(CategoriaService);
 
   // Inputs para configurar el formulario desde el componente padre
   titulo = input<string>('Nueva Entrada');
   idEntradaEditando = input<number | null>(null);
-  cargando = input<boolean>(false);
   entrada = input<Partial<EntradaPost> | null>(null);
-  cancelUrl = input<string>('/entradas');
+  cargando = signal(false);
 
   // Output para emitir los datos al componente padre
   save = output<EntradaPost>();
+  cancel = output<void>();
 
   categoriasParaSelect = signal<CategoriaSelectGroup[]>([]);
 
@@ -87,7 +85,7 @@ export class FormEntrada {
   }
 
   onCancel() {
-    this.router.navigate([this.cancelUrl()]);
+    this.cancel.emit(); 
   }
 
   onSubmit() {
@@ -95,10 +93,9 @@ export class FormEntrada {
       this.form.markAllAsTouched();
       return;
     }
-    if (!this.cargando()) {
-      const datos = this.form.getRawValue() as EntradaPost;
-      this.save.emit(datos);
-    }
+    this.cargando.set(true);
+    const datos = this.form.getRawValue() as EntradaPost;
+    this.save.emit(datos);
   }
 }
 

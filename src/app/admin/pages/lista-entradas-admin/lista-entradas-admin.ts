@@ -7,6 +7,8 @@ import { environment } from '../../../../environments/environment';
 import { Filtro } from '../../../shared/components/filtro/filtro';
 import { Paginador } from '../../../shared/components/paginador/paginador';
 import { Router } from '@angular/router';
+import { Entrada } from '../../../core/models/entrada';
+import { Pagina } from '../../../core/models/pagina';
 
 @Component({
   selector: 'app-lista-entradas-admin',
@@ -19,7 +21,7 @@ export class ListaEntradasAdmin implements OnInit {
 
   // Inyección de servicios
   readonly mediaUrl = environment.mediaUrl;
-  readonly entradaService = inject(EntradaService);
+  private  entradaService = inject(EntradaService);
   private router = inject(Router); 
   private toast = inject(Toast);
 
@@ -27,10 +29,12 @@ export class ListaEntradasAdmin implements OnInit {
   cargando = signal(true);
   mostrarModal = signal(false);
   idAEliminar = signal<number | null>(null);
-
-  // Getters para el template
-  get pagina() { return this.entradaService.paginaAdminData; }
-  get paginaActual() { return this.entradaService.paginaActualAdmin; }
+  idAdmin = signal<number | null>(null);
+  tituloAdmin = signal('');
+  categoriaAdmin = signal('');
+  autorAdmin = signal('');
+  paginaActual = signal(0);
+  pagina = signal<Pagina<Entrada> | null>(null);
 
   // Ciclo de vida
   ngOnInit(): void {
@@ -40,9 +44,15 @@ export class ListaEntradasAdmin implements OnInit {
   // Métodos 
   cargar(): void {
     this.cargando.set(true);
-    this.entradaService.getEntradasAdmin().subscribe({
+    this.entradaService.getEntradasAdmin(
+      this.idAdmin(),
+      this.tituloAdmin(),
+      this.categoriaAdmin(),
+      this.autorAdmin(),
+      this.paginaActual()
+    ).subscribe({
       next: (data) => {
-        this.entradaService.paginaAdminData.set(data);
+        this.pagina.set(data);
         this.cargando.set(false);
       },
       error: () => this.cargando.set(false)
@@ -50,16 +60,16 @@ export class ListaEntradasAdmin implements OnInit {
   }
 
   onFiltro(filtros: any): void {
-    this.entradaService.idAdmin.set(filtros.id);
-    this.entradaService.tituloAdmin.set(filtros.c1);   
-    this.entradaService.categoriaAdmin.set(filtros.c2);
-    this.entradaService.autorAdmin.set(filtros.c3);        
-    this.entradaService.paginaActualAdmin.set(0);
+    this.idAdmin.set(filtros.id);
+    this.tituloAdmin.set(filtros.c1);
+    this.categoriaAdmin.set(filtros.c2);
+    this.autorAdmin.set(filtros.c3);
+    this.paginaActual.set(0);
     this.cargar();
   }
 
   onPage(page: number): void {
-    this.entradaService.paginaActualAdmin.set(page);
+    this.paginaActual.set(page);
     this.cargar();
   }
 

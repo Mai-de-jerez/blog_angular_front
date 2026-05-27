@@ -8,8 +8,8 @@
     labelId="ID..." 
     label1="Título de la entrada" 
     label2="Categoría" 
-    label3="Nombre del Autor"
-    [valores]="entradaService.filtrosAdmin()"
+    label3="Nombre del Autor" 
+    [valores]="{ id: idAdmin() ?? undefined, c1: tituloAdmin(), c2: categoriaAdmin(), c3: autorAdmin() }"
     (alFiltrar)="onFiltro($event)">
   </app-filtro>
   @if (cargando()) {

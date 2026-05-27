@@ -3,51 +3,13 @@
   @if (cargando()) {
     <div class="spinner">Cargando la entrada...</div>
   } @else if (entrada(); as entrada) {
-    <article class="post-card">
-      <header>
-        <h1>{{ entrada.titulo }}</h1>
-        <div class="meta-data">         
-          <span><i class="bi bi-person-fill"></i>Escrito por: <strong>{{ entrada.nombreAutor }}</strong></span>     
-          <span><i class="bi bi-calendar3"></i> Publicado: <strong>{{ entrada.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</strong></span>   
-          <span><i class="bi bi-folder-fill"></i> Categoría: <strong>{{ entrada.nombreCategoria }} </strong></span>         
-        </div>         
-      </header> 
-      @if (entrada.imagenUrl) {
-        <div class="main-image">
-          <img 
-                [src]="mediaUrl + entrada.imagenUrl"
-                [alt]="entrada.titulo" 
-                class="thumb-img">
-        </div>
-      }
-      <section class="content">
-        <div [innerHTML]="entrada.contenido"></div>
-      </section>
-      <footer class="tech-info">
-        <hr>
-          <div class="author-info">
-            <img [src]="mediaUrl + entrada.fotoAutor" 
-                 [alt]="entrada.nombreAutor"
-                 class="autor-avatar"> 
-            <small>
-              Categoría: {{ entrada.nombreCategoriaPadre ? entrada.nombreCategoriaPadre + ', ' + entrada.nombreCategoria : entrada.nombreCategoria }} |
-              Autor: {{ entrada.nombreAutor }}
-            </small>  
-            @if (entrada.fechaActualizacion && entrada.fechaActualizacion !== entrada.fechaCreacion) {
-              <p class="updated">
-                <small>Última actualización: {{ entrada.fechaActualizacion | date:'short' }}</small>
-              </p>
-            }       
-          </div>        
-          <div class="acciones">
-            <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
-              @if (puedeGestionar) {
-                <button (click)="irAEditar()" class="btn-editar">✎ Editar Entrada</button>
-                <button (click)="borrar()" class="btn-eliminar">🗑 Eliminar Entrada</button>
-              }
-          </div>
-      </footer>
-    </article>
+    <app-detalle-entrada-card
+      [entrada]="entrada"
+      [puedeGestionar]="puedeGestionar"
+      (volver)="irAtras()"
+      (editar)="irAEditar()"
+      (eliminar)="borrar()">
+    </app-detalle-entrada-card>
     <app-comentarios [entradaId]="entrada.id!"></app-comentarios>
   }
 </div>

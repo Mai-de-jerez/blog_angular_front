@@ -6,7 +6,8 @@
       titulo="Editar Entrada"
       [entrada]="entradaCargada() || {}"
       [idEntradaEditando]="entradaCargada()!.id!"
-      (save)="actualizar($event)">
+      (save)="actualizar($event)"
+      (cancel)="volverAlListadoPublico()">
     </app-form-entrada>
   } @else {
     <div class="loading">
