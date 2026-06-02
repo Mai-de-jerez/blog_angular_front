@@ -1,5 +1,21 @@
 @if (cargando()) {
   <p class="spinner">Cargando perfil...</p>
 } @else if (usuario()) {
-  <app-usuario-card [usuario]="usuario()!" />
+  <app-usuario-card 
+    [usuario]="usuario()!" 
+    (alVolver)="volver()" 
+    (alBorrar)="confirmarBorrado()" />
+}
+
+@if (mostrarModal()) {
+  <div class="modal-overlay">
+    <div class="modal-box">
+      <p>¿Estás segura de que quieres borrar tu cuenta?</p>
+      <span>Esta acción no se puede deshacer.</span>
+      <div class="modal-acciones">
+        <button (click)="cancelar()" class="btn-cancelar">Cancelar</button>
+        <button (click)="borrarMiCuenta()" class="btn-eliminar">Borrar mi cuenta</button>
+      </div>
+    </div>
+  </div>
 }

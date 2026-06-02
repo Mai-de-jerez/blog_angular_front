@@ -158,6 +158,12 @@
   border-color: #1a1a1a;
 }
 
+.cargando, .sin-entradas {
+  text-align: center;
+  align-self: center;
+  margin-top: 20px;
+}
+
 @media (max-width: 1100px) {
   .lista-grid { grid-template-columns: repeat(2, 1fr); }
 }

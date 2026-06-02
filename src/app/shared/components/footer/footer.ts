@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { EntradaService } from '../../../core/services/entrada';
 
 @Component({
   selector: 'app-footer',
@@ -10,12 +9,9 @@ import { EntradaService } from '../../../core/services/entrada';
   styleUrl: './footer.css',
 })
 export class Footer {
-
-  private entradaService = inject(EntradaService);
   private router = inject(Router);
 
-  irACategoria(categoria: string): void {
-    this.entradaService.categoriaFooter$.next(categoria);
-    this.router.navigate(['/entradas']);
+  irACategoria(nombre: string): void {
+    this.router.navigate(['/entradas'], { queryParams: { categoria: nombre } });
   }
 }

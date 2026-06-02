@@ -2,5 +2,22 @@
 @if (cargando()) {
   <p>Cargando usuario...</p>
 } @else if (usuario()) {
-  <app-usuario-card [usuario]="usuario()!" [mostrarId]="true" />
+  <app-usuario-card 
+    [usuario]="usuario()!" 
+    [mostrarId]="true" 
+    (alVolver)="volver()" 
+    (alBorrar)="confirmarBorrado()" />
+}
+
+@if (mostrarModal()) {
+  <div class="modal-overlay">
+    <div class="modal-box">
+      <p>¿Estás seguro de que quieres eliminar este usuario?</p>
+      <span>Esta acción no se puede deshacer.</span>
+      <div class="modal-acciones">
+        <button (click)="cancelar()" class="btn-cancelar">Cancelar</button>
+        <button (click)="eliminar()" class="btn-eliminar">Eliminar</button>
+      </div>
+    </div>
+  </div>
 }

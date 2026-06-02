@@ -51,7 +51,7 @@ export class CrearEntrada {
     this.entradaService.crearEntrada(fd).subscribe({
       next: (res) => {
         this.toastService.mostrar('¡Entrada creada con éxito!', 'success');
-        this.router.navigate(['/entradas', res.slug]);
+        this.router.navigate(['/entradas', res.slug], { replaceUrl: true });
       },
       error: (err) => {
         console.error('Error al crear:', err);

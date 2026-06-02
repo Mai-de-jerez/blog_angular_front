@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminLayout } from './layout/admin-layout/admin-layout';
 import { adminGuard } from '../admin/guards/admin-guard';
+import { superAdminGuard } from '../admin/guards/super-admin-guard';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -18,6 +19,7 @@ export const ADMIN_ROUTES: Routes = [
       },
       {
         path: 'usuarios/crear',
+        canActivate: [superAdminGuard],
         loadComponent: () => import('./pages/crear-usuario/crear-usuario').then(m => m.CrearUsuario)
       },
       {
@@ -26,6 +28,7 @@ export const ADMIN_ROUTES: Routes = [
       },
       {
         path: 'usuarios/editar/:id',
+        canActivate: [superAdminGuard],
         loadComponent: () => import('./pages/editar-usuario/editar-usuario').then(m => m.EditarUsuario)
       },
       {
@@ -43,6 +46,26 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'entradas/detalle/:id',
         loadComponent: () => import('./pages/detalle-entrada/detalle-entrada').then(m => m.DetalleEntrada)
+      },
+      {
+        path: 'categorias', 
+        loadComponent: () => import('./pages/lista-categorias-admin/lista-categorias-admin').then(m => m.ListaCategoriasAdmin)
+      },
+      {
+        path: 'categorias/crear',
+        loadComponent: () => import('./pages/crear-categoria/crear-categoria').then(m => m.CrearCategoria)
+      },
+      {
+        path: 'categorias/editar/:id',
+        loadComponent: () => import('./pages/editar-categoria/editar-categoria').then(m => m.EditarCategoria)
+      }, 
+      {
+        path: 'comentarios',
+        loadComponent: () => import('./pages/listar-comentarios/listar-comentarios').then(m => m.ListarComentarios)
+      },
+      {
+        path: 'comentarios/detalle/:id',
+        loadComponent: () => import('./pages/detalle-comentario/detalle-comentario').then(m => m.DetalleComentario)
       }
     ]
   }

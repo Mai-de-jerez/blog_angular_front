@@ -21,7 +21,7 @@ export class ListaEntradasAdmin implements OnInit {
 
   // Inyección de servicios
   readonly mediaUrl = environment.mediaUrl;
-  private  entradaService = inject(EntradaService);
+  readonly entradaService = inject(EntradaService);
   private router = inject(Router); 
   private toast = inject(Toast);
 
@@ -29,11 +29,6 @@ export class ListaEntradasAdmin implements OnInit {
   cargando = signal(true);
   mostrarModal = signal(false);
   idAEliminar = signal<number | null>(null);
-  idAdmin = signal<number | null>(null);
-  tituloAdmin = signal('');
-  categoriaAdmin = signal('');
-  autorAdmin = signal('');
-  paginaActual = signal(0);
   pagina = signal<Pagina<Entrada> | null>(null);
 
   // Ciclo de vida
@@ -41,35 +36,26 @@ export class ListaEntradasAdmin implements OnInit {
     this.cargar();
   }
 
-  // Métodos 
+  // Métodos para cargar entradas y manejar filtros/paginación
   cargar(): void {
     this.cargando.set(true);
-    this.entradaService.getEntradasAdmin(
-      this.idAdmin(),
-      this.tituloAdmin(),
-      this.categoriaAdmin(),
-      this.autorAdmin(),
-      this.paginaActual()
-    ).subscribe({
-      next: (data) => {
-        this.pagina.set(data);
-        this.cargando.set(false);
-      },
+    this.entradaService.getEntradasAdmin().subscribe({
+      next: (data) => { this.pagina.set(data); this.cargando.set(false); },
       error: () => this.cargando.set(false)
     });
   }
 
   onFiltro(filtros: any): void {
-    this.idAdmin.set(filtros.id);
-    this.tituloAdmin.set(filtros.c1);
-    this.categoriaAdmin.set(filtros.c2);
-    this.autorAdmin.set(filtros.c3);
-    this.paginaActual.set(0);
+    this.entradaService.idAdmin.set(filtros.id);
+    this.entradaService.tituloAdmin.set(filtros.c1);
+    this.entradaService.categoriaAdmin.set(filtros.c2);
+    this.entradaService.autorAdmin.set(filtros.c3);
+    this.entradaService.paginaAdmin.set(0);
     this.cargar();
   }
 
   onPage(page: number): void {
-    this.paginaActual.set(page);
+    this.entradaService.paginaAdmin.set(page);
     this.cargar();
   }
 
@@ -79,6 +65,10 @@ export class ListaEntradasAdmin implements OnInit {
 
   irACrear(): void {
     this.router.navigate(['/admin/entradas/crear']);
+  }
+
+  irAVer(id: number) {
+    this.router.navigate(['/admin/entradas/detalle', id]);
   }
 
   eliminar(): void {

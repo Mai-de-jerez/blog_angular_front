@@ -11,6 +11,8 @@
       (eliminar)="borrar()">
     </app-detalle-entrada-card>
     <app-comentarios [entradaId]="entrada.id!"></app-comentarios>
+  } @else {
+    <p class="sin-entradas">La entrada no existe o no está disponible.</p>
   }
 </div>
 

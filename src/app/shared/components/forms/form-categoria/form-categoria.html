@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+  <h2 class="form-title">{{ titulo() }}</h2>
+
+  <div class="grid-form">
+
+    <div class="form-group full-width">
+      <label>Nombre de la categoría</label>
+      <input type="text" formControlName="nombre" placeholder="Ej: Programación o Bucles">
+      <app-field-error [control]="form.get('nombre')" [mensajes]="{ minlength: 'El nombre debe tener al menos 2 caracteres' }" />
+    </div>
+
+    <div class="form-group full-width">
+      <label>Categoría Superior (Opcional)</label>
+      <ng-select
+        [items]="categoriasPadreParaSelect()"
+        bindLabel="nombre"
+        bindValue="id"
+        formControlName="padreId"
+        placeholder="Ninguna (Será una categoría raíz)">
+      </ng-select>
+      <app-field-error [control]="form.get('padreId')" />
+    </div>
+
+  </div>
+
+  <app-toast-local></app-toast-local>
+
+  <div class="form-actions">
+    <button type="button" class="btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="submit" class="btn-primary" [disabled]="cargando()">
+      {{ cargando() ? 'Guardando...' : 'Guardar Categoría' }}
+    </button>
+  </div>
+</form>

@@ -16,5 +16,5 @@ export const routes: Routes = [
     loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
 
-  { path: '**', redirectTo: '' } 
+  { path: '**', loadComponent: () => import('./core/pages/not-found/not-found').then(m => m.NotFound) }
 ];

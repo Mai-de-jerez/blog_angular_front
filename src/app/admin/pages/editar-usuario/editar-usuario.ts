@@ -5,6 +5,7 @@ import { UsuarioService } from '../../../core/services/usuario';
 import { FormUsuario } from '../../../shared/components/forms/form-usuario/form-usuario';
 import { Usuario } from '../../../core/models/usuario';
 import { Toast } from '../../../core/services/toast';
+import { Auth } from '../../../auth/services/auth';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -18,10 +19,16 @@ export class EditarUsuario implements OnInit {
   private router = inject(Router);
   private usuarioService = inject(UsuarioService);
   private toastService = inject(Toast);
+  public auth = inject(Auth);
 
   usuarioCargado = signal<Usuario | null>(null);
 
   ngOnInit(): void {
+    if (!this.auth.isSuperAdmin()) {
+      this.toastService.mostrar('Acceso denegado: solo SuperAdministradores', 'error');
+      this.router.navigate(['/admin/usuarios']);
+      return;
+    }
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.usuarioService.buscar(id).subscribe({
@@ -35,6 +42,10 @@ export class EditarUsuario implements OnInit {
   }
 
   actualizar(datos: any): void {
+    if (!this.auth.isSuperAdmin()) {
+      this.toastService.mostrar('Acceso denegado', 'error');
+      return;
+    }
     const usuario = this.usuarioCargado();
     if (usuario?.id) {
       const fd = new FormData();

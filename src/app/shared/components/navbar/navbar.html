@@ -14,6 +14,9 @@
     <li class="nav-item">
       <a routerLink="/sobre-mi" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Sobre mí</a>
     </li>
+    <li class="nav-item">
+      <a routerLink="/categorias" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Categorías</a>
+    </li>
     @if (!isLogged()) {
       <li class="nav-item login-item">
         <a routerLink="/login" routerLinkActive="active-link" class="nav-link" (click)="cerrarMenu()">Login</a>

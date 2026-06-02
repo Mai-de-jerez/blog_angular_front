@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { UsuarioService } from '../../../core/services/usuario'; 
 import { Toast } from '../../../core/services/toast';
 import { FormUsuario } from '../../../shared/components/forms/form-usuario/form-usuario'; 
+import { Auth } from '../../../auth/services/auth';
+import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 
 @Component({
   selector: 'app-crear-usuario',
   standalone: true,
-  imports: [FormUsuario], 
+  imports: [FormUsuario, ToastLocal], 
   templateUrl: './crear-usuario.html',
   styleUrl: './crear-usuario.css'
 })
@@ -16,10 +18,15 @@ export class CrearUsuario {
   private readonly usuarioService = inject(UsuarioService);
   private readonly toastService = inject(Toast);
   private readonly router = inject(Router);
+  private readonly auth = inject(Auth);
 
   cargando = signal<boolean>(false);
 
   procesarCreacion(datos: any): void {
+    if (!this.auth.isSuperAdmin()) {
+      this.toastService.mostrar('No tienes permisos para esta acción', 'error');
+      return;
+    }
     this.cargando.set(true);
 
     const form = new FormData();

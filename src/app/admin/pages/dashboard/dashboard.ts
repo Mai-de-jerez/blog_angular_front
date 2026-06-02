@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { DashboardService } from '../../services/dashboard';
 import { DashboardStats } from '../../interfaces/dashboard';
+import { ToastLocal } from '../../../shared//components/toast-local/toast-local';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [ToastLocal],
   standalone: true,
   templateUrl: './dashboard.html', 
   styleUrl: './dashboard.css',

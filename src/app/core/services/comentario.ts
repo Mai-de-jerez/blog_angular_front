@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Comentario } from '../models/comentario';
@@ -14,7 +14,18 @@ export class ComentarioService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/comentarios`;
 
-  // --- LECTURA ---
+  // --- SEÑAL DE ESTADO PARA EL ADMIN ---
+  public paginaAdminTodo = signal<number>(0);
+
+  // --- LLAMADAS A LA API ---
+
+  // Todos los comentarios (admin), paginados de 10 en 10
+  getTodosLosComentariosAdmin(page: number, size: number = 10): Observable<Pagina<Comentario>> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<Pagina<Comentario>>(`${this.apiUrl}`, { params });
+  }
 
   // Comentarios raíz de una entrada (padre = null), paginados de 10 en 10
   getComentariosPorEntrada(entradaId: number, page: number, size: number = 10): Observable<Pagina<Comentario>> {
@@ -38,6 +49,11 @@ export class ComentarioService {
       .set('page', page)
       .set('size', size);
     return this.http.get<Pagina<Comentario>>(`${this.apiUrl}/usuario/${usuarioId}`, { params });
+  }
+
+  // Obtener el detalle de un único comentario por su ID
+  getComentarioPorId(id: number): Observable<Comentario> {
+    return this.http.get<Comentario>(`${this.apiUrl}/${id}`);
   }
 
   // --- ESCRITURA ---

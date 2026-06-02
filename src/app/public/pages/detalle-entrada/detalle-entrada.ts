@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { EntradaService } from '../../../core/services/entrada';
 import { Auth } from '../../../auth/services/auth';
 import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
@@ -36,8 +36,9 @@ export class DetalleEntrada implements OnInit {
   cargando = signal(true);
 
   // Para volver a la página anterior
+
   irAtras(): void {
-    this.router.navigate(['/entradas']);
+    this.router.navigate(['/entradas']); 
   }
 
   // Para ir a la página de edición

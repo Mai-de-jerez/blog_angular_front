@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, DestroyRef, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, OnInit, inject, signal, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EntradaService } from '../../../core/services/entrada';
 import { Auth } from '../../../auth/services/auth';
 import { Paginador } from '../../../shared/components/paginador/paginador';
@@ -22,61 +22,54 @@ export class ListaEntradas implements OnInit {
 
   // Inyección de servicios
   private authService = inject(Auth);
-  private entradaService = inject(EntradaService);
+  readonly entradaService = inject(EntradaService);
   readonly mediaUrl = environment.mediaUrl;
   private router = inject(Router); 
+  private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
 
   // Estado de carga
   cargando = signal(true);
-  titulo = signal('');
-  categoria = signal('');
-  autor = signal('');
-  paginaActual = signal(0);
-  pagina = signal<Pagina<Entrada> | null>(null);
-  
+  pagina = signal<Pagina<Entrada> | null>(null);  
 
   // Getters para el template
   get isLogged() { return this.authService.isLogged(); }
 
-  private destroyRef = inject(DestroyRef);
-
   ngOnInit(): void {
-    this.entradaService.categoriaFooter$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(cat => {
-        this.categoria.set(cat);
-        if (cat) this.cargar();
-      });
-    this.cargar();
+    this.route.queryParams.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(params => {
+      if (params['categoria']) {
+        this.entradaService.tituloPublico.set('');
+        this.entradaService.autorPublico.set('');
+        this.entradaService.paginaPublico.set(0);
+        this.entradaService.categoriaPublico.set(params['categoria']);
+      }
+      this.cargar();
+    });
   }
 
   // Métodos
   cargar(): void {
     this.cargando.set(true);
-    this.entradaService.getEntradas(
-      this.titulo(), 
-      this.categoria(), 
-      this.autor(), 
-      this.paginaActual()
-    ).subscribe({
-      next: (data) => {
-        this.pagina.set(data);
-        this.cargando.set(false);
-      },
+    this.entradaService.getEntradas().subscribe({
+      next: (data) => { this.pagina.set(data); this.cargando.set(false); },
       error: () => this.cargando.set(false)
     });
   }
 
+  // Manejo de filtros
   onFiltro(filtros: any): void {
-    this.titulo.set(filtros.c1);
-    this.categoria.set(filtros.c2);
-    this.autor.set(filtros.c3);
-    this.paginaActual.set(0);
+    this.entradaService.tituloPublico.set(filtros.c1);
+    this.entradaService.categoriaPublico.set(filtros.c2);
+    this.entradaService.autorPublico.set(filtros.c3);
+    this.entradaService.paginaPublico.set(0);
     this.cargar();
   }
 
+  // Manejo de paginación
   onPage(page: number): void {
-    this.paginaActual.set(page);
+    this.entradaService.paginaPublico.set(page);
     this.cargar();
   }
 
@@ -87,6 +80,5 @@ export class ListaEntradas implements OnInit {
   irADetalle(slug: string): void {
     this.router.navigate(['/entradas', slug]);
   }
-
 }
 

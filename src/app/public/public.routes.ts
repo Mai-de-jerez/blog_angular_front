@@ -39,6 +39,14 @@ export const PUBLIC_ROUTES: Routes = [
         path: 'mi-perfil/editar',
         canActivate: [loggedGuard],
         loadComponent: () => import('./pages/editar-perfil/editar-perfil').then(m => m.EditarPerfil)
+      },
+      {
+        path: 'categorias',
+        loadComponent: () => import('./pages/categorias/categorias').then(m => m.Categorias)
+      },
+      {
+        path: 'categorias/:slug',
+        loadComponent: () => import('./pages/detalle-categoria/detalle-categoria').then(m => m.DetalleCategoria)
       }
     ]
   }

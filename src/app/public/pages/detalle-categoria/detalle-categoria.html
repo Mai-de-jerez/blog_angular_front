@@ -1,0 +1,15 @@
+@if (cargando()) {
+  <p>Cargando...</p>
+} @else {
+  <h2>{{ categoria()?.nombre }}</h2>
+  <div class="entradas-wrap">
+    @for (entrada of pagina()?.contenido; track entrada.id) {
+      <div class="entrada-card" (click)="irADetalle(entrada.slug!)">
+        {{ entrada.titulo }}
+      </div>
+    }
+  </div>
+  @if (pagina() && pagina()!.totalPaginas > 1) {
+    <app-paginador [totalPaginas]="pagina()!.totalPaginas" [paginaActual]="paginaActual()" (pageChanged)="onPage($event)" />
+  }
+}

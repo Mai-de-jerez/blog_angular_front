@@ -1,0 +1,66 @@
+<div class="list-container">
+  <div class="header-lista">
+    <h1><i class="bi bi-tags me-2"></i> Gestión de Categorías</h1>
+    <app-toast-local></app-toast-local>
+    <button (click)="irACrear()" class="btn-crear">+ Crear Categoría</button>   
+  </div>
+  <app-filtro 
+      labelId="ID..." 
+      label1="Nombre de la categoría" 
+      label2="ID Categoría Padre" 
+      label3="(No usado)"
+      [valores]="categoriaService.filtros()"
+      (alFiltrar)="onFiltro($event)">
+  </app-filtro>
+  @if (cargando()) {
+    <p>Cargando categorías...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Slug</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of pagina()?.contenido; track c.id) {
+          <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.slug }}</td>
+            <td>
+              <button (click)="irAEditar(c.id!)" class="btn-editar">Editar</button>             
+              <button (click)="confirmarEliminar(c.id!)" class="btn-eliminar">Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 2rem; color: #666;">
+              No hay categorías disponibles.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (mostrarModal()) {
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <p>¿Estás seguro de que quieres eliminar esta categoría?</p>
+        <span>Esta acción no se puede deshacer.</span>
+        <div class="modal-acciones">
+          <button (click)="cancelar()" class="btn-cancelar">Cancelar</button>
+          <button (click)="eliminar()" class="btn-eliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  }
+  <app-paginador 
+    [totalPaginas]="pagina()?.totalPaginas ?? 0" 
+    [paginaActual]="paginaActual()"
+    (pageChanged)="onPage($event)">
+  </app-paginador>
+</div>

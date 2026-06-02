@@ -1,0 +1,71 @@
+<div class="list-container">
+  <div class="header-lista">
+    <h1><i class="bi bi-chat-left-text me-2"></i> Gestión de Comentarios</h1>
+    <app-toast-local></app-toast-local>
+  </div>
+
+  @if (cargando()) {
+    <p>Cargando comentarios del blog...</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Autor</th>
+          <th>Comentario</th>
+          <th>ID Entrada</th>
+          <th>Fecha Crea.</th>
+          <th>Fecha Act.</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of pagina()?.contenido; track c.id) {
+          <tr>
+            <td>{{ c.id }}</td>
+            <td><span>{{ c.usernameAutor }}</span></td>
+            <td>
+              @if (c.texto.length > 20) {
+                {{ c.texto | slice:0:20 }}...
+              } @else {
+                {{ c.texto }}
+              }
+            </td>
+            <td><strong style="color: #4b0082;">#{{ c.entradaId }}</strong></td>
+            <td>{{ c.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ c.fechaActualizacion | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <button (click)="irAVer(c.id!)" class="btn-ver">Ver</button>
+              <button (click)="confirmarEliminar(c.id!)" class="btn-eliminar">Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+              No se han encontrado comentarios en el sistema.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (mostrarModal()) {
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <p>¿Estás seguro de que quieres eliminar este comentario?</p>
+        <span>Esta acción no se puede deshacer y borrará sus respuestas anidadas.</span>
+        <div class="modal-acciones">
+          <button (click)="cancelar()" class="btn-cancelar">Cancelar</button>
+          <button (click)="eliminar()" class="btn-eliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <app-paginador   
+    [totalPaginas]="pagina()?.totalPaginas ?? 0" 
+    [paginaActual]="comentarioService.paginaAdminTodo()"
+    (pageChanged)="onPage($event)">
+  </app-paginador>
+</div>

@@ -2,7 +2,9 @@
   <div class="header-lista">
     <h1><i class="bi bi-person-fill me-2"></i>Gestión de Usuarios</h1>
     <app-toast-local></app-toast-local>
-    <button (click)="irACrear()" class="btn-crear">+ Crear Usuario</button>   
+    @if (auth.isSuperAdmin()) {
+      <button (click)="irACrear()" class="btn-crear">+ Crear Usuario</button> 
+    }  
   </div>
   <!-- Filtro de búsqueda -->
   <app-filtro 
@@ -44,12 +46,21 @@
             <td>{{ u.email }}</td> 
             <td>{{ u.rol }}</td>
             <td>
-              <button (click)="irAEditar(u.id)" class="btn-editar">Editar</button>
-              <button (click)="confirmarEliminar(u.id)" class="btn-eliminar">Eliminar</button>
+              <button (click)="irAVer(u.id)" class="btn-ver">Ver</button>
+              @if (auth.isSuperAdmin()) {
+                <button (click)="irAEditar(u.id)" class="btn-editar">Editar</button>
+                <button (click)="confirmarEliminar(u.id)" class="btn-eliminar">Eliminar</button>
+              }
             </td>
         </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+              No hay usuarios disponibles.
+            </td>
+          </tr>
         }
-      </tbody>
+      </tbody> 
     </table>
   }
   <!-- Modal de confirmación para eliminación -->

@@ -1,0 +1,79 @@
+<div class="ficha-container">
+  <app-toast-local></app-toast-local>
+
+  @if (cargando()) {
+    <p class="estado">Cargando comentario...</p>
+  } @else if (comentario()) {
+
+    <div class="ficha-header">
+      <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
+      <div class="ficha-acciones">
+        <button (click)="confirmarEliminar()" class="btn-eliminar">🗑 Eliminar</button>
+      </div>
+    </div>
+
+    <div class="ficha-body">
+
+      <aside class="ficha-aside">
+        <div class="ficha-meta">
+          <div class="meta-item">
+            <span class="meta-label">ID Comentario</span>
+            <span class="meta-valor">#{{ comentario()!.id }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Autor</span>
+            <span class="meta-valor">{{ comentario()!.usernameAutor }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">ID Entrada Relacionada</span>
+            <span class="meta-valor valor-resaltado">#{{ comentario()!.entradaId }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Tipo de Comentario</span>
+            <span class="meta-valor">
+              @if (comentario()!.comentarioPadreId) {
+                Respuesta al comentario #{{ comentario()!.comentarioPadreId }}
+              } @else {
+                Comentario Raíz
+              }
+            </span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Publicado</span>
+            <span class="meta-valor">{{ comentario()!.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          @if (comentario()!.fechaActualizacion) {
+            <div class="meta-item">
+              <span class="meta-label">Actualizado</span>
+              <span class="meta-valor">{{ comentario()!.fechaActualizacion | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          }
+        </div>
+      </aside>
+
+      <main class="ficha-main">
+        <h1 class="ficha-titulo">Contenido del Comentario</h1>
+        <div class="ficha-contenido">
+          <p class="texto-original">{{ comentario()!.texto }}</p>
+        </div>
+      </main>
+
+    </div>
+
+  } @else {
+    <p class="estado">No se encontró el comentario.</p>
+  }
+
+  @if (mostrarModalEliminar()) {
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <p>¿Estás seguro de que quieres eliminar este comentario?</p>
+        <span>Esta acción no se puede deshacer y borrará sus respuestas asociadas.</span>
+        <div class="modal-acciones">
+          <button (click)="cancelarEliminar()" class="btn-cancelar">Cancelar</button>
+          <button (click)="borrar()" class="btn-eliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

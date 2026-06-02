@@ -9,4 +9,5 @@ export interface Comentario {
   entradaId?: number;
   entradaSlug?: string;
   respuestas?: Comentario[];
+  comentarioPadreId?: number | null;
 } 

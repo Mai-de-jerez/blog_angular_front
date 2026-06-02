@@ -26,11 +26,9 @@
         Categoría: {{ entrada().nombreCategoriaPadre ? entrada().nombreCategoriaPadre + ', ' + entrada().nombreCategoria : entrada().nombreCategoria }} |
         Autor: {{ entrada().nombreAutor }}
       </small>
-      @if (entrada().fechaActualizacion && entrada().fechaActualizacion !== entrada().fechaCreacion) {
-        <p class="updated">
-          <small>Última actualización: {{ entrada().fechaActualizacion | date:'short' }}</small>
-        </p>
-      }
+      <p class="updated">
+        <small>Última actualización: {{ entrada().fechaActualizacion | date:'dd/MM/yyyy HH:mm' }}</small>
+      </p>
     </div>
     <div class="acciones">
       <button (click)="volver.emit()" class="btn-volver">← Volver al listado</button>

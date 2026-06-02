@@ -1,0 +1,10 @@
+<div class="crear-container">
+  <app-toast-local></app-toast-local>
+  <app-form-categoria
+    [categoria]="nuevaCategoria"
+    titulo="Añadir Nueva Categoría"
+    [cargando]="guardando()"
+    (cancel)="volver()"
+    (save)="registrarCategoria($event)">
+  </app-form-categoria>
+</div>

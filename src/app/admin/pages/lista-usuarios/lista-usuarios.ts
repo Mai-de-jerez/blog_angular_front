@@ -7,6 +7,7 @@ import { ToastLocal } from '../../../shared/components/toast-local/toast-local';
 import { Toast } from '../../../core/services/toast';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
+import { Auth } from '../../../auth/services/auth';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -23,6 +24,7 @@ export class ListaUsuarios implements OnInit {
   private router = inject(Router);
   readonly usuarioService = inject(UsuarioService);
   private toast = inject(Toast);
+  private authService = inject(Auth); 
 
   // variables para estado y borrado de usuarios
   cargando = signal(true);
@@ -32,6 +34,7 @@ export class ListaUsuarios implements OnInit {
   // Getters para simplificar el acceso en el HTML
   get pagina() { return this.usuarioService.usuariosPagina; }
   get paginaActual() { return this.usuarioService.paginaActual; }
+  public get auth() { return this.authService; }
  
   // Método para cargar usuarios
   ngOnInit(): void {
@@ -73,18 +76,18 @@ export class ListaUsuarios implements OnInit {
     this.router.navigate(['/admin/usuarios/crear']);
   }
 
-  // Métodos para eliminar usuarios
-  confirmarEliminar(id: number): void {
-    this.idAEliminar.set(id);
-    this.mostrarModal.set(true);
+  irAVer(id: number) {
+    this.router.navigate(['/admin/usuarios/detalle', id]);
   }
 
-  cancelar(): void {
-    this.mostrarModal.set(false);
-    this.idAEliminar.set(null);
-  }
-
+  // Método para eliminar usuarios
   eliminar(): void {
+    if (!this.authService.isSuperAdmin()) {
+      this.toast.mostrar('Acceso denegado: solo SuperAdministradores pueden borrar', 'error');
+      this.mostrarModal.set(false);
+      this.idAEliminar.set(null);
+      return; 
+    }
     const id = this.idAEliminar();
     if (!id) return;
     this.usuarioService.eliminar(id).subscribe({
@@ -99,5 +102,20 @@ export class ListaUsuarios implements OnInit {
         this.toast.mostrar('Error al eliminar el usuario', 'error'); 
       }
     });
+  }
+
+  // Métodos para eliminar usuarios
+  confirmarEliminar(id: number): void {
+    if (!this.authService.isSuperAdmin()) {
+      this.toast.mostrar('No tienes permisos de SuperAdministrador para borrar', 'error');
+      return; 
+    }
+    this.idAEliminar.set(id);
+    this.mostrarModal.set(true);
+  }
+
+  cancelar(): void {
+    this.mostrarModal.set(false);
+    this.idAEliminar.set(null);
   }
 }

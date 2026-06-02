@@ -47,3 +47,6 @@ export class CrearEntrada {
     this.router.navigate(['/admin/entradas']);
   }
 }
+
+
+

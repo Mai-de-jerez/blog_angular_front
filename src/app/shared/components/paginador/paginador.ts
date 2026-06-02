@@ -44,10 +44,22 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class Paginador {
-  @Input() totalPaginas: number = 0; // para comunicar el total de páginas al componente
-  @Input() paginaActual: number = 0; // para comunicar la página actual al componente
-  @Output() pageChanged = new EventEmitter<number>(); // para emitir el número de página seleccionado al componente padre
+  // @Input() totalPaginas: number = 0; // para comunicar el total de páginas al componente
+  // @Input() paginaActual: number = 0; // para comunicar la página actual al componente
+  // @Output() pageChanged = new EventEmitter<number>(); // para emitir el número de página seleccionado al componente padre
 
+  @Input() totalPaginas: number = 0;
+  private _paginaActual: number = 0; 
+  @Input() 
+  set paginaActual(val: number) {
+    this._paginaActual = val;
+  }
+  
+  get paginaActual(): number {
+    return this._paginaActual;
+  }
+  
+  @Output() pageChanged = new EventEmitter<number>();
   // Calcula las páginas visibles para mostrar en el paginador
   get paginasVisibles(): (number | string)[] {
     const paginas: (number | string)[] = [];

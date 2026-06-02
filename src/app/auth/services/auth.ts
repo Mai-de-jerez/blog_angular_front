@@ -67,9 +67,14 @@ export class Auth {
     this.setTokenStorage(token);
   }
 
-    // Método para obtener el token cuando lo necesites
+  // Método para obtener el token cuando lo necesites
   getToken(): string | null {
     return this.getTokenFromStorage();
+  }
+
+  // Método para cerrar sesión localmente sin llamar a la API
+  get logoutLocal() {
+    return () => this.limpiarSesionLocal();
   }
 
   // LLAMADAS A LA API
@@ -108,18 +113,21 @@ export class Auth {
     return this.http.post(`${this.URL_API}/registro`, datos);
   }
 
-  // Método para cerrar sesión
+  // Método para cerrar sesión llamando a la API y limpiando la sesión local
   logout(): void {
     this.http.post(`${this.URL_API}/logout`, {}).subscribe({
       next: (res: any) => {
-        if (res && res.mensaje) {
-          this.toastService.mostrar(res.mensaje, 'success');
-        }
-        setTimeout(() => {
+        const mensajeBackend = res && res.mensaje ? res.mensaje : 'Sesión cerrada exitosamente';
+        
+        // 1. Limpiamos el almacenamiento viejo
         this.clearStorage();
+        
+        // 2. Guardamos el mensaje en el disco para el Login
+        sessionStorage.setItem('flash_toast_msg', mensajeBackend);
+        
+        // Recarga inmediata. Al cargar el Login, su ngOnInit leerá el disco y pintará el mensaje de exito del back.
         window.location.href = '/login';
-      }, 1500); // para q se vea mi mensaje de éxito antes de redirigir
-    },
+      },
       error: () => {
         this.clearStorage();
         window.location.href = '/login';

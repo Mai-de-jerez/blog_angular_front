@@ -13,11 +13,11 @@
     label1="Título..." 
     label2="Categoría..." 
     label3="Autor..."
-    [valores]="{ c1: titulo(), c2: categoria(), c3: autor() }"
+    [valores]="entradaService.filtrosPublico()"
     (alFiltrar)="onFiltro($event)">
   </app-filtro-publico>
   @if (cargando()) {
-    <p>Cargando entradas...</p>
+    <p class="cargando">Cargando entradas...</p>
   } @else {
     <div class="lista-grid">
       @for (entrada of pagina()?.contenido; track entrada.id) {
@@ -46,11 +46,14 @@
             <button class="leer-mas" (click)="irADetalle(entrada.slug)">Leer más</button>
           </div>
         </div>
-      }
+        }
     </div>
-    <app-paginador 
-      [totalPaginas]="pagina()!.totalPaginas"  
-      [paginaActual]="paginaActual()"
+      @if (!pagina()?.contenido?.length) {
+        <p class="sin-entradas">No hay entradas disponibles.</p>
+      }
+    <app-paginador  
+      [totalPaginas]="pagina()?.totalPaginas ?? 0" 
+      [paginaActual]="entradaService.paginaPublico()"
       (pageChanged)="onPage($event)">
     </app-paginador>
   }

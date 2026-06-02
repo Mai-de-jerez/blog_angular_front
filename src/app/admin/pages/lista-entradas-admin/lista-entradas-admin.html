@@ -9,7 +9,7 @@
     label1="Título de la entrada" 
     label2="Categoría" 
     label3="Nombre del Autor" 
-    [valores]="{ id: idAdmin() ?? undefined, c1: tituloAdmin(), c2: categoriaAdmin(), c3: autorAdmin() }"
+    [valores]="entradaService.filtrosAdmin()"
     (alFiltrar)="onFiltro($event)">
   </app-filtro>
   @if (cargando()) {
@@ -42,8 +42,15 @@
             <td>{{ e.nombreAutor }}</td>
             <td>{{ e.contenido.substring(0, 10) }}...</td>
             <td>
-              <button (click)="irAEditar(e.id!)" class="btn-editar">Editar</button>
+              <button (click)="irAEditar(e.id!)" class="btn-editar">Editar</button>             
+              <button (click)="irAVer(e.id!)" class="btn-ver">Ver</button>
               <button (click)="confirmarEliminar(e.id!)" class="btn-eliminar">Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+              Sin entradas disponibles.
             </td>
           </tr>
         }
@@ -64,7 +71,7 @@
   }
   <app-paginador  
     [totalPaginas]="pagina()?.totalPaginas ?? 0" 
-    [paginaActual]="paginaActual()"
+    [paginaActual]="entradaService.paginaAdmin()"
     (pageChanged)="onPage($event)">
   </app-paginador>
 </div>

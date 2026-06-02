@@ -1,16 +1,80 @@
-<app-toast-local></app-toast-local>
-@if (cargando()) {
-  <p>Cargando entrada...</p>
-} @else if (entrada()) {
-  <p class="entrada-id"><strong>ID:</strong> {{ entrada()!.id }}</p>
-  <app-detalle-entrada-card
-    [entrada]="entrada()!"
-    [puedeGestionar]="true"
-    (volver)="irAtras()"
-    (editar)="irAEditar()"
-    (eliminar)="borrar()">
-  </app-detalle-entrada-card>
-}
+<div class="ficha-container">
+  <app-toast-local></app-toast-local>
+
+  @if (cargando()) {
+    <p class="estado">Cargando entrada...</p>
+  } @else if (entrada()) {
+
+    <div class="ficha-header">
+      <button (click)="irAtras()" class="btn-volver">← Volver al listado</button>
+      <div class="ficha-acciones">
+        <button (click)="irAEditar()" class="btn-editar">✎ Editar</button>
+        <button (click)="confirmarEliminar()" class="btn-eliminar">🗑 Eliminar</button>
+      </div>
+    </div>
+
+    <div class="ficha-body">
+
+      <!-- Columna izquierda: imagen + datos rápidos -->
+      <aside class="ficha-aside">
+        <img
+          [src]="entrada()!.imagenUrl ? mediaUrl + entrada()!.imagenUrl : 'assets/sin-foto.png'"
+          [alt]="entrada()!.titulo"
+          class="ficha-imagen">
+
+        <div class="ficha-meta">
+          <div class="meta-item">
+            <span class="meta-label">ID</span>
+            <span class="meta-valor">{{ entrada()!.id }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Autor</span>
+            <span class="meta-valor">{{ entrada()!.nombreAutor }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Categoría</span>
+            <span class="meta-valor">
+              {{ entrada()!.nombreCategoriaPadre ? entrada()!.nombreCategoriaPadre + ' › ' + entrada()!.nombreCategoria : entrada()!.nombreCategoria }}
+            </span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Publicado</span>
+            <span class="meta-valor">{{ entrada()!.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Actualizado</span>
+            <span class="meta-valor">{{ entrada()!.fechaActualizacion | date:'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Columna derecha: título y contenido -->
+      <main class="ficha-main">
+        <h1 class="ficha-titulo">{{ entrada()!.titulo }}</h1>
+        <div class="ficha-contenido" [innerHTML]="entrada()!.contenido"></div>
+      </main>
+
+    </div>
+
+  } @else {
+    <p class="estado">No se encontró la entrada.</p>
+  }
+
+  <!-- Modal confirmar eliminar -->
+  @if (mostrarModalEliminar()) {
+    <div class="modal-overlay">
+      <div class="modal-box">
+        <p>¿Estás seguro de que quieres eliminar esta entrada?</p>
+        <span>Esta acción no se puede deshacer.</span>
+        <div class="modal-acciones">
+          <button (click)="cancelarEliminar()" class="btn-cancelar">Cancelar</button>
+          <button (click)="borrar()" class="btn-eliminar">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
 
 
 

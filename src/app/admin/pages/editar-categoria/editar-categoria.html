@@ -1,0 +1,17 @@
+<div class="editar-container">
+  <app-toast-local></app-toast-local>
+  @if (categoriaCargada()) {
+    <app-form-categoria
+      titulo="Editar Categoría"
+      [categoria]="categoriaCargada() || {}"
+      [idCategoriaEditando]="categoriaCargada()!.id!"
+      [cargando]="guardando()"
+      (cancel)="volver()"
+      (save)="actualizar($event)">
+    </app-form-categoria>
+  } @else {
+    <div class="loading">
+      <span>Cargando datos de la categoría...</span>
+    </div>
+  }
+</div>

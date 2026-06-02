@@ -1,0 +1,11 @@
+@if (cargando()) {
+  <p>Cargando categorías...</p>
+} @else {
+  <div class="categorias-wrap">
+    <app-categoria-arbol 
+      [categorias]="padres()" 
+      [todas]="categorias()">
+    </app-categoria-arbol>
+  </div>
+}
+

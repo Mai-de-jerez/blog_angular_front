@@ -29,7 +29,7 @@ export class FormUsuario {
   save = output<UsuarioPost>();
 
   form = this.fb.group({
-    username:  ['', Validators.required],
+    username:  ['', [Validators.required, Validators.minLength(3)]],
     nombre:    ['', [Validators.required, Validators.minLength(3)]],
     apellidos: ['', [Validators.required, Validators.minLength(3)]],
     pass1: ['', [

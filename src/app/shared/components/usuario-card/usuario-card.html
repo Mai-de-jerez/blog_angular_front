@@ -46,20 +46,23 @@
       </div>
 
       <div class="acciones">
+        <button class="btn btn-volver" (click)="volver()">
+          ← Volver
+        </button>
         @if (esPropioPerfil) {
           <button class="btn btn-editar" (click)="irAEditar()">
             <i class="bi bi-pencil me-1"></i>Editar perfil
           </button>
-          <button class="btn btn-borrar">
+          <button class="btn btn-borrar" (click)="borrar()">
             <i class="bi bi-trash me-1"></i>Borrar cuenta
           </button>
         }
-        @if (esAdmin && !esPropioPerfil) {
+        @if (esSuperAdmin && !esPropioPerfil) {
           <button class="btn btn-editar" (click)="irAEditar()">
             <i class="bi bi-pencil me-1"></i>Editar usuario
           </button>
-          <button class="btn btn-borrar">
-            <i class="bi bi-trash me-1"></i>Eliminar usuario
+          <button class="btn btn-borrar" (click)="borrar()">
+            <i class="bi bi-trash me-1"></i>Borrar usuario
           </button>
         }
       </div>

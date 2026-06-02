@@ -88,11 +88,6 @@ export class FiltroPublico {
     this.campo1 = this.valores().c1;
     this.campo2 = this.valores().c2;
     this.campo3 = this.valores().c3;
-    
-    // Si hay algún valor preseleccionado, emitir automáticamente
-    if (this.valores().c1 || this.valores().c2 || this.valores().c3) {
-      this.enviar();
-    }
   });
 }
 
